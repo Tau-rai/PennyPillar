@@ -58,7 +58,15 @@ class TransactionViewSet(viewsets.ModelViewSet):
         serializer.save(user=self.request.user) 
 
 class CategoryViewSet(viewsets.ModelViewSet):
-    """Category view."""
+    """
+    Category view
+
+    Attributes:
+        queryset (QuerySet): All instances of the Category model.
+        serializer_class (Serializer): The serializer class used for Category model.
+        permission_classes (list): The list of permission classes applied to the view.
+        authentication_classes (list): The list of authentication classes applied to the view.
+    """
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     permission_classes = [permissions.IsAuthenticated]
