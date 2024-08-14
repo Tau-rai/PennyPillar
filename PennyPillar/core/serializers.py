@@ -72,7 +72,6 @@ class UserProfileSerializer(serializers.ModelSerializer):
         if value:
             try:
                 image = Image.open(value)
-                # Additional validation logic for the image can be added here
             except:
                 raise serializers.ValidationError("Invalid image file")
         return value
@@ -80,7 +79,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
 class TransactionSerializer(serializers.ModelSerializer):
     """Transaction serializer."""
     category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all())
-    user = serializers.ReadOnlyField(source='user.username')  # Read-only field for display purposes
+    user = serializers.ReadOnlyField(source='user.username') 
 
     class Meta:
         model = Transaction
