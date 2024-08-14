@@ -23,9 +23,9 @@ from drf_yasg import openapi
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="PennnyPillar API",
+        title="PennyPillar API",
         default_version='v1',
-        description="A simple API for tracking your finances",
+        description="An API for tracking personal finances",
         terms_of_service="https://www.google.com/policies/terms/",
         contact=openapi.Contact(email="contact@pennypillarapi.local"),
         license=openapi.License(name="BSD License"),

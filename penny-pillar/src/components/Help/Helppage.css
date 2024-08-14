@@ -1,0 +1,254 @@
+ body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            height: 100%; /* Ensure the body and HTML take full height */
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 10vh; /* Header height: 1/10th of viewport height */
+            background-color: #004d40; /* Dark green */
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+            z-index: 1000;
+        }
+
+        .header .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .header .nav-links {
+            display: none;
+        }
+
+        .header .hamburger {
+            display: block;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        /* Styles for wider screens */
+        @media (min-width: 768px) {
+            .header {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 20%;
+                height: 100vh; /* Full viewport height */
+                flex-direction: column;
+                align-items: flex-start;
+                justify-content: flex-start;
+                padding: 1rem;
+                z-index: 1000;
+            }
+
+            .header .logo {
+                margin-bottom: 2rem;
+            }
+
+            .header .nav-links {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+                margin-top: 1rem;
+            }
+
+            .header .nav-links a {
+                color: white;
+                text-decoration: none;
+                padding: 1rem;
+                text-align: left;
+                border-bottom: 1px solid #00695c; /* Slightly lighter green */
+                transition: background-color 0.3s;
+            }
+
+            .header .nav-links a:hover {
+                background-color: #00695c;
+            }
+
+            .header .hamburger {
+                display: none;
+            }
+        }
+
+        /* Styles for smaller screens */
+        @media (max-width: 767px) {
+            .header {
+                height: 8vh;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            .header .nav-links {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                background-color: #004d40; /* Dark green */
+                position: absolute;
+                top: 100%;
+                left: 0;
+                z-index: 999;
+                text-align: center;
+            }
+
+            .header.show-nav .nav-links {
+                display: flex;
+            }
+
+            .header .nav-links a {
+                color: white;
+                text-decoration: none;
+                padding: 1rem;
+                border-bottom: 1px solid #00695c; /* Slightly lighter green */
+                transition: background-color 0.3s;
+            }
+
+            .header .nav-links a:hover {
+                background-color: #00695c;
+            }
+        }
+
+        .content {
+            padding: 2rem;
+            margin-top: 5rem; /* Space for fixed header */
+            flex: 1;
+            background-color: #f9f9f9;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .help-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .help-header h1 {
+            font-size: 2.5rem;
+            color: #004d40;
+        }
+
+        .faq {
+            margin-top: 2rem;
+        }
+
+        .faq h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .faq-item {
+            margin-bottom: 1rem;
+        }
+
+        .faq-item h3 {
+            font-size: 1.25rem;
+            font-weight: bold;
+        }
+
+        .faq-item p {
+            margin-top: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .contact-info {
+            margin-top: 3rem;
+            text-align: center;
+        }
+
+        .contact-info h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-info p {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-info .contact-method {
+            margin-bottom: 1rem;
+        }
+
+        .contact-info .contact-method i {
+            font-size: 1.5rem;
+            margin-right: 0.5rem;
+        }
+
+        .contact-info form {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 1rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-info form .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .contact-info form .form-group label {
+            font-size: 1rem;
+        }
+
+        .contact-info form .form-group input,
+        .contact-info form .form-group textarea {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .contact-info form .form-group textarea {
+            height: 150px;
+        }
+
+        .contact-info form button {
+            background-color: #004d40;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .contact-info form button:hover {
+            background-color: #003d32;
+        }
+        
+        .footer {
+            background-color: #004d40; /* Dark green */
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 8vh; /* Footer height */
+            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 999;
+        }
+
+        @media (min-width: 768px) {
+            .footer {
+                width: 80%; /* Align with the content width */
+                left: 20%;
+            }
+        }

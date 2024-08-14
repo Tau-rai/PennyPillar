@@ -3,13 +3,15 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from django.contrib.auth import views as auth_views
 from .views import (
-    TransactionViewSet, CategoryViewSet, SubCategoryViewSet, RegisterView, LoginView
+    TransactionViewSet, CategoryViewSet, RegisterView, LoginView, UserProfileViewSet, MonthlyBudgetViewSet, SavingsGoalViewSet
 )
 
 router = DefaultRouter()
 router.register(r'transactions', TransactionViewSet)
 router.register(r'categories', CategoryViewSet)
-router.register(r'subcategories', SubCategoryViewSet)
+router.register(r'monthly-budget', MonthlyBudgetViewSet, basename='monthlybudget')
+router.register(r'profile', UserProfileViewSet)
+router.register(r'savings-goal', SavingsGoalViewSet, basename='savingsgoal')
 
 
 urlpatterns = [
