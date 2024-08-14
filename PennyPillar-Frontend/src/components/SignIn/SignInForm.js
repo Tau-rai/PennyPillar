@@ -1,24 +1,36 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Header from '../Header';
 import Footer from '../Footer';
 
-import './SignInForm.css'; 
+import './SignInForm.css';
+import axiosInstance from '../../axiosConfig';
 
 const SignInPage = () => {
     const [username, setUsername] = useState(''); // Use username instead of email
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        // Add form submission logic here
-        console.log('Sign in:', username, password);
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            // Use axiosInstance for the login request
+            const response = await axiosInstance.post('/login/', { username, password });
+            
+            // Store the token if login is successful
+            localStorage.setItem('authToken', response.data.token);
+
+            // Redirect to the home page 
+            navigate('/');
+        } catch (error) {
+            console.error("Login error:", error.response ? error.response.data : error.message);
+        }
     };
 
-    const toggleNav = () => {
-        const navLinks = document.querySelector('.header .nav-links');
-        navLinks.classList.toggle('show-nav');
-    };
+    // const toggleNav = () => {
+    //     const navLinks = document.querySelector('.header .nav-links');
+    //     navLinks.classList.toggle('show-nav');
+    // };
 
     return (
         <>

@@ -259,7 +259,7 @@ const Homepage = () => {
             <div className="footer-contact">
               <h3>Contact Us</h3>
               <ul>
-                <li>Email: <a href="mailto:support@appname.com">support@appname.com</a></li>
+                <li>Email: <a href="mailto:support@appname.com">support@pennypillar.com</a></li>
                 <li>Phone: +123 456 7890</li>
               </ul>
               <div className="social-media">
