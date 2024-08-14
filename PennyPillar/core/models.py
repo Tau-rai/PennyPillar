@@ -78,7 +78,7 @@ class MonthlyBudget(models.Model):
         try:
             expense_category = Category.objects.get(name='Expenses')
         except Category.DoesNotExist:
-            return 0  # Or handle this case as needed
+            return 0 
 
         # Calculate the total expenditure for this month
         return Transaction.objects.filter(
