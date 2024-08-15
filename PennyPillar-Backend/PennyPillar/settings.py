@@ -62,7 +62,7 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
     'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True,
@@ -79,7 +79,7 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware', # added
 ]
 
-# CORS_ALLOWED_ORIGINS_ALL = True
+# CORS_ALLOWED_ORIGINS_ALL = False
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",

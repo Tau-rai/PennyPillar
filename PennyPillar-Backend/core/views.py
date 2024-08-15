@@ -9,15 +9,15 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
-from .models import Category, MonthlyBudget, Transaction, SavingsGoal, UserProfile
+from decimal import Decimal
+from .models import Category, MonthlyBudget, Transaction, SavingsGoal, UserProfile, Subscription
 from .serializers import (CategorySerializer, LoginSerializer,
                           MonthlyBudgetSerializer, RegisterSerializer,
-                          TransactionSerializer, UserProfileSerializer, SavingsGoalSerializer)
+                          TransactionSerializer, UserProfileSerializer, SavingsGoalSerializer, SubscriptionSerializer)
 
 
 class UserProfileViewSet(viewsets.ModelViewSet):
     """User profile view."""
-    queryset = UserProfile.objects.none()
     serializer_class = UserProfileSerializer
     permission_classes = [permissions.IsAuthenticated]
     authentication_classes = [JWTAuthentication]
@@ -29,19 +29,23 @@ class UserProfileViewSet(viewsets.ModelViewSet):
             return UserProfile.objects.filter(user=user)
         return UserProfile.objects.none()
 
-    def perform_create(self, serializer):
-        """Set the user field."""
-        serializer.save(user=self.request.user)
+    def update(self, request, *args, **kwargs):
+        """Handle profile updates."""
+        user_profile = self.get_object()
+        serializer = self.get_serializer(user_profile, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
 
-    def list(self, request, *args, **kwargs):
-        """Override the list method to return the user's profile."""
-        user = request.user
-        if user.is_authenticated:
-            queryset = UserProfile.objects.filter(user=user)
-            serializer = self.get_serializer(queryset, many=True)
-            return Response(serializer.data)
-        return Response({'detail': 'Authentication credentials were not provided.'}, status=status.HTTP_401_UNAUTHORIZED)
+        # Update the User model fields if needed
+        if 'first_name' in request.data or 'last_name' in request.data:
+            user = user_profile.user
+            if 'first_name' in request.data:
+                user.first_name = request.data['first_name']
+            if 'last_name' in request.data:
+                user.last_name = request.data['last_name']
+            user.save()
 
+        return Response(serializer.data)
 
 class RegisterView(generics.CreateAPIView):
     """Register view."""
@@ -201,8 +205,8 @@ class SavingsGoalViewSet(viewsets.ModelViewSet):
             return Response({'detail': 'Goal amount not provided.'}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
-            goal_amount = float(goal_amount)
-        except ValueError:
+            goal_amount = Decimal(goal_amount)
+        except (ValueError, TypeError):
             return Response({'detail': 'Invalid goal amount format.'}, status=status.HTTP_400_BAD_REQUEST)
 
         if goal_amount <= 0:
@@ -224,6 +228,44 @@ class SavingsGoalViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(goal)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    @action(detail=False, methods=['post'])
+    def add_savings(self, request):
+        """Add savings amount to the savings goal."""
+        user = request.user
+        goal = get_object_or_404(SavingsGoal, user=user)
+
+        if goal.is_goal_reached():
+            return Response({'detail': 'Goal has already been reached.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        savings_amount = request.data.get('savings_amount', None)
+
+        if savings_amount is None:
+            return Response({'detail': 'Savings amount not provided.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            savings_amount = Decimal(savings_amount)
+        except (ValueError, TypeError):
+            return Response({'detail': 'Invalid savings amount format.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        if savings_amount <= 0:
+            return Response({'detail': 'Savings amount must be greater than zero.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Calculate remaining amount to reach the goal
+        remaining_amount = goal.get_remaining_amount()
+
+        # if savings_amount > remaining_amount:
+        #     return Response({'detail': 'Savings amount exceeds the remaining amount.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Add savings amount to current savings
+        goal.current_savings += savings_amount
+        goal.save()
+
+        if goal.is_goal_reached():
+            return Response({'detail': 'Congratulations! Goal reached and exceeded!'}, status=status.HTTP_200_OK)
+        else:
+            return Response({'detail': 'Savings added successfully.'}, status=status.HTTP_200_OK)
+
+
     @action(detail=False, methods=['get'])
     def check_goal_status(self, request):
         """Check the status of the savings goal."""
@@ -231,8 +273,33 @@ class SavingsGoalViewSet(viewsets.ModelViewSet):
         data = {
             'goal_amount': str(goal.goal_amount),
             'current_savings': str(goal.current_savings),
+            'goal_date': goal.goal_date,
             'is_goal_reached': goal.is_goal_reached(),
-            'remaining_amount': str(goal.get_remaining_amount())
+            'remaining_amount': str(goal.get_remaining_amount()),
         }
         return Response(data, status=status.HTTP_200_OK)
 
+class SubscriptionViewSet(viewsets.ModelViewSet):
+    """Subscription view."""
+    queryset = Subscription.objects.all()
+    serializer_class = SubscriptionSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+
+    def get_queryset(self):
+        """Filter subscriptions by the current user."""
+        return Subscription.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        """Set the user field and default values."""
+        serializer.save(user=self.request.user, is_paid=False) 
+
+    @action(detail=True, methods=['post'])
+    def mark_as_paid(self, request, pk=None):
+        """Mark the subscription as paid."""
+        subscription = self.get_object()
+        if subscription.user != request.user:
+            return Response({"detail": "Not authorized"}, status=403)
+        subscription.is_paid = True
+        subscription.save()
+        return Response({"status": "Subscription marked as paid"})

@@ -1,11 +1,12 @@
 """Module for serializing the models of the core app."""
 from rest_framework import serializers
-from .models import ( Transaction, Category, User, MonthlyBudget, SavingsGoal)
+from .models import ( Transaction, Category, User, MonthlyBudget, SavingsGoal, Subscription, UserProfile )
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from PIL import Image
 from rest_framework_simplejwt.tokens import RefreshToken
 from datetime import datetime
+from decimal import Decimal
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -63,19 +64,29 @@ class UserProfileSerializer(serializers.ModelSerializer):
     image = serializers.ImageField(required=False)
 
     class Meta:
-        model = User
-        fields = ['username', 'email', 'first_name', 'last_name', 'image']
-        read_only_fields = ['username']   
+        model = UserProfile
+        fields = ['first_name', 'last_name', 'image']
+        extra_kwargs = {
+            'first_name': {'required': False},
+            'last_name': {'required': False},
+            'image': {'required': False}
+        }
+    # def update(self, instance, validated_data):
+    #     """Update the user profile."""
+    #     # Update user profile fields
+    #     image = validated_data.get('image', None)
+    #     if image:
+    #         instance.image = image
+    #     instance.save()
+        
+    #     # Update user details
+    #     user_data = self.context['request'].data
+    #     user = instance.user
+    #     user.first_name = user_data.get('first_name', user.first_name)
+    #     user.last_name = user_data.get('last_name', user.last_name)
+    #     user.save()
 
-    def validate_image(self, value):
-        """Validate the uploaded image."""
-        if value:
-            try:
-                image = Image.open(value)
-                # Additional validation logic for the image can be added here
-            except:
-                raise serializers.ValidationError("Invalid image file")
-        return value
+    #     return instance
 
 class TransactionSerializer(serializers.ModelSerializer):
     """Transaction serializer."""
@@ -110,11 +121,21 @@ class SavingsGoalSerializer(serializers.ModelSerializer):
 
     def get_is_goal_reached(self, obj):
         """Determine if the goal has been reached."""
+        if isinstance(obj, dict):
+            return obj.get('is_goal_reached', False)
         return obj.is_goal_reached()
 
     def get_remaining_amount(self, obj):
         """Calculate the remaining amount to reach the goal."""
-        return obj.get_remaining_amount()
+        if isinstance(obj, dict):
+            return obj.get('remaining_amount', 0)
+        return str(obj.get_remaining_amount())
+    
+    def get_current_savings(self, obj):
+        """Retrieve the current savings amount."""
+        if isinstance(obj, dict):
+            return obj.get('current_savings', 0)
+        return str(obj.current_savings)
 
     def update(self, instance, validated_data):
         """Handle updates to the goal_amount."""
@@ -124,3 +145,36 @@ class SavingsGoalSerializer(serializers.ModelSerializer):
 
         instance.save()
         return instance
+    
+    def create(self, validated_data):
+        """Create a new savings goal."""
+        user = self.context['request'].user
+        goal_amount = validated_data.get('goal_amount', None)
+        goal_date = validated_data.get('goal_date', None)
+        
+        # Ensure goal_amount is a Decimal
+        goal_amount = Decimal(goal_amount)
+        
+        # Calculate the remaining amount to reach the goal
+        remaining_amount = goal_amount - user.savingsgoal.current_savings
+        
+        # Check if the goal has already been reached
+        is_goal_reached = remaining_amount <= 0
+        
+        # Create the savings goal
+        savings_goal = SavingsGoal.objects.create(
+            user=user,
+            goal_amount=goal_amount,
+            goal_date=goal_date
+        )
+        
+        return savings_goal
+
+class SubscriptionSerializer(serializers.ModelSerializer):
+    """Subscription serializer."""
+    # user = serializers.ReadOnlyField(source='user.username')  # Read-only field for display purposes
+
+    class Meta:
+        model = Subscription
+        fields = ['name', 'amount', 'frequency', 'payment_method', 'due_date']
+        # read_only_fields = ['id', 'user']

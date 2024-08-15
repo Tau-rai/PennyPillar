@@ -6,12 +6,18 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
 from datetime import datetime
+from decimal import Decimal
+import requests
+from django.core.files.base import ContentFile
 
 
 class UserProfile(models.Model):
     """Model for the user profile."""
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='profile_pics', default='palceholder.img')
+    first_name = models.CharField(max_length=100, blank=True, null=True)
+    last_name = models.CharField(max_length=100, blank=True, null=True)
+    email = models.EmailField(max_length=100, blank=True, null=True)
+    image = models.ImageField(upload_to='profile_pics', blank=True, null=True)
 
     class Meta:
         verbose_name = "UserProfile"
@@ -19,6 +25,15 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return f"{self.user.username} Profile"
+
+    def save(self, *args, **kwargs):
+        if not self.image:
+            # Set placeholder image if no image is provided
+            placeholder_url = 'https://via.placeholder.com/150'
+            response = requests.get(placeholder_url)
+            if response.status_code == 200:
+                self.image.save('placeholder.jpg', ContentFile(response.content), save=False)
+        super().save(*args, **kwargs)
 
 
 class Category(models.Model):
@@ -97,7 +112,8 @@ class MonthlyBudget(models.Model):
 class SavingsGoal(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     goal_amount = models.DecimalField(max_digits=10, decimal_places=2)
-    goal_date = models.DateField()  
+    goal_date = models.DateField()
+    current_savings = models.DecimalField(max_digits=10, decimal_places=2, default=0)
 
     def __str__(self):
         return f'{self.user.username} - Goal: {self.goal_amount}'
@@ -105,18 +121,14 @@ class SavingsGoal(models.Model):
     def add_amount(self, amount):
         """Add an amount to current savings."""
         if amount > 0:
-            self._current_savings += amount
+            self.current_savings += Decimal(amount)
             self.save()
     
-    @property
-    def current_savings(self):
-        """Property to get the current savings balance."""
-        return self.get_current_savings()
-    
-    @current_savings.setter
-    def current_savings(self, value):
-        """Setter method for the current savings balance."""
-        self._current_savings = value
+    def subtract_amount(self, amount):
+        """Subtract an amount from current savings."""
+        if amount > 0:
+            self.current_savings -= Decimal(amount)
+            self.save()
 
     def is_goal_reached(self):
         """Check if the goal has been reached or exceeded."""
@@ -124,21 +136,7 @@ class SavingsGoal(models.Model):
 
     def get_remaining_amount(self):
         """Calculate the remaining amount to reach the goal."""
-        return max(self.goal_amount - self.current_savings, 0)
-
-    def get_current_savings(self):
-        """Calculate the current savings balance."""
-        # Retrieve the category object for 'Savings'
-        try:
-            savings_category = Category.objects.get(name='Savings')
-        except Category.DoesNotExist:
-            return 0 
-
-        # Calculate the total savings for this user
-        return Transaction.objects.filter(
-            user=self.user,
-            category=savings_category
-        ).aggregate(total_savings=models.Sum('amount'))['total_savings'] or 0
+        return max(self.goal_amount - self.current_savings, Decimal(0))
 
     def clean(self):
         # Allow current date as valid goal_date
@@ -150,3 +148,26 @@ class SavingsGoal(models.Model):
         """Override save method to perform additional validations."""
         self.clean()  # Call clean method to validate data
         super().save(*args, **kwargs)
+
+class Subscription(models.Model):
+    """Subscription model."""
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    frequency = models.CharField(max_length=20)
+    payment_method = models.CharField(max_length=20)
+    due_date = models.DateField()
+    is_paid = models.BooleanField(default=False)
+    
+    def __str__(self):
+        return f"{self.name} - {self.amount} ({self.frequency})"
+    
+    def next_due_date(self):
+        """Calculate the next due date based on frequency."""
+        if self.frequency == 'monthly':
+            return self.due_date + timezone.timedelta(days=30)
+        elif self.frequency == 'weekly':
+            return self.due_date + timezone.timedelta(weeks=1)
+        elif self.frequency == 'yearly':
+            return self.due_date + timezone.timedelta(days=365)
+        return self.due_date  # Default to current due date
