@@ -10,10 +10,10 @@ const AboutUs = () => {
     };
 
     return (
-        <>
+        <div className="wrapper">
             <header className={`header ${showNav ? 'show-nav' : ''}`}>
                 <div className="logo">PennyPillar</div>
-                <nav className="nav-links">
+                <nav className={`nav-links ${showNav ? 'd-block' : ''}`}>
                     <Link to="/" className="text-white">Home</Link>
                     <Link to="/dashboard" className="text-white">Dashboard</Link>
                     <Link to="/login" className="text-white">Logout</Link>
@@ -56,13 +56,13 @@ const AboutUs = () => {
 
                     <div className="team-member">
                         <div className="member">
-                            <img src="https://photos.app.goo.gl/joYhBCZ5JNADqqmj6" alt="Team Member 1" />
+                            <img src="https://yourimageurl.com/team-member-1.jpg" alt="Avumile Ndlovu" />
                             <h5>Avumile Ndlovu</h5>
                             <p>Front-End Developer</p>
                         </div>
                         
                         <div className="member">
-                            <img src="https://photos.app.goo.gl/qeCekr5BwyL3x4dY9" alt="Team Member 3" />
+                            <img src="https://yourimageurl.com/team-member-2.jpg" alt="Taurai Masaire" />
                             <h5>Taurai Masaire</h5>
                             <p>Backend Developer</p>
                         </div>
@@ -78,7 +78,7 @@ const AboutUs = () => {
                     <Link to="/contact">Contact Us</Link>
                 </nav>
             </footer>
-        </>
+        </div>
     );
 };
 
