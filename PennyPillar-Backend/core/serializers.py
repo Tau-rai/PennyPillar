@@ -71,22 +71,6 @@ class UserProfileSerializer(serializers.ModelSerializer):
             'last_name': {'required': False},
             'image': {'required': False}
         }
-    # def update(self, instance, validated_data):
-    #     """Update the user profile."""
-    #     # Update user profile fields
-    #     image = validated_data.get('image', None)
-    #     if image:
-    #         instance.image = image
-    #     instance.save()
-        
-    #     # Update user details
-    #     user_data = self.context['request'].data
-    #     user = instance.user
-    #     user.first_name = user_data.get('first_name', user.first_name)
-    #     user.last_name = user_data.get('last_name', user.last_name)
-    #     user.save()
-
-    #     return instance
 
 class TransactionSerializer(serializers.ModelSerializer):
     """Transaction serializer."""
@@ -176,5 +160,5 @@ class SubscriptionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Subscription
-        fields = ['name', 'amount', 'frequency', 'payment_method', 'due_date']
+        fields = ['id', 'name', 'amount', 'frequency', 'payment_method', 'due_date']
         # read_only_fields = ['id', 'user']
