@@ -1,15 +1,25 @@
-import React from 'react';
-import {Link} from 'react-router-dom'
-
-
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import './Homepage.css'; // Import your CSS file
 
 // Define the Homepage component
 const Homepage = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
   // Function to handle navigation toggle
   const toggleNav = () => {
     const nav = document.querySelector('.nav-links');
     nav.classList.toggle('nav-open');
+  };
+
+  // Function to show the next carousel item
+  const nextSlide = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % 4);
+  };
+
+  // Function to show the previous carousel item
+  const prevSlide = () => {
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + 4) % 4);
   };
 
   return (
@@ -19,18 +29,16 @@ const Homepage = () => {
         <div className="logo">PennyPillar</div>
         <div className="hamburger" onClick={toggleNav}>☰</div>
         <nav className="nav-links">
-          <a to="#home">Home</a>
+          <a href="#home">Home</a>
           <Link to="/dashboard">Dashboard</Link>
           <Link to="/cashflow">Cash Flow/Budget</Link>
           <Link to="/recurring">Recurring Payments</Link>
           <Link to="/challenge">Penny Challenge</Link>
-          <Link to="/SignIn">Sign in</Link>
+          <Link to="/signin">Sign in</Link>
           <Link to="/signup">Sign Up</Link>
           <Link to="/about">About Us</Link>
           <Link to="/contact">Contact</Link>
           <Link to="/help">Help</Link>
-          
-    
         </nav>
       </header>
 
@@ -58,8 +66,8 @@ const Homepage = () => {
                 <div className="carousel-container">
                   <h2 className="section-title">Explore the Features That Matter to You</h2>
                   <div className="carousel">
-                    {/* Carousel Item 1 */}
-                    <div className="carousel-item">
+                    {/* Carousel Items */}
+                    <div className={`carousel-item ${currentIndex === 0 ? 'active' : ''}`}>
                       <div className="infographic">
                         <div className="infographic-header">
                           <h2 className="feature-title">Budget Tracking: Set limits, track expenses, and stay on top of your budget</h2>
@@ -87,99 +95,12 @@ const Homepage = () => {
                         <img src="/images/budget.jpg" alt="Budget Tracking Screenshot" className="feature-screenshot" />
                       </div>
                     </div>
-                    
-                    {/* Carousel Item 2 */}
-                    <div className="carousel-item">
-                      <div className="infographic">
-                        <div className="infographic-header">
-                          <h2 className="feature-title">Savings Goals: Visualize your savings progress and achieve financial milestones.</h2>
-                        </div>
-                        <ul className="feature-list">
-                          <li>
-                            <svg className="check-icon" viewBox="0 0 24 24">
-                              <path d="M10 15l-3-3 1.4-1.4L10 12.2l7.6-7.6L19 7l-9 9z"></path>
-                            </svg>
-                            Set and track savings goals.
-                          </li>
-                          <li>
-                            <svg className="check-icon" viewBox="0 0 24 24">
-                              <path d="M10 15l-3-3 1.4-1.4L10 12.2l7.6-7.6L19 7l-9 9z"></path>
-                            </svg>
-                            Monitor your progress visually.
-                          </li>
-                          <li>
-                            <svg className="check-icon" viewBox="0 0 24 24">
-                              <path d="M10 15l-3-3 1.4-1.4L10 12.2l7.6-7.6L19 7l-9 9z"></path>
-                            </svg>
-                            Get reminders for saving milestones.
-                          </li>
-                        </ul>
-                        <img src="/images/savings.png" alt="Savings Goals Screenshot" className="feature-screenshot" />
-                      </div>
-                    </div>
 
-                    {/* Carousel Item 3 */}
-                    <div className="carousel-item">
-                      <div className="infographic">
-                        <div className="infographic-header">
-                          <h2 className="feature-title">Subscription Management: Track your subscriptions and set payment reminders</h2>
-                        </div>
-                        <ul className="feature-list">
-                          <li>
-                            <svg className="check-icon" viewBox="0 0 24 24">
-                              <path d="M10 15l-3-3 1.4-1.4L10 12.2l7.6-7.6L19 7l-9 9z"></path>
-                            </svg>
-                            Monitor all your active subscriptions.
-                          </li>
-                          <li>
-                            <svg className="check-icon" viewBox="0 0 24 24">
-                              <path d="M10 15l-3-3 1.4-1.4L10 12.2l7.6-7.6L19 7l-9 9z"></path>
-                            </svg>
-                            Set and manage payment reminders.
-                          </li>
-                          <li>
-                            <svg className="check-icon" viewBox="0 0 24 24">
-                              <path d="M10 15l-3-3 1.4-1.4L10 12.2l7.6-7.6L19 7l-9 9z"></path>
-                            </svg>
-                            Get notifications for upcoming payments.
-                          </li>
-                        </ul>
-                        <img src="/images/subscriptions.jpg" alt="Subscription Management Screenshot" className="feature-screenshot" />
-                      </div>
-                    </div>
+                    {/* Add additional carousel items here */}
 
-                    {/* Carousel Item 4 */}
-                    <div className="carousel-item">
-                      <div className="infographic">
-                        <div className="infographic-header">
-                          <h2 className="feature-title">Insights: Discover tips and strategies to improve your financial habits</h2>
-                        </div>
-                        <ul className="feature-list">
-                          <li>
-                            <svg className="check-icon" viewBox="0 0 24 24">
-                              <path d="M10 15l-3-3 1.4-1.4L10 12.2l7.6-7.6L19 7l-9 9z"></path>
-                            </svg>
-                            Get personalized financial tips based on your spending habits.
-                          </li>
-                          <li>
-                            <svg className="check-icon" viewBox="0 0 24 24">
-                              <path d="M10 15l-3-3 1.4-1.4L10 12.2l7.6-7.6L19 7l-9 9z"></path>
-                            </svg>
-                            Access strategies to save money and manage your budget effectively.
-                          </li>
-                          <li>
-                            <svg className="check-icon" viewBox="0 0 24 24">
-                              <path d="M10 15l-3-3 1.4-1.4L10 12.2l7.6-7.6L19 7l-9 9z"></path>
-                            </svg>
-                            Receive updates on the latest financial trends.
-                          </li>
-                        </ul>
-                        <img src="/images/insights.jpg" alt="Financial Insights Screenshot" className="feature-screenshot" />
-                      </div>
-                    </div>
-                    {/* Carousel navigation */}
-                    <button className="carousel-nav prev">&#10094;</button>
-                    <button className="carousel-nav next">&#10095;</button>
+                    {/* Carousel Navigation */}
+                    <button className="carousel-nav prev" onClick={prevSlide}>❮</button>
+                    <button className="carousel-nav next" onClick={nextSlide}>❯</button>
                   </div>
                 </div>
               </section>
@@ -259,16 +180,12 @@ const Homepage = () => {
             <div className="footer-contact">
               <h3>Contact Us</h3>
               <ul>
-                <li>Email: <a href="mailto:support@appname.com">support@pennypillar.com</a></li>
-                <li>Phone: +123 456 7890</li>
+                <li>Email: <a href="mailto:support@pennypillar.com">support@pennypillar.com</a></li>
+                <li>Phone: <a href="tel:+1234567890">+1 (234) 567-890</a></li>
               </ul>
-              <div className="social-media">
-                <a href="#"><i className="fab fa-facebook-f"></i></a>
-                <a href="#"><i className="fab fa-twitter"></i></a>
-                <a href="#"><i className="fab fa-linkedin-in"></i></a>
-              </div>
             </div>
           </div>
+          <p className="footer-bottom-text">&copy; 2024 PennyPillar. All rights reserved.</p>
         </footer>
       </div>
     </div>
