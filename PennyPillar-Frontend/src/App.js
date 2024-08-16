@@ -6,7 +6,9 @@ import SignIn from './components/SignIn/SignInForm';
 import SignUp from './components/SignUp/SignUpForm'; 
 import Help from './components/Help/Helppage';
 import AboutUs from './components/AboutUs/AboutUs';
-import { Link } from 'react-router-dom';
+import Policy from './components/Policy/Policy';
+import Challenge from './components/Challenge/Challenge';
+import Recurring from './components/Recurring/Recurring';
 
 
 const App = () => {
@@ -18,6 +20,9 @@ const App = () => {
 	        <Route path="/signup" element={<SignUp/>} />
                 <Route path="/about" element={<AboutUs/>} />
 	        <Route path="/help" element={<Help/>} />
+                 <Route path="/recurring" element={<Recurring/>} />
+	        <Route path="/challenge" element={<Challenge/>} />
+	        <Route path="/privacy-policy" element={<Policy/>} />
 	    {/* Add other routes as necessary */}
             </Routes>
         </Router>
