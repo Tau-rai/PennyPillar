@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import Header from '../Header';
-import Footer from '../Footer';
-
+import Header from '../TopNav';
+import Footer from '../PillarFooter';
 import './SignInForm.css';
 import axiosInstance from '../../axiosConfig';
 
@@ -35,7 +34,7 @@ const SignInPage = () => {
     return (
         <>
         <Header />
-            <div className="main-content">
+            <div className="sign-content">
                 <div className="form-container">
                     <div className="header-content">
                         <h3>Great to have you back! Your next financial milestone awaits.</h3>

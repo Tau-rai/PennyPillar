@@ -1,140 +1,30 @@
- body, html {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            height: 100%; /* Ensure the body and HTML take full height */
-        }
+   
 
-        .header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 10vh; /* Header height: 1/10th of viewport height */
-            background-color: #004d40; /* Dark green */
-            color: white;
+      .wrapper {
             display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 1rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease-in-out;
-            z-index: 1000;
+            flex-direction: column;
+            height: 100vh;
         }
 
-        .header .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-
-        .header .nav-links {
-            display: none;
-        }
-
-        .header .hamburger {
-            display: block;
-            cursor: pointer;
-            font-size: 1.5rem;
-        }
-
-        /* Styles for wider screens */
-        @media (min-width: 768px) {
-            .header {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 20%;
-                height: 100vh; /* Full viewport height */
-                flex-direction: column;
-                align-items: flex-start;
-                justify-content: flex-start;
-                padding: 1rem;
-                z-index: 1000;
-            }
-
-            .header .logo {
-                margin-bottom: 2rem;
-            }
-
-            .header .nav-links {
-                display: flex;
-                flex-direction: column;
-                width: 100%;
-                margin-top: 1rem;
-            }
-
-            .header .nav-links a {
-                color: white;
-                text-decoration: none;
-                padding: 1rem;
-                text-align: left;
-                border-bottom: 1px solid #00695c; /* Slightly lighter green */
-                transition: background-color 0.3s;
-            }
-
-            .header .nav-links a:hover {
-                background-color: #00695c;
-            }
-
-            .header .hamburger {
-                display: none;
-            }
-        }
-
-        /* Styles for smaller screens */
-        @media (max-width: 767px) {
-            .header {
-                height: 8vh;
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-            }
-
-            .header .nav-links {
-                display: none;
-                flex-direction: column;
-                width: 100%;
-                background-color: #004d40; /* Dark green */
-                position: absolute;
-                top: 100%;
-                left: 0;
-                z-index: 999;
-                text-align: center;
-            }
-
-            .header.show-nav .nav-links {
-                display: flex;
-            }
-
-            .header .nav-links a {
-                color: white;
-                text-decoration: none;
-                padding: 1rem;
-                border-bottom: 1px solid #00695c; /* Slightly lighter green */
-                transition: background-color 0.3s;
-            }
-
-            .header .nav-links a:hover {
-                background-color: #00695c;
-            }
-        }
+        
 
         .content {
+            
             padding: 2rem;
-            margin-top: 5rem; /* Space for fixed header */
-            flex: 1;
-            background-color: #f9f9f9;
+            background-color: white;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
+            margin-left: 20%; /* Offset for the sidebar on wider screens */
+        }
+
+        @media (max-width: 767px) {
+            .content {
+                margin-left: 0;
+            }
         }
 
         .help-header {
             text-align: center;
-            margin-bottom: 2rem;
         }
 
         .help-header h1 {
@@ -230,25 +120,4 @@
 
         .contact-info form button:hover {
             background-color: #003d32;
-        }
-        
-        .footer {
-            background-color: #004d40; /* Dark green */
-            color: white;
-            text-align: center;
-            padding: 1rem;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 8vh; /* Footer height */
-            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
-            z-index: 999;
-        }
-
-        @media (min-width: 768px) {
-            .footer {
-                width: 80%; /* Align with the content width */
-                left: 20%;
-            }
-        }
+        } 

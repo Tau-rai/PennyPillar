@@ -1,0 +1,78 @@
+
+        .content {
+            margin-top: 10vh; /* Space for fixed header */
+            padding: 2rem;
+            flex: 1;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            margin-left: 20%; /* Offset for the sidebar on wider screens */
+        }
+
+        @media (max-width: 767px) {
+            .content {
+                margin-left: 0;
+            }
+        }
+
+        .about-us {
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .about-us h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .about-us p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .about-us .mission, .about-us .story, .about-us .values {
+            margin-top: 3rem;
+        }
+
+        .about-us .icon {
+            font-size: 3rem;
+            color: #004d40;
+            margin-bottom: 1rem;
+        }
+
+        .about-us img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .team-member {
+            margin-top: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .team-member .member {
+            width: 250px;
+            text-align: center;
+        }
+
+        .team-member .member img {
+            width: 100%;
+            border-radius: 50%;
+            margin-bottom: 1rem;
+        }
+
+        .team-member .member h5 {
+            margin-bottom: 0.5rem;
+            font-size: 1.25rem;
+        }
+
+        .team-member .member p {
+            font-size: 0.9rem;
+            color: #555;
+        }
