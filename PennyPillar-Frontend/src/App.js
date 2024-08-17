@@ -12,10 +12,10 @@ import Recurring from './components/Recurring/Recurring';
 import Dashboard from './components/Dashboard/Dashboard';
 import Logout from './components/Logout/Logout';
 import Profile from './components/Profile/Profile';
-
+import Cashflow from './components/Cashflow/Cashflow';
+import Budget from './components/Budget/Budget';
 
 const App = () => {
-    const isLoggedIn = true; // or false, depending on your logic
     return (
         <Router>
             <Routes>
@@ -23,20 +23,15 @@ const App = () => {
                 <Route path="/about" element={<AboutUs />} />
                 <Route path="/help" element={<Help />} />
                 <Route path="/privacy-policy" element={<Policy />} />
-                {isLoggedIn ? (
-                    <>
-                        <Route path="/dashboard" element={<Dashboard />} />
-                        <Route path="/recurring" element={<Recurring />} />
-                        <Route path="/challenge" element={<Challenge />} />
-                        <Route path="/logout" element={<Logout />} />
-                        <Route path="/profile" element={<Profile />} />
-                    </>
-                ) : (
-                    <>
-                        <Route path="/login" element={<SignIn />} />
-                        <Route path="/signup" element={<SignUp />} />
-                    </>
-                )}
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/recurring" element={<Recurring />} />
+                <Route path="/challenge" element={<Challenge />} />
+                <Route path="/logout" element={<Logout />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/budget" element={<Budget />} />
+                <Route path="/cashflow" element={<Cashflow />} />
+                <Route path="/login" element={<SignIn />} />
+                <Route path="/signup" element={<SignUp />} />
             </Routes>
         </Router>
     );
