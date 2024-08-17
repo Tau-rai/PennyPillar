@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './Cashflow.css';
+import { BsHandThumbsUp } from 'react-icons/bs';
 
 const Cashflow = () => {
   const [rows, setRows] = useState({
