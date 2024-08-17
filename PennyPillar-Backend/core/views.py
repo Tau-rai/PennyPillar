@@ -288,7 +288,9 @@ class SubscriptionViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         """Filter subscriptions by the current user."""
-        return Subscription.objects.filter(user=self.request.user)
+        if self.request.user.is_authenticated:
+            return Subscription.objects.filter(user=self.request.user)
+        return Subscription.objects.none()
 
     def perform_create(self, serializer):
         """Set the user field and default values."""
