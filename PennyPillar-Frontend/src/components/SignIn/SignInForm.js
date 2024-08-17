@@ -6,7 +6,7 @@ import './SignInForm.css';
 import axiosInstance from '../../axiosConfig';
 
 const SignInPage = () => {
-    const [username, setUsername] = useState(''); // Use username instead of email
+    const [username, setUsername] = useState(''); 
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
 

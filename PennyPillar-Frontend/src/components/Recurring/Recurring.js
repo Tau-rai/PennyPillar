@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import './Recurring.css';
-// import dayjs from 'dayjs';
+import axiosInstance from '../../axiosConfig';
 
 const Recurring = () => {
     const [subscriptionsData, setSubscriptionsData] = useState([]);
@@ -16,15 +16,34 @@ const Recurring = () => {
         icon: '',
     });
 
+    useEffect(() => {
+        fetchSubscriptions();
+    }, []);
+
+    const fetchSubscriptions = async () => {
+        try {
+            const response = await axiosInstance.get('/subscriptions/');
+            setSubscriptionsData(response.data);
+        } catch (error) {
+            console.error('Error fetching subscriptions:', error);
+        }
+    };
+
     const handlePayNowClick = (subscription) => {
         setSelectedSubscription(subscription);
         setModalVisible(true);
     };
 
-    const handleMarkAsPaid = (event) => {
+    const handleMarkAsPaid = async (event) => {
         event.preventDefault();
-        setModalVisible(false);
-        alert('Subscription marked as paid!');
+        try {
+            await axiosInstance.post(`/subscriptions/${selectedSubscription.id}/mark_as_paid/`);
+            setModalVisible(false);
+            alert('Subscription marked as paid!');
+            fetchSubscriptions(); // Refresh the subscriptions list
+        } catch (error) {
+            console.error('Error marking subscription as paid:', error);
+        }
     };
 
     const handleCloseModal = () => {
@@ -39,23 +58,26 @@ const Recurring = () => {
         });
     };
 
-    const handleFormSubmit = (event) => {
+    const handleFormSubmit = async (event) => {
         event.preventDefault();
-        const newSubscription = {
-            id: subscriptionsData.length + 1,
-            name: formData.name,
-            amount: parseFloat(formData.amount),
-            dueDate: formData.dueDate,
-            icon: formData.icon || 'https://img.icons8.com/color/48/000000/default.png', // Default icon if not provided
-            receiptIcon: 'https://img.icons8.com/color/48/000000/receipt-dollar.png',
-        };
-        setSubscriptionsData([...subscriptionsData, newSubscription]);
-        setFormData({
-            name: '',
-            amount: '',
-            dueDate: '',
-            icon: '',
-        });
+        try {
+            const newSubscription = {
+                name: formData.name,
+                amount: parseFloat(formData.amount),
+                due_date: formData.dueDate,
+                icon: formData.icon || 'https://img.icons8.com/color/48/000000/default.png', // Default icon if not provided
+            };
+            await axiosInstance.post('/subscriptions/', newSubscription);
+            fetchSubscriptions(); // Refresh the subscriptions list
+            setFormData({
+                name: '',
+                amount: '',
+                dueDate: '',
+                icon: '',
+            });
+        } catch (error) {
+            console.error('Error adding subscription:', error);
+        }
     };
 
     return (
@@ -70,10 +92,12 @@ const Recurring = () => {
                                     <img src={subscription.icon} alt={subscription.name} />
                                     <div className="amount">{`${subscription.name}: $${subscription.amount.toFixed(2)}`}</div>
                                 </div>
-                                <img src={subscription.receiptIcon} alt="Receipt Icon" className="receipt" />
-                                <button onClick={() => handlePayNowClick(subscription)}>Pay Now</button>
+                                <img src="https://img.icons8.com/color/48/000000/receipt-dollar.png" alt="Receipt Icon" className="receipt" />
+                                {!subscription.is_paid && (
+                                    <button onClick={() => handlePayNowClick(subscription)}>Pay Now</button>
+                                )}
                             </div>
-                            <div className="due-date">Due Date: {subscription.dueDate}</div>
+                            <div className="due-date">Due Date: {subscription.due_date}</div>
                         </li>
                     ))}
                 </ul>
@@ -126,7 +150,12 @@ const Recurring = () => {
                         <h2>Pay Now</h2>
                         <form>
                             <label htmlFor="subscription-details">Subscription Details:</label>
-                            <input type="text" id="subscription-details" value={selectedSubscription ? `${selectedSubscription.name} - $${selectedSubscription.amount} due on ${selectedSubscription.dueDate}` : ''} readOnly />
+                            <input
+                                type="text"
+                                id="subscription-details"
+                                value={selectedSubscription ? `${selectedSubscription.name} - $${selectedSubscription.amount} due on ${selectedSubscription.due_date}` : ''}
+                                readOnly
+                            />
                             <button id="mark-as-paid-btn" onClick={handleMarkAsPaid}>Mark as Paid</button>
                         </form>
                     </div>

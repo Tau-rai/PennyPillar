@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import './Profile.css';
-import { Link } from 'react-router-dom';
+import axiosInstance from '../../axiosConfig';
 
 const Profile= () => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
-    const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
     const [profilePicture, setProfilePicture] = useState('https://via.placeholder.com/100');
 
@@ -20,17 +19,31 @@ const Profile= () => {
         }
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         // Handle form submission logic here
-        console.log({
-            firstName,
-            lastName,
-            email,
-            username,
-            profilePicture,
-        });
+        const updatedProfile = {
+            firstName: firstName,
+            lastName: lastName,
+            username: username,
+            profilePicture: profilePicture
+        };
+
+        try {
+            // Check if the profile already exists in the database
+            const response = await axiosInstance.get('/profile/');
+            if (response.status === 200) {
+                // Profile exists, update it
+                await axiosInstance.put('profile/', updatedProfile);
+            } else {
+                // Profile doesn't exist, create it
+                await axiosInstance.post('/profile/', updatedProfile);
+            }
+        } catch (error) {
+            console.error('Error:', error.message);
+        }
     };
+        
 
     return (
         <div className="profile-container">
@@ -58,17 +71,6 @@ const Profile= () => {
                     required
                 />
 
-                <label htmlFor="email">Email:</label>
-                <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    placeholder="Enter your email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                />
-
                 <label htmlFor="username">Username:</label>
                 <input
                     type="text"
@@ -93,7 +95,7 @@ const Profile= () => {
                     <img
                         id="profile-picture-display"
                         src={profilePicture}
-                        alt="Profile Picture Preview"
+                        alt=""
                     />
                 </div>
 

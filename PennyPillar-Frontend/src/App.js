@@ -9,20 +9,34 @@ import AboutUs from './components/AboutUs/AboutUs';
 import Policy from './components/Policy/Policy';
 import Challenge from './components/Challenge/Challenge';
 import Recurring from './components/Recurring/Recurring';
+import Dashboard from './components/Dashboard/Dashboard';
+import Logout from './components/Logout/Logout';
+import Profile from './components/Profile/Profile';
 
 
 const App = () => {
+    const isLoggedIn = true; // or false, depending on your logic
     return (
         <Router>
             <Routes>
                 <Route path="/" element={<Homepage />} />
-                <Route path="/login" element={<SignIn />} />
-	        <Route path="/signup" element={<SignUp/>} />
-                <Route path="/about" element={<AboutUs/>} />
-	        <Route path="/help" element={<Help/>} />
-                 <Route path="/recurring" element={<Recurring/>} />
-	        <Route path="/challenge" element={<Challenge/>} />
-	        <Route path="/privacy-policy" element={<Policy/>} />
+                <Route path="/about" element={<AboutUs />} />
+                <Route path="/help" element={<Help />} />
+                <Route path="/privacy-policy" element={<Policy />} />
+                {isLoggedIn ? (
+                    <>
+                        <Route path="/dashboard" element={<Dashboard />} />
+                        <Route path="/recurring" element={<Recurring />} />
+                        <Route path="/challenge" element={<Challenge />} />
+                        <Route path="/logout" element={<Logout />} />
+                        <Route path="/profile" element={<Profile />} />
+                    </>
+                ) : (
+                    <>
+                        <Route path="/login" element={<SignIn />} />
+                        <Route path="/signup" element={<SignUp />} />
+                    </>
+                )}
             </Routes>
         </Router>
     );
