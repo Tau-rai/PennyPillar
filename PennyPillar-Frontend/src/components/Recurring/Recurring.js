@@ -1,7 +1,7 @@
 // Subscriptions.js
 import React, { useState } from 'react';
 import './Recurring.css';
-import dayjs from 'dayjs';
+// import dayjs from 'dayjs';
 
 const subscriptionsData = [
     { id: 1, name: 'Netflix', amount: 15.99, dueDate: '2024-08-15', icon: 'https://img.icons8.com/color/48/000000/netflix.png', receiptIcon: 'https://img.icons8.com/color/48/000000/receipt-dollar.png' },

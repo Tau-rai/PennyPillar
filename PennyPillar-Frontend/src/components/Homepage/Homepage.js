@@ -34,7 +34,7 @@ const Homepage = () => {
           <Link to="/cashflow">Cash Flow/Budget</Link>
           <Link to="/recurring">Recurring Payments</Link>
           <Link to="/challenge">Penny Challenge</Link>
-          <Link to="/signin">Sign in</Link>
+          <Link to="/login">Login</Link>
           <Link to="/signup">Sign Up</Link>
           <Link to="/about">About Us</Link>
           <Link to="/contact">Contact</Link>

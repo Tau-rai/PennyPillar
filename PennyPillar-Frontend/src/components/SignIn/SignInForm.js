@@ -13,18 +13,19 @@ const SignInPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            // Use axiosInstance for the login request
-            const response = await axiosInstance.post('/login/', { username, password });
-            
-            // Store the token if login is successful
-            localStorage.setItem('authToken', response.data.token);
-
-            // Redirect to the home page 
-            navigate('/');
+          const response = await axiosInstance.post('/token/', { username, password }); // Updated endpoint
+          
+          // Store both access and refresh tokens
+          localStorage.setItem('authToken', response.data.access);
+          localStorage.setItem('refreshToken', response.data.refresh);
+      
+          // Redirect to the home page
+          navigate('/');
         } catch (error) {
-            console.error("Login error:", error.response ? error.response.data : error.message);
+          console.error("Login error:", error.response ? error.response.data : error.message);
         }
-    };
+      };
+      
 
     // const toggleNav = () => {
     //     const navLinks = document.querySelector('.header .nav-links');
