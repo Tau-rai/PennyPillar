@@ -24,12 +24,21 @@ axiosInstance.interceptors.request.use(
 // Add a response interceptor to handle unauthorized responses
 axiosInstance.interceptors.response.use(
   (response) => response,
-  (error) => {
-    if (error.response && error.response.status === 401) {
-      // Handle Unauthorized errors
-      console.error('Unauthorized: Token might be expired or invalid');
-      // Redirect to login page
-      window.location.href = '/login';
+  async (error) => {
+    const originalRequest = error.config;
+    if (error.response && error.response.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      try {
+        const refreshToken = localStorage.getItem('refreshToken'); // Retrieve refresh token from local storage
+        const response = await axiosInstance.post('/token/refresh/', { refresh: refreshToken });
+        localStorage.setItem('authToken', response.data.access); // Store new access token
+        axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${response.data.access}`;
+        return axiosInstance(originalRequest); // Retry original request with new token
+      } catch (refreshError) {
+        console.error('Token refresh failed:', refreshError);
+        // Redirect to login page if refresh fails
+        window.location.href = '/login/';
+      }
     }
     return Promise.reject(error);
   }

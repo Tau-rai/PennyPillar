@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import './Recurring.css';
-import dayjs from 'dayjs';
+// import dayjs from 'dayjs';
 
 const Recurring = () => {
     const [subscriptionsData, setSubscriptionsData] = useState([]);

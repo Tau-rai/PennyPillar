@@ -167,34 +167,47 @@ class MonthlyBudgetViewSet(viewsets.ModelViewSet):
             }
             return Response(data, status=status.HTTP_200_OK)
         return Response({'detail': 'Budget not found.'}, status=status.HTTP_404_NOT_FOUND)
-
+  
 
 class SavingsGoalViewSet(viewsets.ModelViewSet):
     """Savings goal view."""
-    queryset = SavingsGoal.objects.none()
+    queryset = SavingsGoal.objects.all()  # Update the queryset to include all SavingsGoal objects
     serializer_class = SavingsGoalSerializer
     permission_classes = [permissions.IsAuthenticated]
     authentication_classes = [JWTAuthentication]
 
     def get_queryset(self):
+        """Filter savings goals by the current user."""
         user = self.request.user
         if user.is_authenticated:
             return SavingsGoal.objects.filter(user=user)
         return SavingsGoal.objects.none()
 
     def perform_create(self, serializer):
-        """Create or update a savings goal."""
+        """Create or update the savings goal."""
         user = self.request.user
-        existing_goal = SavingsGoal.objects.filter(user=user).first()
+        goal_amount = serializer.validated_data['goal_amount']
+        goal_date = serializer.validated_data['goal_date']
 
-        if existing_goal:
-            # Update existing goal
-            serializer = SavingsGoalSerializer(existing_goal, data=serializer.validated_data, partial=True)
-            if serializer.is_valid():
-                serializer.save()
-        else:
-            # Create new goal
-            serializer.save(user=user)
+        try:
+            # Check if the user already has an active SavingsGoal
+            savings_goal = user.savingsgoal
+            # Update the existing goal
+            savings_goal.goal_amount = goal_amount
+            savings_goal.goal_date = goal_date
+            savings_goal.remaining_amount = goal_amount - savings_goal.current_savings
+            savings_goal.save()
+        except SavingsGoal.DoesNotExist:
+            # Create a new SavingsGoal if it doesn't exist
+            savings_goal = SavingsGoal.objects.create(
+                user=user,
+                goal_amount=goal_amount,
+                goal_date=goal_date,
+                remaining_amount=goal_amount  # Assuming no savings initially
+            )
+
+        # Return the saved goal instance through the serializer
+        return savings_goal
 
     @action(detail=False, methods=['post'])
     def add_amount(self, request):
