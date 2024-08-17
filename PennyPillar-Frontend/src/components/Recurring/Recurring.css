@@ -1,0 +1,292 @@
+ .calendar-container {
+            max-width: 600px;
+            width: 100%;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            position: relative;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            transform: rotateX(-10deg);
+            transform-style: preserve-3d;
+            
+        }
+
+        .calendar-header {
+            background: #004d40;
+            color: #fff;
+            padding: 10px;
+            border-radius: 10px 10px 0 0;
+            font-weight: bold;
+            font-size: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .calendar-body {
+            padding: 20px;
+            background: #f9f9f9;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 0 0 10px 10px;
+        }
+
+        .calendar-body table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .calendar-body th, .calendar-body td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        .calendar-body th {
+            background-color: #004d40;
+            color: #fff;
+        }
+
+        .calendar-body .today {
+            background-color: #ffeb3b;
+            font-weight: bold;
+        }
+
+        .calendar-header::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 10px;
+            background: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .calendar-container::before {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50%;
+            height: 20px;
+            background: #fff;
+            border-radius: 10px 10px 0 0;
+            box-shadow: 0 -2px 4px rgba(0,0,0,0.2);
+            z-index: -1;
+        }
+
+        .calendar-container::after {
+            content: '';
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 30px;
+            background: #f9f9f9;
+            border-radius: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            z-index: -1;
+        }
+
+        /* Subscriptions styles */
+        .subscription-container {
+            max-width: 600px;
+            width: 100%;
+            background-color: #ffffff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .subscription-container h2 {
+            margin-top: 0;
+            color: #004d40;
+        }
+
+        .due-date {
+            font-weight: bold;
+            color: #666;
+        }
+
+        .expense-description {
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .icon-amount {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .icon-amount .left-side {
+            display: flex;
+            align-items: center;
+        }
+
+        .icon-amount .left-side img {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        .icon-amount .amount {
+            margin-right: auto;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .icon-amount .receipt {
+            display: flex;
+            align-items: center;
+        }
+
+        .icon-amount .receipt img {
+            width: 50px;
+            height: 50px;
+            margin-left: 10px;
+        }
+
+        .icon-amount button {
+            background-color: #004d40;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .icon-amount button:hover {
+            background-color: #00382e;
+        }
+
+        /* Pay Now Form Modal */
+        #pay-now-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #ffffff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        #pay-now-modal h2 {
+            margin-top: 0;
+            color: #004d40;
+        }
+
+        #pay-now-modal form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #pay-now-modal label {
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        #pay-now-modal input {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        #pay-now-modal button {
+            padding: 10px 20px;
+            background-color: #004d40;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #pay-now-modal button:hover {
+            background-color: #00382e;
+        }
+
+        #overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+        }
+        media (max-width: 480px) {
+            .calendar-header {
+                font-size: 1rem;
+            }
+
+            .calendar-body th, .calendar-body td {
+                padding: 6px;
+            }
+
+            .icon-amount .left-side img, .icon-amount .receipt img {
+                width: 25px;
+                height: 25px;
+            }
+
+            .icon-amount button {
+                font-size: 0.8rem;
+                padding: 6px 12px;
+            }
+
+            #pay-now-modal {
+                width: 90%;
+            }
+
+            #pay-now-modal input, #pay-now-modal button {
+                font-size: 0.8rem;
+            }
+        }
+        /* Existing CSS */
+
+/* Add Subscription Button Styles */
+.add-subscription-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+#add-subscription-btn {
+    background-color: #004d40; /* Matches the color scheme */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#add-subscription-btn:hover {
+    background-color: #00382e; /* Darker shade for hover effect */
+}
+
+/* Responsive Styles */
+@media (max-width: 480px) {
+    #add-subscription-btn {
+        font-size: 0.8rem;
+        padding: 6px 12px;
+    }
+}
+

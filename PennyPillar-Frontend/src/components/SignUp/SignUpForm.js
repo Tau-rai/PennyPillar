@@ -2,9 +2,9 @@
 import React,{ useState } from 'react';
 import { Link , useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Header from '../Header';
-import Footer from '../Footer';
-import './SignUpForm.css';
+import Header from '../TopNav';
+import Footer from '../PillarFooter';
+import '../SignIn/SignInForm.css';
 import axiosInstance from '../../axiosConfig';
 
 const SignUpPage = () => {
@@ -37,7 +37,7 @@ const SignUpPage = () => {
         <>
             <Header />
 
-            <div className="main-content mt-16 md:mt-0 flex items-center justify-center min-h-screen bg-gray-100">
+            <div className="sign-content mt-16 md:mt-0 flex items-center justify-center min-h-screen bg-gray-100">
                 <div className="form-container bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
                     <div className="header-content bg-teal-800 text-white p-4 rounded-t-lg">
                         <h3 className="text-lg font-semibold">Discover the Easiest Way to Manage Your Finances. Sign Up!</h3>
