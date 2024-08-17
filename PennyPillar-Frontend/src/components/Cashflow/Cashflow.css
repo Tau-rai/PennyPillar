@@ -1,79 +1,101 @@
+/* Styles for the h2 element */
+h2 {
+  font-size: 24px;
+  color: #00796b;
+  font-weight: 500;
+  margin-bottom: 20px;
+  text-align: center;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
 
-        .container {
-            max-width: 800px;
-            margin: auto;
-            padding: 20px;
-            background-color: white;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            position: relative;
-        }
+/* Styles for the container */
+.container {
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
 
-        .hand-icon {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            width: 50px;
-            height: auto;
-            z-index: 1;
-        }
+/* Styles for the hand icon */
+.hand-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 50px;
+  height: auto;
+  z-index: 1;
+}
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-            border: 1px solid #ddd;
-        }
+/* Styles for the table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+}
 
-        th, td {
-            padding: 10px;
-            text-align: left;
-        }
+/* Styles for table cells */
+th, td {
+  padding: 10px;
+  text-align: left;
+}
 
-        th {
-            background-color: #00796b; /* Calendar header color */
-            color: white;
-        }
+/* Styles for table headers */
+th {
+  background-color: #00796b; /* Calendar header color */
+  color: white;
+}
 
-        .description-column {
-            width: 66%;
-        }
+/* Styles for columns */
+.description-column {
+  width: 66%;
+}
 
-        .amount-column {
-            width: 33%;
-        }
+.amount-column {
+  width: 33%;
+}
 
-        .total-row {
-            font-weight: bold;
-            text-align: right;
-        }
+/* Styles for total rows */
+.total-row {
+  font-weight: bold;
+  text-align: right;
+}
 
-        .empty-row {
-            background-color: #00796b; /* Calendar background color */
-            color: white;
-        }
+/* Styles for empty rows */
+.empty-row {
+  background-color: #00796b; /* Calendar background color */
+  color: white;
+}
 
-        .add-btn {
-            cursor: pointer;
-            font-size: 18px;
-            color: #ffffff; /* White color for button in calendar style */
-        }
+/* Styles for add buttons */
+.add-btn {
+  cursor: pointer;
+  font-size: 18px;
+  color: #ffffff; /* White color for button in calendar style */
+}
 
-        .add-category-btn {
-            margin: 10px 0;
-            cursor: pointer;
-            color: #00796b; /* Calendar link color */
-            text-decoration: underline;
-        }
+/* Styles for add category buttons */
+.add-category-btn {
+  margin: 10px 0;
+  cursor: pointer;
+  color: #00796b; /* Calendar link color */
+  text-decoration: underline;
+}
 
-        /* Styles for smaller screens */
-        @media (max-width: 767px) {
-            .container {
-                padding: 10px;
-            }
+/* Styles for smaller screens */
+@media (max-width: 767px) {
+  .container {
+    padding: 10px;
+  }
 
-            table {
-                font-size: 14px;
-            }
-        }
+  table {
+    font-size: 14px;
+  }
+}
