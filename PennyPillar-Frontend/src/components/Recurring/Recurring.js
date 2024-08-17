@@ -1,16 +1,20 @@
-// Subscriptions.js
 import React, { useState } from 'react';
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
 import './Recurring.css';
 // import dayjs from 'dayjs';
 
-const subscriptionsData = [
-    { id: 1, name: 'Netflix', amount: 15.99, dueDate: '2024-08-15', icon: 'https://img.icons8.com/color/48/000000/netflix.png', receiptIcon: 'https://img.icons8.com/color/48/000000/receipt-dollar.png' },
-    { id: 2, name: 'Spotify', amount: 9.99, dueDate: '2024-08-20', icon: 'https://img.icons8.com/color/48/000000/spotify.png', receiptIcon: 'https://img.icons8.com/color/48/000000/receipt-dollar.png' },
-];
-
 const Recurring = () => {
+    const [subscriptionsData, setSubscriptionsData] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedSubscription, setSelectedSubscription] = useState(null);
+    const [selectedDate, setSelectedDate] = useState(new Date());
+    const [formData, setFormData] = useState({
+        name: '',
+        amount: '',
+        dueDate: '',
+        icon: '',
+    });
 
     const handlePayNowClick = (subscription) => {
         setSelectedSubscription(subscription);
@@ -27,6 +31,33 @@ const Recurring = () => {
         setModalVisible(false);
     };
 
+    const handleFormChange = (event) => {
+        const { name, value } = event.target;
+        setFormData({
+            ...formData,
+            [name]: value,
+        });
+    };
+
+    const handleFormSubmit = (event) => {
+        event.preventDefault();
+        const newSubscription = {
+            id: subscriptionsData.length + 1,
+            name: formData.name,
+            amount: parseFloat(formData.amount),
+            dueDate: formData.dueDate,
+            icon: formData.icon || 'https://img.icons8.com/color/48/000000/default.png', // Default icon if not provided
+            receiptIcon: 'https://img.icons8.com/color/48/000000/receipt-dollar.png',
+        };
+        setSubscriptionsData([...subscriptionsData, newSubscription]);
+        setFormData({
+            name: '',
+            amount: '',
+            dueDate: '',
+            icon: '',
+        });
+    };
+
     return (
         <div>
             <div className="subscription-container">
@@ -37,7 +68,7 @@ const Recurring = () => {
                             <div className="icon-amount">
                                 <div className="left-side">
                                     <img src={subscription.icon} alt={subscription.name} />
-                                    <div className="amount">{`${subscription.name}: $${subscription.amount}`}</div>
+                                    <div className="amount">{`${subscription.name}: $${subscription.amount.toFixed(2)}`}</div>
                                 </div>
                                 <img src={subscription.receiptIcon} alt="Receipt Icon" className="receipt" />
                                 <button onClick={() => handlePayNowClick(subscription)}>Pay Now</button>
@@ -47,8 +78,45 @@ const Recurring = () => {
                     ))}
                 </ul>
                 <div className="add-subscription-container">
-                    <button id="add-subscription-btn">Add Subscription</button>
+                    <form onSubmit={handleFormSubmit}>
+                        <input
+                            type="text"
+                            name="name"
+                            placeholder="Subscription Name"
+                            value={formData.name}
+                            onChange={handleFormChange}
+                            required
+                        />
+                        <input
+                            type="number"
+                            name="amount"
+                            placeholder="Amount"
+                            value={formData.amount}
+                            onChange={handleFormChange}
+                            required
+                        />
+                        <input
+                            type="date"
+                            name="dueDate"
+                            value={formData.dueDate}
+                            onChange={handleFormChange}
+                            required
+                        />
+                        <input
+                            type="text"
+                            name="icon"
+                            placeholder="Icon URL (optional)"
+                            value={formData.icon}
+                            onChange={handleFormChange}
+                        />
+                        <button type="submit">Add Subscription</button>
+                    </form>
                 </div>
+                <Calendar
+                    onChange={setSelectedDate}
+                    value={selectedDate}
+                />
+                <p>Selected Date: {selectedDate.toDateString()}</p>
             </div>
 
             {modalVisible && (
@@ -69,4 +137,3 @@ const Recurring = () => {
 };
 
 export default Recurring;
-
