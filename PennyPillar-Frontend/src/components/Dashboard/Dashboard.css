@@ -1,0 +1,99 @@
+/* Dashboard.css */
+
+/* Container for the entire dashboard */
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Container for the calendar */
+.calendar-container {
+    width: 100%;
+    max-width: 800px;
+    margin-bottom: 30px;
+}
+
+/* Header for the calendar */
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+/* Container for calendar days */
+.calendar-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+}
+
+/* Individual calendar day */
+.calendar-day {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* Blank day in calendar */
+.blank-day {
+    background-color: #f9f9f9;
+}
+
+/* Chart section container */
+.charts-section {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* Container for each chart */
+.chart-container {
+    flex: 1;
+    min-width: 250px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Header for each chart */
+.chart-header {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+/* Canvas styling */
+.chart-body {
+    position: relative;
+}
+
+/* Safe to Spend section */
+.safe-to-spend-container {
+    margin-top: 15px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    text-align: center;
+}
+
+.safe-to-spend-label {
+    font-size: 1.1em;
+    color: #333;
+}
+
+.safe-to-spend-amount {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #27ae60;
+}
