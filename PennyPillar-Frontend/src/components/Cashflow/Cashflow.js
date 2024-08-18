@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import axiosInstance from './axiosConfig'; // Import the custom axios instance
+import axiosInstance from '../../axiosConfig'; // Import the custom axios instance
 import { Pie } from 'react-chartjs-2';
-import './Cashflow.css';
-import { FaPencilAlt, FaTrashAlt } from 'react-icons/fa';
-import { BsHandThumbsUp } from 'react-icons/bs';
+import './transactions.css'; // Import the CSS file for styling
+import { FaPencilAlt, FaTrashAlt } from 'react-icons/fa'; // Import icons
 
-const Cashflow = () => {
+const Cashflow= () => {
   const [transactions, setTransactions] = useState([]);
   const [categories, setCategories] = useState([]);
   const [newTransaction, setNewTransaction] = useState({ description: '', amount: '', category: '' });
   const [editingTransaction, setEditingTransaction] = useState(null);
-  const [showAddForm, setShowAddForm] = useState(false);
+  const [showAddForm, setShowAddForm] = useState(false); // State to toggle add form visibility
 
   useEffect(() => {
     const fetchTransactions = async () => {
@@ -41,7 +40,7 @@ const Cashflow = () => {
       const response = await axiosInstance.post('/transactions/', newTransaction);
       setTransactions([...transactions, response.data]);
       setNewTransaction({ description: '', amount: '', category: '' });
-      setShowAddForm(false);
+      setShowAddForm(false); // Hide the form after submission
     } catch (error) {
       console.error('Error adding transaction:', error);
     }
@@ -81,15 +80,16 @@ const Cashflow = () => {
     return category ? category.name : 'Unknown';
   };
 
+  // Calculate totals
   const incomeTransactions = transactions.filter(t => getCategoryName(t.category) === 'Income');
   const expenseTransactions = transactions.filter(t => getCategoryName(t.category) === 'Expenses');
   const savingsTransactions = transactions.filter(t => getCategoryName(t.category) === 'Savings');
-
   const totalIncome = incomeTransactions.reduce((sum, t) => sum + parseFloat(t.amount), 0);
   const totalExpenses = expenseTransactions.reduce((sum, t) => sum + Math.abs(parseFloat(t.amount)), 0);
   const totalSavings = savingsTransactions.reduce((sum, t) => sum + parseFloat(t.amount), 0);
   const netIncome = totalIncome + totalSavings - totalExpenses;
 
+  // Pie chart data and options
   const pieChartData = [
     { label: 'Income', value: totalIncome },
     { label: 'Expenses', value: totalExpenses },
@@ -103,7 +103,7 @@ const Cashflow = () => {
 
   return (
     <div className="container">
-      <h1>Cashflow Overview</h1>
+      <h1>Overview</h1>
       <div className="pie-chart">
         <Pie
           data={{
