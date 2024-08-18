@@ -6,13 +6,13 @@ const Cashflow = () => {
   const [rows, setRows] = useState({
     income: [{ description: '', amount: '' }],
     savings: [{ description: '', amount: '' }],
-    expenses: [{ category: 'Rent', amount: '' }]
+    expenses: [{ category: '', amount: '' }]
   });
 
   const addRow = (category) => {
     setRows(prevRows => ({
       ...prevRows,
-      [category]: [...prevRows[category], category === 'expenses' ? { category: 'Rent', amount: '' } : { description: '', amount: '' }]
+      [category]: [...prevRows[category], category === 'expenses' ? { category: '', amount: '' } : { description: '', amount: '' }]
     }));
   };
 

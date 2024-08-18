@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './Budget.css';
-import { Chart } from 'chart.js/auto';
+import Chart from 'chart.js/auto';
 
 const Budget = () => {
     const [month, setMonth] = useState(new Date().getMonth());

@@ -20,7 +20,19 @@ const TopNav = () => {
             <Link to="/cashflow">Cash Flow/Budget</Link>
             <Link to="/recurring">Recurring Payments</Link>
             <Link to="/challenge">Penny Challenge</Link>
-            <Link to="/logout">Logout</Link>
+            <Link to="/logout" onClick={() => {
+                fetch('/logout/', {
+                  method: 'POST'
+                })
+                .then(response => {
+                  if (response.ok) {
+                    window.location.href = '/';
+                  }
+                })
+                .catch(error => {
+                  console.error('Logout failed:', error.message);
+                });
+              }}>Logout</Link>
             <Link to="/profile">User Profile</Link>
             <Link to="/about">About Us</Link>
             <Link to="/contact">Contact</Link>

@@ -300,21 +300,41 @@ class SubscriptionViewSet(viewsets.ModelViewSet):
     authentication_classes = [JWTAuthentication]
 
     def get_queryset(self):
-        """Filter subscriptions by the current user."""
-        if self.request.user.is_authenticated:
-            return Subscription.objects.filter(user=self.request.user)
-        return Subscription.objects.none()
+        """Filter subscriptions by the current user and optionally by month and year."""
+        queryset = Subscription.objects.filter(user=self.request.user)
+
+        # Get the month and year from query parameters
+        month = self.request.query_params.get('month')
+        year = self.request.query_params.get('year')
+
+        if month and year:
+            try:
+                # Convert month and year to integers
+                month = int(month)
+                year = int(year)
+
+                # Filter the subscriptions based on month and year
+                queryset = queryset.filter(due_date__month=month, due_date__year=year)
+            except ValueError:
+                # Handle the case where month or year is not a valid integer
+                queryset = Subscription.objects.none()
+                
+        return queryset
 
     def perform_create(self, serializer):
         """Set the user field and default values."""
-        serializer.save(user=self.request.user, is_paid=False) 
+        serializer.save(user=self.request.user, is_paid=False)
 
     @action(detail=True, methods=['post'])
     def mark_as_paid(self, request, pk=None):
-        """Mark the subscription as paid."""
+        """Toggle the subscription's paid status."""
         subscription = self.get_object()
         if subscription.user != request.user:
             return Response({"detail": "Not authorized"}, status=403)
-        subscription.is_paid = True
+
+        # Toggle the `is_paid` status
+        subscription.is_paid = not subscription.is_paid
         subscription.save()
-        return Response({"status": "Subscription marked as paid"})
+
+        status = "paid" if subscription.is_paid else "unpaid"
+        return Response({"status": f"Subscription marked as {status}"})

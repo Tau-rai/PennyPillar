@@ -160,5 +160,5 @@ class SubscriptionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Subscription
-        fields = ['id', 'name', 'amount', 'frequency', 'payment_method', 'due_date']
-        # read_only_fields = ['id', 'user']
+        fields = ['id', 'name', 'amount', 'frequency', 'payment_method', 'due_date', 'is_paid']
+        read_only_fields = ['id', 'user']
