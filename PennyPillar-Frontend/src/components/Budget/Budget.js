@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './Budget.css';
-import Chart from 'chart.js/auto';
+import { Chart, registerables } from 'chart.js';
+
+Chart.register(...registerables);
 
 const Budget = () => {
     const [month, setMonth] = useState(new Date().getMonth());
@@ -8,6 +10,9 @@ const Budget = () => {
     const [expenses, setExpenses] = useState([]);
     const [goals, setGoals] = useState([]);
     const [goalProgress, setGoalProgress] = useState(0);
+
+    const expenseChartRef = useRef(null);
+    const chartInstanceRef = useRef(null);
 
     useEffect(() => {
         renderCalendar();
@@ -45,10 +50,16 @@ const Budget = () => {
     };
 
     const initializeCharts = () => {
-        const ctx = document.getElementById('expenseChart').getContext('2d');
+        const ctx = expenseChartRef.current.getContext('2d');
         const expenseData = getExpenseData();
 
-        new Chart(ctx, {
+        // Destroy the previous chart instance if it exists
+        if (chartInstanceRef.current) {
+            chartInstanceRef.current.destroy();
+        }
+
+        // Create a new chart instance
+        chartInstanceRef.current = new Chart(ctx, {
             type: 'pie',
             data: {
                 labels: Object.keys(expenseData),
@@ -155,7 +166,7 @@ const Budget = () => {
                     </div>
                     <div className="expense-summary">
                         <h3>Expense Summary</h3>
-                        <canvas id="expenseChart"></canvas>
+                        <canvas ref={expenseChartRef} id="expenseChart"></canvas>
                     </div>
                 </section>
                 <section id="goals" className="section">
@@ -186,4 +197,3 @@ const Budget = () => {
 };
 
 export default Budget;
-
