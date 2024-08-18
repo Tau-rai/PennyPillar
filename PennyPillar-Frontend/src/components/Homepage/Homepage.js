@@ -32,7 +32,8 @@ const Homepage = () => {
         <nav className="nav-links">
           <a href="/">Home</a>
               <Link to="/dashboard">Dashboard</Link>
-              <Link to="/cashflow">Cash Flow/Budget</Link>
+              <Link to="/cashflow">Cash Flow</Link>
+              <Link to="/Budget">Budget</Link> 
               <Link to="/recurring">Recurring Payments</Link>
               <Link to="/challenge">Penny Challenge</Link>
               <Link to="/profile">Profile</Link>
