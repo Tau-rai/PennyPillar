@@ -1,0 +1,90 @@
+ .title-section {
+            background: #f1f1f1;
+            padding: 2rem 1rem;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .title-section h2 {
+            font-size: 2.5rem;
+            margin: 0;
+            color: #2e8b57;
+        }
+
+        main {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .slide-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .slides {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            width: 100%;
+        }
+
+        .slide {
+            flex: 0 0 100%; /* Each slide takes full width */
+            box-sizing: border-box;
+            padding: 2rem;
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin: 0;
+            height: 100vh; /* Full viewport height for each slide */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .slide h2 {
+            color: #2e8b57; /* Dark green for headers */
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .slide p {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 1rem;
+            text-align: center;
+            max-width: 80%;
+        }
+
+        .slide ul {
+            font-size: 1.1rem;
+            color: #555;
+            list-style-type: disc;
+            padding-left: 1.5rem;
+            max-width: 80%;
+        }
+
+        .slide ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .controls {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+        }
+
+        .control-button {
+            background: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            border: none;
+            padding: 1rem;
+            cursor: pointer;
+            border-radius: 50%;
+            font-size: 1.5rem;
+        }
