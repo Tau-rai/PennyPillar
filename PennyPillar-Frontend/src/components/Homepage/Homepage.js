@@ -239,7 +239,7 @@ const Homepage = () => {
               <a href="#get-started" className="hero-button">Get Started</a>
             </div>
           </section>
-<section className="infographic-container">
+          <section className="infographic-container">
             <div className="carousel-container">
               <div className="carousel">
                 <div className="carousel-inner" style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
@@ -253,66 +253,31 @@ const Homepage = () => {
                     />
                   ))}
                 </div>
-                <button className="carousel-nav prev" onClick={prevIndex}>‹</button>
-                <button className="carousel-nav next" onClick={nextIndex}>›</button>
+                <button className="carousel-button prev-button" onClick={prevIndex}>❮</button>
+                <button className="carousel-button next-button" onClick={nextIndex}>❯</button>
+              </div>
+            </div>
+            <div className="guide-carousel">
+              <div className="carousel">
+                <div className="carousel-inner" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
+                  {slidesData.map((slide, index) => (
+                    <Slide
+                      key={index}
+                      title={slide.title}
+                      icon={slide.icon}
+                      content={slide.content}
+                    />
+                  ))}
+                </div>
+                <button className="carousel-button prev-button" onClick={prevSlide}>❮</button>
+                <button className="carousel-button next-button" onClick={nextSlide}>❯</button>
               </div>
             </div>
           </section>
-
-          <section className="slide-container">
-            <div className="slides" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
-              {slidesData.map((slide, index) => (
-                <Slide
-                  key={index}
-                  title={slide.title}
-                  icon={slide.icon}
-                  content={slide.content}
-                />
-              ))}
-            </div>
-            <div className="controls">
-              <button className="control-button prev" onClick={prevSlide}>‹</button>
-              <button className="control-button next" onClick={nextSlide}>›</button>
-            </div>
-          </section> 
-
-           
-          
-              {/* Value Proposition Section */}
-              <section className="value-proposition">
-                <div className="container">
-                  <h2 className="section-title">Reasons to Choose PennyPillar For Your Financial Future</h2>
-                  <div className="value-proposition-content">
-                    <div className="value-item">
-                      <div className="icon">
-                        <i className="fas fa-dollar-sign"></i>
-                      </div>
-                      <h3 className="value-heading">For Every Stage of Wealth</h3>
-                      <p className="value-text">Whether you're just starting to manage your finances or looking to optimize your wealth, our app caters to all stages of financial growth...</p>
-                    </div>
-                    <div className="value-item">
-                      <div className="icon">
-                        <i className="fas fa-lock"></i>
-                      </div>
-                      <h3 className="value-heading">Secure and Private</h3>
-                      <p className="value-text">Your financial data is encrypted and secure, ensuring that your privacy is always protected.</p>
-                    </div>
-                    <div className="value-item">
-                      <div className="icon">
-                        <i className="fas fa-sync"></i>
-                      </div>
-                      <h3 className="value-heading">Seamless Integration</h3>
-                      <p className="value-text">Easily connect with your bank accounts and financial services for a unified experience.</p>
-                    </div>
-                  </div>
-                  <a href="#get-started" className="cta-button">Start Your Journey</a>
-                </div>
-              </section>
-          
         </main>
+      </div>
       
-
-      {/* Footer Section */}
+{/* Footer Section */}
       <footer className="footer">
         <div className="footer-container">
           <div className="branding">
