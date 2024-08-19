@@ -1,6 +1,5 @@
-// src/SignUpPage.js
-import React,{ useState } from 'react';
-import { Link , useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from '../TopNav';
 import Footer from '../PillarFooter';
@@ -17,21 +16,26 @@ const SignUpPage = () => {
     const handleRegister = async (e) => {
         e.preventDefault();
         try {
-            const response = await axiosInstance.post('/signup/', { username, email, password, password2 });
+            // Step 1: Register the user
+            await axiosInstance.post('/signup/', { username, email, password, password2 });
 
-            // Store the token if login is successful
-            localStorage.setItem('authToken', response.data.token);
+            // Step 2: Obtain tokens
+            const loginResponse = await axiosInstance.post('/token/', { username, password });
 
-            // Redirect to the login page
-            navigate('/signin');
-            console.log("Registration successful");
+            // Step 3: Store tokens in local storage
+            localStorage.setItem('accessToken', loginResponse.data.access);
+            localStorage.setItem('refreshToken', loginResponse.data.refresh);
+            localStorage.setItem('username', username);
+            localStorage.setItem('email', email);
+            localStorage.setItem('isAuthenticated', 'true');
+
+            // Redirect to a protected route or login page
+            navigate('/dashboard');
+            console.log("Registration and login successful");
         } catch (error) {
             console.error("Registration error", error.response ? error.response.data : error.message);
         }
     };
-    // const toggleNav = () => {
-    //     document.querySelector('.header').classList.toggle('show-nav');
-    // };
 
     return (
         <>
@@ -46,46 +50,46 @@ const SignUpPage = () => {
                         <div className="mb-4">
                             <label htmlFor="username" className="block text-sm font-medium text-gray-700">Username:</label>
                             <input 
-                            type="text" 
-                            className="form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm" 
-                            id="username" 
-                            placeholder="Enter your username" 
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                            required />
+                                type="text" 
+                                className="form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm" 
+                                id="username" 
+                                placeholder="Enter your username" 
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                                required />
                         </div>
                         <div className="mb-4">
                             <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email:</label>
                             <input 
-                            type="email" 
-                            className="form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm" 
-                            id="email" 
-                            placeholder="Enter your email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                             required />
+                                type="email" 
+                                className="form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm" 
+                                id="email" 
+                                placeholder="Enter your email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required />
                         </div>
                         <div className="mb-4">
                             <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password:</label>
                             <input 
-                            type="password" 
-                            className="form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm" 
-                            id="password" 
-                            placeholder="Enter your password" 
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required />
+                                type="password" 
+                                className="form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm" 
+                                id="password" 
+                                placeholder="Enter your password" 
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                required />
                         </div>
                         <div className="mb-4">
                             <label htmlFor="password2" className="block text-sm font-medium text-gray-700">Confirm Password:</label>
                             <input 
-                            type="password" 
-                            className="form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm" 
-                            id="password2" 
-                            placeholder="Confirm your password" 
-                            value={password2}
-                            onChange={(e) => setPassword2(e.target.value)}
-                            required />
+                                type="password" 
+                                className="form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm" 
+                                id="password2" 
+                                placeholder="Confirm your password" 
+                                value={password2}
+                                onChange={(e) => setPassword2(e.target.value)}
+                                required />
                         </div>
                         <button type="submit" className="btn btn-primary w-full py-2 px-4 bg-teal-800 text-white font-semibold rounded-md shadow-sm hover:bg-teal-700">Sign Up</button>
                     </form>

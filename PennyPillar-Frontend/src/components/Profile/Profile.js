@@ -34,7 +34,7 @@ const Profile= () => {
             const response = await axiosInstance.get('/profile/');
             if (response.status === 200) {
                 // Profile exists, update it
-                await axiosInstance.put('profile/', updatedProfile);
+                await axiosInstance.put('/profile/', updatedProfile);
             } else {
                 // Profile doesn't exist, create it
                 await axiosInstance.post('/profile/', updatedProfile);

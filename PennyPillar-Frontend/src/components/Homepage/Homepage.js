@@ -18,6 +18,7 @@ const Homepage = () => {
           <Link to="/recurring">Recurring Payments</Link>
           <Link to="/challenge">Penny Challenge</Link>
           <Link to="/profile">Profile</Link>
+          <Link to="/insights">Insights</Link>
           <Link
             to="/logout"
             onClick={(event) => {
@@ -104,12 +105,6 @@ const Homepage = () => {
             <h3>Quick Links</h3>
             <ul>
               <li><a href="#home">Home</a></li>
-              <li><a href="#dashboard">Dashboard</a></li>
-              <li><a href="#cashflow">Cash Flow/Budget</a></li>
-              <li><a href="#recurring">Recurring Payments</a></li>
-              <li><a href="#challenge">Penny Challenge</a></li>
-              <li><a href="#login">Login</a></li>
-              <li><a href="#signup">Sign Up</a></li>
               <li><a href="#about">About Us</a></li>
               <li><a href="#contact">Contact</a></li>
               <li><a href="#help">Help</a></li>

@@ -14,6 +14,7 @@ import Logout from './components/Logout/Logout';
 import Profile from './components/Profile/Profile';
 import Cashflow from './components/Cashflow/Cashflow';
 import Budget from './components/Budget/Budget';
+import InsightsPage from './components/Insights/Insights';
 
 const App = () => {
     return (
@@ -29,6 +30,7 @@ const App = () => {
                 <Route path="/logout" element={<Logout />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/budget" element={<Budget />} />
+                <Route path="/insights" element={<InsightsPage />} />
                 <Route path="/cashflow" element={<Cashflow />} />
                 <Route path="/login" element={<SignIn />} />
                 <Route path="/signup" element={<SignUp />} />

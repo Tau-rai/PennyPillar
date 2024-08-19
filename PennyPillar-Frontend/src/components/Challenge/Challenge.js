@@ -113,11 +113,11 @@ const Challenge = () => {
                 <div className="challenge-title">Save A Penny Challenge</div>
                 <div className="challenge-description">Track your savings and reach your financial goals with this daily challenge.</div>
             </div>
-            {currentGoal && (
+            {/* {currentGoal && (
                 <div className="goal-info">
                     <p>Goal: R{currentGoal.goal_amount} by {new Date(currentGoal.goal_date).toLocaleDateString()}</p>
                 </div>
-            )}
+            )} */}
 
             <div className="number-grid">
                 {numbers.map((number) => (
@@ -130,12 +130,21 @@ const Challenge = () => {
             <div className="total-amount">
                 Total Saved: R{totalAmount}
             </div>
+            <div>
+                
+                {currentGoal && (
+                    <div className="goal-info">
+                        <p>Goal: R{currentGoal.goal_amount} by {new Date(currentGoal.goal_date).toLocaleDateString()}</p>
+                    </div>
+                )}
+                {currentGoal && (
+                    <div className="goal-info">
+                        <p>Remaining Amount: R{remainingAmount}</p>
+                    </div>
+                )}
+            </div>
+            
 
-            {currentGoal && (
-                <div className="goal-info">
-                    <p>Remaining Amount: R{remainingAmount}</p>
-                </div>
-            )}
 
             {goalReached && (
                 <div className="goal-message">

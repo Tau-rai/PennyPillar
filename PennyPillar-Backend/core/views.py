@@ -12,7 +12,8 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from decimal import Decimal
 from datetime import date
-from .models import Category, MonthlyBudget, Transaction, SavingsGoal, UserProfile, Subscription, Income, Expense, Insight
+from .models import Category, MonthlyBudget, Transaction, SavingsGoal, UserProfile, Subscription, Income, Expense
+from .models import Category, MonthlyBudget, Transaction, SavingsGoal, UserProfile, Subscription, Insight
 from .serializers import (CategorySerializer, LoginSerializer,
                           MonthlyBudgetSerializer, RegisterSerializer,
                           TransactionSerializer, UserProfileSerializer, SavingsGoalSerializer, SubscriptionSerializer, InsightSerializer)
@@ -442,8 +443,17 @@ class UserSummaryViewSet(viewsets.ViewSet):
             'monthly_budget_chart': monthly_budget_chart,
             'savings_goal_chart': savings_goal_chart,
         })
+    
 
 class InsightViewSet(viewsets.ModelViewSet):
     """Insights view."""
     queryset = Insight.objects.all().order_by('-date_posted')
     serializer_class = InsightSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+
+    def list(self, request):
+        """List the insights."""
+        queryset = self.get_queryset()
+        serializer = InsightSerializer(queryset, many=True)
+        return Response(serializer.data)

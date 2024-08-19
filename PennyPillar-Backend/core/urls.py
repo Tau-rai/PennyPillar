@@ -3,7 +3,7 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from django.contrib.auth import views as auth_views
 from .views import (
-    TransactionViewSet, CategoryViewSet, RegisterView, LoginView, UserProfileViewSet, MonthlyBudgetViewSet, SavingsGoalViewSet, SubscriptionViewSet
+    TransactionViewSet, CategoryViewSet, RegisterView, LoginView, UserProfileViewSet, MonthlyBudgetViewSet, SavingsGoalViewSet, SubscriptionViewSet, InsightViewSet
 )
 
 router = DefaultRouter()
@@ -13,6 +13,7 @@ router.register(r'monthly-budget', MonthlyBudgetViewSet, basename='monthlybudget
 router.register(r'profile', UserProfileViewSet, basename='userprofile')
 router.register(r'savings-goal', SavingsGoalViewSet, basename='savingsgoal')
 router.register(r'subscriptions', SubscriptionViewSet)
+router.register(r'insights', InsightViewSet)
 
 
 urlpatterns = [

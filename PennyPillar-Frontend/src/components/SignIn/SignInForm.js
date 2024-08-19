@@ -13,7 +13,7 @@ const SignInPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-          const response = await axiosInstance.post('/token/', { username, password }); // Updated endpoint
+          const response = await axiosInstance.post('/token/', { username, password }); 
           
           // Store both access and refresh tokens
           localStorage.setItem('authToken', response.data.access);
@@ -44,7 +44,7 @@ const SignInPage = () => {
                         <div className="mb-3">
                             <label htmlFor="username" className="form-label">Username:</label>
                             <input
-                                type="text" // Change to text
+                                type="text" 
                                 className="form-control"
                                 id="username"
                                 placeholder="Enter your username"

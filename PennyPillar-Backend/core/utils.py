@@ -14,8 +14,9 @@ def generate_daily_insight():
         max_tokens=150
     )
     # Extract title and content from the response
-    title = response['choices'][0]['text'].split('\n')[0]  # Assuming the first line is the title
+    title = response['choices'][0]['text'].split('\n')[0] # First line is the title
     content = response['choices'][0]['text']
+    print(title)
     return title, content
 
 class Command(BaseCommand):
