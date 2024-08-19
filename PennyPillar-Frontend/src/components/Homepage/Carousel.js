@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import './Carousel.css'; // Ensure you have a corresponding CSS file
+import './Carousel.css'; 
+import './UserGuide.css';
 
 const slidesData = [
     {
