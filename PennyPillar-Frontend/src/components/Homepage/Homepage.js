@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import './Homepage.css'; // Import your CSS file
 
 const Homepage = () => {
+  // Slide component to display each slide with title, icon, and content
   const Slide = ({ title, icon, content }) => (
     <div className="slide">
       <h2><i className={`fas ${icon}`}></i> {title}</h2>
@@ -20,7 +21,26 @@ const Homepage = () => {
     </div>
   );
 
+  const FeatureSlide = ({ title, description, items, imgSrc }) => (
+    <div className="slide">
+      <h2>{title}</h2>
+      <p>{description}</p>
+      <ul>
+        {items.map((item, index) => (
+          <li key={index}>
+            <svg className="check-icon" viewBox="0 0 24 24">
+              <path d="M10 15l-3-3 1.4-1.4L10 12.2l7.6-7.6L19 7l-9 9z" />
+            </svg>
+            {item}
+          </li>
+        ))}
+      </ul>
+      <img src={imgSrc} alt={`${title} Screenshot`} className="feature-screenshot" />
+    </div>
+  );
+
   const slidesData = [
+    // Slide data for the user guide section
     {
       title: 'Getting Started',
       icon: 'fa-play-circle',
@@ -92,10 +112,8 @@ const Homepage = () => {
     }
   ];
 
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  const slides = [
+  const featureSlides = [
+    // Feature slide data
     {
       title: 'Budget Tracking',
       description: 'Set limits, track expenses, and stay on top of your budget',
@@ -138,6 +156,10 @@ const Homepage = () => {
     }
   ];
 
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  // Slide transition effect for user guide
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSlide((prevSlide) => (prevSlide + 1) % slidesData.length);
@@ -145,12 +167,13 @@ const Homepage = () => {
     return () => clearInterval(interval);
   }, [slidesData.length]);
 
+  // Slide transition effect for features
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % slides.length);
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % featureSlides.length);
     }, 3000); // Change slide every 3 seconds
     return () => clearInterval(interval);
-  }, [slides.length]);
+  }, [featureSlides.length]);
 
   const nextSlide = () => {
     setCurrentSlide((prevSlide) => (prevSlide + 1) % slidesData.length);
@@ -161,11 +184,11 @@ const Homepage = () => {
   };
 
   const nextIndex = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % slides.length);
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % featureSlides.length);
   };
 
   const prevIndex = () => {
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + slides.length) % slides.length);
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + featureSlides.length) % featureSlides.length);
   };
 
   return (
@@ -182,19 +205,18 @@ const Homepage = () => {
           <Link to="/challenge">Penny Challenge</Link>
           <Link to="/profile">Profile</Link>
           <Link to="/logout" onClick={() => {
-                fetch('/logout/', {
-                  method: 'POST'
-                })
-                .then(response => {
-                  if (response.ok) {
-                    window.location.href = '/';
-                  }
-                })
-                .catch(error => {
-                  console.error('Logout failed:', error.message);
-                });
-              }}>Logout</Link>
-              
+            fetch('/logout/', {
+              method: 'POST'
+            })
+            .then(response => {
+              if (response.ok) {
+                window.location.href = '/';
+              }
+            })
+            .catch(error => {
+              console.error('Logout failed:', error.message);
+            });
+          }}>Logout</Link>
           <Link to="/login">Login</Link>
           <Link to="/signup">Sign Up</Link>
           <Link to="/about">About Us</Link>
@@ -225,98 +247,125 @@ const Homepage = () => {
                   <h2 className="section-title">Explore the Features That Matter to You</h2>
                   <div className="carousel">
                     <div className="carousel-inner" style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
-                      {slides.map((slide, index) => (
-                        <div key={index} className="carousel-item">
-                          <div className="infographic">
-                            <div className="infographic-header">
-                              <h2 className="feature-title">{slide.title}: {slide.description}</h2>
-                            </div>
-                            <ul className="feature-list">
-                              {slide.items.map((item, idx) => (
-                                <li key={idx}>
-                                  <svg className="check-icon" viewBox="0 0 24 24">
-                                    <path d="M10 15l-3-3 1.4-1.4L10 12.2l7.6-7.6L19 7l-9 9z"></path>
-                                  </svg>
-                                  {item}
-                                </li>
-                              ))}
-                            </ul>
-                            <img src={slide.imgSrc} alt={`${slide.title} Screenshot`} className="feature-screenshot" />
-                          </div>
-                        </div>
+                      {featureSlides.map((slide, index) => (
+                        <FeatureSlide
+                          key={index}
+                          title={slide.title}
+                          description={slide.description}
+                          items={slide.items}
+                          imgSrc={slide.imgSrc}
+                        />
                       ))}
                     </div>
-                    <button className="carousel-nav prev" onClick={prevIndex}>❮</button>
-                    <button className="carousel-nav next" onClick={nextIndex}>❯</button>
+                    <div className="carousel-buttons">
+                      <button className="carousel-prev" onClick={prevIndex}>Prev</button>
+                      <button className="carousel-next" onClick={nextIndex}>Next</button>
+                    </div>
                   </div>
+                </div>
+
+                <h2 className="section-title">How to Get Started</h2>
+                <div className="carousel">
+                  <div className="carousel-inner" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
+                    {slidesData.map((slide, index) => (
+                      <Slide
+                        key={index}
+                        title={slide.title}
+                        icon={slide.icon}
+                        content={slide.content}
+                      />
+                    ))}
+                  </div>
+                  <div className="carousel-buttons">
+                    <button className="carousel-prev" onClick={prevSlide}>Prev</button>
+                    <button className="carousel-next" onClick={nextSlide}>Next</button>
+                  </div>
+                </div>
+              </section>
+
+              {/* Value Proposition Section */}
+              <section className="value-proposition">
+                <div className="container">
+                  <h2 className="section-title">Reasons to Choose PennyPillar For Your Financial Future</h2>
+                  <div className="value-proposition-content">
+                    <div className="value-item">
+                      <div className="icon">
+                        <i className="fas fa-dollar-sign"></i>
+                      </div>
+                      <h3 className="value-heading">For Every Stage of Wealth</h3>
+                      <p className="value-text">Whether you're just starting to manage your finances or looking to optimize your wealth, our app caters to all stages of financial growth...</p>
+                    </div>
+                    <div className="value-item">
+                      <div className="icon">
+                        <i className="fas fa-lock"></i>
+                      </div>
+                      <h3 className="value-heading">Secure and Private</h3>
+                      <p className="value-text">Your financial data is encrypted and secure, ensuring that your privacy is always protected.</p>
+                    </div>
+                    <div className="value-item">
+                      <div className="icon">
+                        <i className="fas fa-sync"></i>
+                      </div>
+                      <h3 className="value-heading">Seamless Integration</h3>
+                      <p className="value-text">Easily connect with your bank accounts and financial services for a unified experience.</p>
+                    </div>
+                  </div>
+                  <a href="#get-started" className="cta-button">Start Your Journey</a>
                 </div>
               </section>
             </div>
           </section>
-
-          <section className="user-guide">
-            <header className="guide-header">
-              <h1>User Guide</h1>
-            </header>
-            <div className="title-section">
-              <h2>First Time Here? Discover How to Navigate with Ease!</h2>
-            </div>
-            <main>
-              <div className="slide-container">
-                <div className="slides" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
-                  {slidesData.map((slide, index) => (
-                    <Slide key={index} title={slide.title} icon={slide.icon} content={slide.content} />
-                  ))}
-                </div>
-                <div className="controls">
-                  <button className="control-button" onClick={prevSlide}>
-                    <i className="fas fa-chevron-left"></i>
-                  </button>
-                  <button className="control-button" onClick={nextSlide}>
-                    <i className="fas fa-chevron-right"></i>
-                  </button>
-                </div>
-              </div>
-            </main>
-          </section>
-
-          <section className="value-proposition">
-            <div className="container">
-              <h2 className="section-title">Reasons to Choose PennyPillar</h2>
-              <div className="value-proposition-content">
-                <div className="value-item">
-                  <img src="/images/value1.jpg" alt="Feature 1" />
-                  <h3>Easy Budget Management</h3>
-                  <p>Track your spending and set budgets effortlessly.</p>
-                </div>
-                <div className="value-item">
-                  <img src="/images/value2.jpg" alt="Feature 2" />
-                  <h3>Comprehensive Reports</h3>
-                  <p>Get detailed reports and insights on your finances.</p>
-                </div>
-                <div className="value-item">
-                  <img src="/images/value3.jpg" alt="Feature 3" />
-                  <h3>Seamless Integration</h3>
-                  <p>Connect with your bank accounts and sync your data.</p>
-                </div>
-              </div>
-              <a href="#get-started" className="cta-button">Start Your Journey</a>
-            </div>
-          </section>
         </main>
-
-        <footer className="footer">
-          <div className="footer-container">
-            <div className="footer-links">
-              <Link to="/about">About Us</Link>
-              <Link to="/contact">Contact</Link>
-              <Link to="/privacy">Privacy Policy</Link>
-              <Link to="/terms">Terms of Service</Link>
-            </div>
-          </div>
-          <p className="footer-bottom-text">&copy; 2024 PennyPillar. All rights reserved.</p>
-        </footer>
       </div>
+
+      {/* Footer Section */}
+      <footer className="footer">
+        <div className="footer-container">
+          <div className="branding">
+            <img src="/images/logo.jpg" alt="App Name Logo" className="footer-logo" />
+            <p className="tagline">Building Wealth, One Step at a Time</p>
+          </div>
+          <div className="footer-nav">
+            <h3>Quick Links</h3>
+            <ul>
+              <li><a href="#home">Home</a></li>
+              <li><a href="#dashboard">Dashboard</a></li>
+              <li><a href="#cashflow">Cash Flow/Budget</a></li>
+              <li><a href="#recurring">Recurring Payments</a></li>
+              <li><a href="#challenge">Penny Challenge</a></li>
+              <li><a href="#login">Login</a></li>
+              <li><a href="#signup">Sign Up</a></li>
+              <li><a href="#about">About Us</a></li>
+              <li><a href="#contact">Contact</a></li>
+              <li><a href="#help">Help</a></li>
+            </ul>
+          </div>
+          <div className="footer-products">
+            <h3>Our Products</h3>
+            <ul>
+              <li><a href="#dashboard">Dashboard</a></li>
+              <li><a href="#cashflow">Cash Flow/Budget</a></li>
+              <li><a href="#recurring">Recurring Payments</a></li>
+              <li><a href="#challenge">Penny Challenge</a></li>
+            </ul>
+          </div>
+          <div className="footer-legal">
+            <h3>Legal</h3>
+            <ul>
+              <li><a href="#privacy-policy">Privacy Policy</a></li>
+              <li><a href="#terms-of-service">Terms of Service</a></li>
+            </ul>
+          </div>
+          <div className="footer-contact">
+            <h3>Contact Us</h3>
+            <ul>
+              <li>Email: <a href="mailto:support@pennypillar.com">support@pennypillar.com</a></li>
+              <li>Phone: <a href="tel:+1234567890">+1 (234) 567-890</a></li>
+            </ul>
+          </div>
+        </div>
+        <p className="footer-bottom-text">&copy; 2024 PennyPillar. All rights reserved.</p>
+      </footer>
     </div>
   );
 };
