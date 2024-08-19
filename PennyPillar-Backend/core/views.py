@@ -2,6 +2,7 @@
 from datetime import datetime
 from django.contrib.auth.models import User
 from django.utils import timezone
+from django.db.models import Sum
 from django.shortcuts import get_object_or_404
 from rest_framework import generics, viewsets, permissions, status
 from rest_framework_simplejwt.authentication import JWTAuthentication
@@ -10,7 +11,8 @@ from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from decimal import Decimal
-from .models import Category, MonthlyBudget, Transaction, SavingsGoal, UserProfile, Subscription
+from datetime import date
+from .models import Category, MonthlyBudget, Transaction, SavingsGoal, UserProfile, Subscription, Income, Expense
 from .serializers import (CategorySerializer, LoginSerializer,
                           MonthlyBudgetSerializer, RegisterSerializer,
                           TransactionSerializer, UserProfileSerializer, SavingsGoalSerializer, SubscriptionSerializer)
@@ -294,13 +296,16 @@ class SavingsGoalViewSet(viewsets.ModelViewSet):
 
 class SubscriptionViewSet(viewsets.ModelViewSet):
     """Subscription view."""
-    queryset = Subscription.objects.all()
+    queryset = Subscription.objects.none()
     serializer_class = SubscriptionSerializer
     permission_classes = [permissions.IsAuthenticated]
     authentication_classes = [JWTAuthentication]
 
     def get_queryset(self):
         """Filter subscriptions by the current user and optionally by month and year."""
+        user = self.request.user
+        if not user.is_authenticated:
+            return Subscription.objects.none()
         queryset = Subscription.objects.filter(user=self.request.user)
 
         # Get the month and year from query parameters
@@ -338,3 +343,105 @@ class SubscriptionViewSet(viewsets.ModelViewSet):
 
         status = "paid" if subscription.is_paid else "unpaid"
         return Response({"status": f"Subscription marked as {status}"})
+
+
+class UserSummaryViewSet(viewsets.ViewSet):
+    """
+    A viewset that provides a summary of user data for charts.
+    """
+
+    def list(self, request):
+        """
+        Provides an overview of the user's financial data for chart rendering.
+        """
+        user = request.user
+    
+        # Get user profile data
+        user_profile = UserProfile.objects.get(user=user)
+        profile_data = UserProfileSerializer(user_profile).data
+    
+        # Calculate total income
+        total_income = Income.objects.filter(user=user).aggregate(Sum('amount'))['amount__sum'] or 0
+    
+        # Calculate total expenses
+        total_expenses = Expense.objects.filter(user=user).aggregate(Sum('amount'))['amount__sum'] or 0
+    
+        # Calculate budget data
+        current_month = date.today().replace(day=1)  # Get the first day of the current month
+        monthly_budget = MonthlyBudget.objects.filter(user=user, month=current_month).first()
+        if monthly_budget:
+            budget_data = {
+                'budget_amount': monthly_budget.budget_amount,
+                'expenditure': monthly_budget.get_expenditure(),
+                'remaining_budget': monthly_budget.get_remaining_budget(),
+                'is_over_budget': monthly_budget.is_over_budget()
+            }
+        else:
+            budget_data = {
+                'budget_amount': 0,
+                'expenditure': 0,
+                'remaining_budget': 0,
+                'is_over_budget': False
+            }
+    
+        # Get savings goal data
+        savings_goal = SavingsGoal.objects.filter(user=user).first()
+        savings_goal_data = SavingsGoalSerializer(savings_goal).data if savings_goal else {}
+    
+        # Get subscription data
+        subscriptions = Subscription.objects.filter(user=user)
+        subscription_data = SubscriptionSerializer(subscriptions, many=True).data
+    
+        # Construct the response data
+        summary_data = {
+            'profile': profile_data,
+            'total_income': total_income,
+            'total_expenses': total_expenses,
+            'budget': budget_data,
+            'savings_goal': savings_goal_data,
+            'subscriptions': subscription_data
+        }
+    
+        return Response(summary_data)
+
+    @action(detail=False, methods=['get'])
+    def chart_data(self, request):
+        """
+        Provides data formatted specifically for charts.
+        This can be extended or adjusted based on the charts you need.
+        """
+        user = request.user
+
+        # Example data structure for charts:
+        income_expense_chart = {
+            'labels': ['Income', 'Expenses'],
+            'data': [
+                Income.objects.filter(user=user).aggregate(Sum('amount'))['amount__sum'] or 0,
+                Expense.objects.filter(user=user).aggregate(Sum('amount'))['amount__sum'] or 0
+            ]
+        }
+        current_month = date.today().replace(day=1)
+        monthly_budget = MonthlyBudget.objects.filter(user=user, month=current_month).first()
+        monthly_budget_chart = {
+            'labels': ['Budget', 'Expenditure', 'Remaining'],
+            'data': [
+                monthly_budget.budget_amount if monthly_budget else 0,
+                monthly_budget.get_expenditure() if monthly_budget else 0,
+                monthly_budget.get_remaining_budget() if monthly_budget else 0
+            ]
+        }
+
+        savings_goal = SavingsGoal.objects.filter(user=user).first()
+        savings_goal_chart = {
+            'labels': ['Goal', 'Current Savings'],
+            'data': [
+                savings_goal.goal_amount if savings_goal else 0,
+                savings_goal.current_savings if savings_goal else 0
+            ]
+        }
+
+        return Response({
+            'income_expense_chart': income_expense_chart,
+            'monthly_budget_chart': monthly_budget_chart,
+            'savings_goal_chart': savings_goal_chart,
+        })

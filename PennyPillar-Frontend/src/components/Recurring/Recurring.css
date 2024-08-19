@@ -231,7 +231,7 @@
             background: rgba(0,0,0,0.5);
             z-index: 999;
         }
-        media (max-width: 480px) {
+        @media (max-width: 480px) {
             .calendar-header {
                 font-size: 1rem;
             }
@@ -263,8 +263,9 @@
 /* Add Subscription Button Styles */
 .add-subscription-container {
     display: flex;
-    justify-content: center;
-    margin-top: 20px;
+    justify-content: space-between;
+    margin-top: 20px 10px;
+    width: 100%;
 }
 
 #add-subscription-btn {
@@ -283,7 +284,7 @@
 }
 
 /* Responsive Styles */
-@media (max-width: 480px) {
+@media (max-width: 580px) {
     #add-subscription-btn {
         font-size: 0.8rem;
         padding: 6px 12px;

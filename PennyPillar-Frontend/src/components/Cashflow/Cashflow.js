@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axiosInstance from '../../axiosConfig'; // Import the custom axios instance
 import { Pie } from 'react-chartjs-2';
-import './transactions.css'; // Import the CSS file for styling
+import './Cashflow.css'; // Import the CSS file for styling
 import { FaPencilAlt, FaTrashAlt } from 'react-icons/fa'; // Import icons
 
 const Cashflow= () => {

@@ -147,6 +147,7 @@ const Recurring = () => {
                 {showForm && (
                     <div className="add-subscription-container">
                         <form onSubmit={handleFormSubmit}>
+                            <label><strong>Subscription Name : </strong>
                             <input
                                 type="text"
                                 name="name"
@@ -155,6 +156,8 @@ const Recurring = () => {
                                 onChange={handleFormChange}
                                 required
                             />
+                            </label>
+                            <label><strong>Amount : </strong>
                             <input
                                 type="number"
                                 name="amount"
@@ -163,6 +166,8 @@ const Recurring = () => {
                                 onChange={handleFormChange}
                                 required
                             />
+                            </label>
+                            <label><strong>Frequency : </strong>
                             <select
                                 name="frequency"
                                 value={formData.frequency}
@@ -173,21 +178,32 @@ const Recurring = () => {
                                 <option value="weekly">Weekly</option>
                                 <option value="yearly">Yearly</option>
                             </select>
-                            <input
-                                type="text"
+                            </label>
+                                <label><strong>Payment Method : </strong> 
+                            <select
                                 name="payment_method"
                                 placeholder="Payment Method"
                                 value={formData.payment_method}
                                 onChange={handleFormChange}
                                 required
-                            />
+                                >
+                                <option value="credit_card">Credit Card</option>
+                                <option value="debit_card">Debit Card</option>
+                                <option value="paypal">PayPal</option>
+                                <option value="bank_transfer">Bank Transfer</option>
+                                <option value="cash">Cash</option>
+                                </select>
+                                </label>
+                            <label><strong>Due Date : </strong>
                             <input
-                                type="text"
-                                name="icon"
-                                placeholder="Icon URL (optional)"
-                                value={formData.icon}
+                                type="date"
+                                name="due_date"
+                                value={formData.due_date}
                                 onChange={handleFormChange}
+                                required
                             />
+                            </label>
+                            
                             <button type="submit">Add Subscription</button>
                         </form>
                     </div>
