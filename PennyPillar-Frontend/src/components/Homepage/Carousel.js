@@ -53,15 +53,40 @@ const featuresData = [
     }
 ];
 
+
+
+
+
+
+const featuresData = [
+    // Your featuresData array here
+];
+
 const Carousel = () => {
     const [currentSlide, setCurrentSlide] = useState(0);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            handleNextSlide();
+        }, 3000); // Change slide every 3 seconds
+
+        return () => clearInterval(interval);
+    }, [currentSlide]);
 
     const handlePrevSlide = () => {
         if (currentSlide > 0) setCurrentSlide(currentSlide - 1);
     };
 
     const handleNextSlide = () => {
-        if (currentSlide < featuresData.length - 1) setCurrentSlide(currentSlide + 1);
+        if (currentSlide < featuresData.length - 1) {
+            setCurrentSlide(currentSlide + 1);
+        } else {
+            setCurrentSlide(0); // Loop back to the first slide
+        }
+    };
+
+    const goToSlide = (index) => {
+        setCurrentSlide(index);
     };
 
     return (
@@ -93,9 +118,20 @@ const Carousel = () => {
                         <i className="fas fa-chevron-right"></i>
                     </button>
                 </div>
+                <div className="carousel-dots">
+                    {featuresData.map((_, index) => (
+                        <div
+                            key={index}
+                            className={`dot ${currentSlide === index ? 'active' : ''}`}
+                            onClick={() => goToSlide(index)}
+                        ></div>
+                    ))}
+                </div>
             </div>
         </div>
     );
 };
 
 export default Carousel;
+
+  
