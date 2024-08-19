@@ -1,12 +1,13 @@
 """Module for serializing the models of the core app."""
 from rest_framework import serializers
-from .models import ( Transaction, Category, User, MonthlyBudget, SavingsGoal, Subscription, UserProfile )
+from .models import ( Transaction, Category, User, MonthlyBudget, SavingsGoal, Subscription, UserProfile, Insight )
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from PIL import Image
 from rest_framework_simplejwt.tokens import RefreshToken
 from datetime import datetime
 from decimal import Decimal
+from utils import generate_daily_insight
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -65,7 +66,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserProfile
-        fields = ['first_name', 'last_name', 'image']
+        fields = ['id', 'first_name', 'last_name', 'image']
         extra_kwargs = {
             'first_name': {'required': False},
             'last_name': {'required': False},
@@ -168,4 +169,4 @@ class InsightSerializer(serializers.ModelSerializer):
     """Insights serializer."""
     class Meta:
         model = Insight
-        fields = '__all__'
+        fields = generate_daily_insight()
