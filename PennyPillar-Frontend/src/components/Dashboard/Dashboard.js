@@ -1,4 +1,3 @@
-// Dashboard Component
 import React, { useEffect, useRef, useState } from 'react';
 import { Chart, registerables } from 'chart.js';
 import './Dashboard.css';
@@ -17,24 +16,24 @@ const Dashboard = () => {
 
     const [transactions, setTransactions] = useState([]);
     const [categories, setCategories] = useState([]);
-    
+
     useEffect(() => {
         const fetchTransactions = async () => {
-        try {
-            const response = await axiosInstance.get('/transactions/');
-            setTransactions(response.data);
-        } catch (error) {
-            console.error('Error fetching transactions:', error);
-        }
+            try {
+                const response = await axiosInstance.get('/transactions/');
+                setTransactions(response.data);
+            } catch (error) {
+                console.error('Error fetching transactions:', error);
+            }
         };
 
         const fetchCategories = async () => {
-        try {
-            const response = await axiosInstance.get('/categories/');
-            setCategories(response.data);
-        } catch (error) {
-            console.error('Error fetching categories:', error);
-        }
+            try {
+                const response = await axiosInstance.get('/categories/');
+                setCategories(response.data);
+            } catch (error) {
+                console.error('Error fetching categories:', error);
+            }
         };
 
         fetchTransactions();
@@ -44,24 +43,22 @@ const Dashboard = () => {
     const getCategoryName = (id) => {
         const category = categories.find(cat => cat.id === id);
         return category ? category.name : 'Unknown';
-      };
-    
-      // Calculate totals
-      const incomeTransactions = transactions.filter(t => getCategoryName(t.category) === 'Income');
-      const expenseTransactions = transactions.filter(t => getCategoryName(t.category) === 'Expenses');
-      const savingsTransactions = transactions.filter(t => getCategoryName(t.category) === 'Savings');
-      const totalIncome = incomeTransactions.reduce((sum, t) => sum + parseFloat(t.amount), 0);
-      const totalExpenses = expenseTransactions.reduce((sum, t) => sum + Math.abs(parseFloat(t.amount)), 0);
-      const totalSavings = savingsTransactions.reduce((sum, t) => sum + parseFloat(t.amount), 0);
-    //   const netIncome = totalIncome + totalSavings - totalExpenses;
-    
-      // Pie chart data and options
-      const pieChartData = [
+    };
+
+    // Calculate totals
+    const incomeTransactions = transactions.filter(t => getCategoryName(t.category) === 'Income');
+    const expenseTransactions = transactions.filter(t => getCategoryName(t.category) === 'Expenses');
+    const savingsTransactions = transactions.filter(t => getCategoryName(t.category) === 'Savings');
+    const totalIncome = incomeTransactions.reduce((sum, t) => sum + parseFloat(t.amount), 0);
+    const totalExpenses = expenseTransactions.reduce((sum, t) => sum + Math.abs(parseFloat(t.amount)), 0);
+    const totalSavings = savingsTransactions.reduce((sum, t) => sum + parseFloat(t.amount), 0);
+
+    // Pie chart data and options
+    const pieChartData = [
         { label: 'Income', value: totalIncome },
         { label: 'Expenses', value: totalExpenses },
         { label: 'Savings', value: totalSavings }
-      ];
-    
+    ];
 
     useEffect(() => {
         renderCalendar();
@@ -214,15 +211,14 @@ const Dashboard = () => {
             });
         }
 
-        // Initialize Recurring Payments Chart
+        // Initialize Net Income Chart
         if (netIncomeRef.current) {
             netIncomeRef.current.chartInstance = new Chart(netIncomeRef.current, {
                 type: 'pie',
                 data: {
-                        labels: pieChartData.map(data => data.label),
-                        label : 'Net Income',
-                        datasets: [{
-                          data: pieChartData.map(data => data.value),                
+                    labels: pieChartData.map(data => data.label),
+                    datasets: [{
+                        data: pieChartData.map(data => data.value),
                         backgroundColor: [
                             'rgba(255, 99, 132, 0.2)',
                             'rgba(255, 206, 86, 0.2)',
@@ -316,7 +312,7 @@ const Dashboard = () => {
     };
 
     return (
-        <div className="dashboard-container">
+        <>
             <div className="calendar-container">
                 <div className="calendar-header">
                     <button onClick={() => changeMonth(-1)}>Prev</button>
@@ -359,9 +355,8 @@ const Dashboard = () => {
                     </div>
                 </div>
             </div>
-	    <MainFooter />
-        </div>
-	    
+            <MainFooter />
+        </>
     );
 };
 
