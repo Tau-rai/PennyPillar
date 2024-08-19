@@ -737,7 +737,7 @@
             border: 1px solid #ddd;
             border-radius: 8px;
             margin: 0;
-            height: 100vh; /* Full viewport height for each slide */
+            height: 400px; 
             display: flex;
             flex-direction: column;
             justify-content: center;
