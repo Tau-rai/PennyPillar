@@ -194,7 +194,7 @@ const Homepage = () => {
                   console.error('Logout failed:', error.message);
                 });
               }}>Logout</Link>
-              <Link 
+              
           <Link to="/login">Login</Link>
           <Link to="/signup">Sign Up</Link>
           <Link to="/about">About Us</Link>
