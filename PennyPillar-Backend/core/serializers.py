@@ -1,6 +1,6 @@
 """Module for serializing the models of the core app."""
 from rest_framework import serializers
-from .models import ( Transaction, Category, User, MonthlyBudget, SavingsGoal, Subscription, UserProfile )
+from .models import ( Transaction, Category, User, MonthlyBudget, SavingsGoal, Subscription, UserProfile, Insight)
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from PIL import Image

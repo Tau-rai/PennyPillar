@@ -11,15 +11,11 @@ from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from decimal import Decimal
-<<<<<<< HEAD
 from datetime import date
-from .models import Category, MonthlyBudget, Transaction, SavingsGoal, UserProfile, Subscription, Income, Expense
-=======
-from .models import Category, MonthlyBudget, Transaction, SavingsGoal, UserProfile, Subscription, Insight
->>>>>>> 3552e31570af0a011b1298e4da697e564a3c3a8f
+from .models import Category, MonthlyBudget, Transaction, SavingsGoal, UserProfile, Subscription, Income, Expense, Insight
 from .serializers import (CategorySerializer, LoginSerializer,
                           MonthlyBudgetSerializer, RegisterSerializer,
-                          TransactionSerializer, UserProfileSerializer, SavingsGoalSerializer, SubscriptionSerializer, Insights Serializer)
+                          TransactionSerializer, UserProfileSerializer, SavingsGoalSerializer, SubscriptionSerializer, InsightSerializer)
 
 
 class UserProfileViewSet(viewsets.ModelViewSet):
@@ -190,7 +186,6 @@ class SavingsGoalViewSet(viewsets.ModelViewSet):
         return SavingsGoal.objects.none()
 
     def perform_create(self, serializer):
-        """Create or update the savings goal."""
         user = self.request.user
         goal_amount = serializer.validated_data['goal_amount']
         goal_date = serializer.validated_data['goal_date']
@@ -201,7 +196,6 @@ class SavingsGoalViewSet(viewsets.ModelViewSet):
             # Update the existing goal
             savings_goal.goal_amount = goal_amount
             savings_goal.goal_date = goal_date
-            savings_goal.remaining_amount = goal_amount - savings_goal.current_savings
             savings_goal.save()
         except SavingsGoal.DoesNotExist:
             # Create a new SavingsGoal if it doesn't exist
@@ -209,7 +203,6 @@ class SavingsGoalViewSet(viewsets.ModelViewSet):
                 user=user,
                 goal_amount=goal_amount,
                 goal_date=goal_date,
-                remaining_amount=goal_amount  # Assuming no savings initially
             )
 
         # Return the saved goal instance through the serializer
@@ -349,7 +342,6 @@ class SubscriptionViewSet(viewsets.ModelViewSet):
         return Response({"status": f"Subscription marked as {status}"})
 
 
-<<<<<<< HEAD
 class UserSummaryViewSet(viewsets.ViewSet):
     """
     A viewset that provides a summary of user data for charts.
@@ -450,9 +442,8 @@ class UserSummaryViewSet(viewsets.ViewSet):
             'monthly_budget_chart': monthly_budget_chart,
             'savings_goal_chart': savings_goal_chart,
         })
-=======
+
 class InsightViewSet(viewsets.ModelViewSet):
     """Insights view."""
     queryset = Insight.objects.all().order_by('-date_posted')
     serializer_class = InsightSerializer
->>>>>>> 3552e31570af0a011b1298e4da697e564a3c3a8f
