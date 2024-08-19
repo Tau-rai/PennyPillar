@@ -171,3 +171,14 @@ class Subscription(models.Model):
         elif self.frequency == 'yearly':
             return self.due_date + timezone.timedelta(days=365)
         return self.due_date  # Default to current due date
+
+
+class Insight(models.Model):
+    """Insights model."""
+    title = models.CharField(max_length=200)
+    content = models.TextField()
+    date_posted = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+

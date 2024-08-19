@@ -162,3 +162,10 @@ class SubscriptionSerializer(serializers.ModelSerializer):
         model = Subscription
         fields = ['id', 'name', 'amount', 'frequency', 'payment_method', 'due_date', 'is_paid']
         read_only_fields = ['id', 'user']
+
+
+class InsightSerializer(serializers.ModelSerializer):
+    """Insights serializer."""
+    class Meta:
+        model = Insight
+        fields = '__all__'

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './Budget.css';
 import { Chart, registerables } from 'chart.js';
+import MainFooter from '../ComponentFooter';
 
 Chart.register(...registerables);
 
@@ -119,7 +120,6 @@ const Budget = () => {
     };
 
     const calculateGoalProgress = () => {
-        // Simple example to calculate progress. Update with your logic.
         if (goals.length === 0) return 0;
         const total = goals.reduce((sum, goal) => sum + goal.target, 0);
         const progress = goals.reduce((sum, goal) => sum + (goal.target * 0.5), 0); // Example: 50% completion
@@ -127,72 +127,64 @@ const Budget = () => {
     };
 
     return (
-        <div className="budget-container">
-            <header className="header">
-                <div className="logo">Financial Dashboard</div>
-                <div className="hamburger" onClick={() => document.querySelector('.header').classList.toggle('show-nav')}>
-                    &#9776;
-                </div>
-                <nav className="nav-links">
-                    <a href="#calendar">Calendar</a>
-                    <a href="#expenses">Expenses</a>
-                    <a href="#goals">Goals</a>
-                </nav>
-            </header>
-            <main>
-                <section id="calendar" className="section">
-                    <h2>Monthly Calendar</h2>
-                    <div className="calendar-container">
-                        <div className="calendar-header">
-                            <button onClick={() => changeMonth(-1)}>&#8249;</button>
-                            <span id="calendar-month">{`${new Date(year, month).toLocaleString('default', { month: 'long' })} ${year}`}</span>
-                            <button onClick={() => changeMonth(1)}>&#8250;</button>
+        <>
+            <div className="budget-container">
+                <main>
+                    <section id="calendar" className="section">
+                        <h2>Monthly Calendar</h2>
+                        <div className="calendar-container">
+                            <div className="calendar-header">
+                                <button onClick={() => changeMonth(-1)}>&#8249;</button>
+                                <span id="calendar-month">{`${new Date(year, month).toLocaleString('default', { month: 'long' })} ${year}`}</span>
+                                <button onClick={() => changeMonth(1)}>&#8250;</button>
+                            </div>
+                            <div className="calendar-days" id="calendar-days"></div>
                         </div>
-                        <div className="calendar-days" id="calendar-days"></div>
-                    </div>
-                </section>
-                <section id="expenses" className="section">
-                    <h2>Expense Tracker</h2>
-                    <div className="input-group">
-                        <label htmlFor="expense-name">Expense Name:</label>
-                        <input type="text" id="expense-name" placeholder="Enter expense name" />
-                    </div>
-                    <div className="input-group">
-                        <label htmlFor="expense-amount">Amount:</label>
-                        <input type="number" id="expense-amount" placeholder="Enter amount" />
-                    </div>
-                    <div className="input-group">
-                        <button onClick={addExpense}>Add Expense</button>
-                    </div>
-                    <div className="expense-summary">
-                        <h3>Expense Summary</h3>
-                        <canvas ref={expenseChartRef} id="expenseChart"></canvas>
-                    </div>
-                </section>
-                <section id="goals" className="section">
-                    <h2>Financial Goals</h2>
-                    <div className="input-group">
-                        <label htmlFor="goal-name">Goal Name:</label>
-                        <input type="text" id="goal-name" placeholder="Enter goal name" />
-                    </div>
-                    <div className="input-group">
-                        <label htmlFor="goal-target">Target Amount:</label>
-                        <input type="number" id="goal-target" placeholder="Enter target amount" />
-                    </div>
-                    <div className="input-group">
-                        <button onClick={addGoal}>Add Goal</button>
-                    </div>
-                    <div className="goal-summary">
-                        <h3>Goal Progress</h3>
-                        <div className="goal-progress">
-                            <div className="goal-progress-bar" style={{ width: `${goalProgress}%` }}>
-                                {goalProgress}%
+                    </section>
+                    <section id="expenses" className="section">
+                        <h2>Expense Tracker</h2>
+                        <div className="input-group">
+                            <label htmlFor="expense-name">Expense Name:</label>
+                            <input type="text" id="expense-name" placeholder="Enter expense name" />
+                        </div>
+                        <div className="input-group">
+                            <label htmlFor="expense-amount">Amount:</label>
+                            <input type="number" id="expense-amount" placeholder="Enter amount" />
+                        </div>
+                        <div className="input-group">
+                            <button onClick={addExpense}>Add Expense</button>
+                        </div>
+                        <div className="expense-summary">
+                            <h3>Expense Summary</h3>
+                            <canvas ref={expenseChartRef} id="expenseChart"></canvas>
+                        </div>
+                    </section>
+                    <section id="goals" className="section">
+                        <h2>Financial Goals</h2>
+                        <div className="input-group">
+                            <label htmlFor="goal-name">Goal Name:</label>
+                            <input type="text" id="goal-name" placeholder="Enter goal name" />
+                        </div>
+                        <div className="input-group">
+                            <label htmlFor="goal-target">Target Amount:</label>
+                            <input type="number" id="goal-target" placeholder="Enter target amount" />
+                        </div>
+                        <div className="input-group">
+                            <button onClick={addGoal}>Add Goal</button>
+                        </div>
+                        <div className="goal-summary">
+                            <h3>Goal Progress</h3>
+                            <div className="goal-progress">
+                                <div className="goal-progress-bar" style={{ width: `${goalProgress}%` }}>
+                                    {goalProgress}%
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </section>
-            </main>
-        </div>
+                    </section>
+                </main>
+            </div>
+            <MainFooter />
+        </>
     );
 };
 

@@ -11,11 +11,15 @@ from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from decimal import Decimal
+<<<<<<< HEAD
 from datetime import date
 from .models import Category, MonthlyBudget, Transaction, SavingsGoal, UserProfile, Subscription, Income, Expense
+=======
+from .models import Category, MonthlyBudget, Transaction, SavingsGoal, UserProfile, Subscription, Insight
+>>>>>>> 3552e31570af0a011b1298e4da697e564a3c3a8f
 from .serializers import (CategorySerializer, LoginSerializer,
                           MonthlyBudgetSerializer, RegisterSerializer,
-                          TransactionSerializer, UserProfileSerializer, SavingsGoalSerializer, SubscriptionSerializer)
+                          TransactionSerializer, UserProfileSerializer, SavingsGoalSerializer, SubscriptionSerializer, Insights Serializer)
 
 
 class UserProfileViewSet(viewsets.ModelViewSet):
@@ -345,6 +349,7 @@ class SubscriptionViewSet(viewsets.ModelViewSet):
         return Response({"status": f"Subscription marked as {status}"})
 
 
+<<<<<<< HEAD
 class UserSummaryViewSet(viewsets.ViewSet):
     """
     A viewset that provides a summary of user data for charts.
@@ -445,3 +450,9 @@ class UserSummaryViewSet(viewsets.ViewSet):
             'monthly_budget_chart': monthly_budget_chart,
             'savings_goal_chart': savings_goal_chart,
         })
+=======
+class InsightViewSet(viewsets.ModelViewSet):
+    """Insights view."""
+    queryset = Insight.objects.all().order_by('-date_posted')
+    serializer_class = InsightSerializer
+>>>>>>> 3552e31570af0a011b1298e4da697e564a3c3a8f
