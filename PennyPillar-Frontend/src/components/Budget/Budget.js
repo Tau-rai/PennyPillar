@@ -128,17 +128,6 @@ const Budget = () => {
 
     return (
         <div className="budget-container">
-            <header className="header">
-                <div className="logo">Financial Dashboard</div>
-                <div className="hamburger" onClick={() => document.querySelector('.header').classList.toggle('show-nav')}>
-                    &#9776;
-                </div>
-                <nav className="nav-links">
-                    <a href="#calendar">Calendar</a>
-                    <a href="#expenses">Expenses</a>
-                    <a href="#goals">Goals</a>
-                </nav>
-            </header>
             <main>
                 <section id="calendar" className="section">
                     <h2>Monthly Calendar</h2>
