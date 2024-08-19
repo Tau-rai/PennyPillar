@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import './Recurring.css';
-import '../../Budget/Budget.css';
+import '../../components/Dashboard/Dashboard.css';
 import axiosInstance from '../../axiosConfig';
 
 const Recurring = () => {
