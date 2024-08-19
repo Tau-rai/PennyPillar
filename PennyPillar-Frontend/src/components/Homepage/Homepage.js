@@ -309,7 +309,6 @@ const Homepage = () => {
                 </div>
               </section>
             </div>
-          </section>
         </main>
       </div>
 
