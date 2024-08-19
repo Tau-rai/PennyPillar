@@ -57,11 +57,6 @@ const featuresData = [
 
 
 
-
-const featuresData = [
-    // Your featuresData array here
-];
-
 const Carousel = () => {
     const [currentSlide, setCurrentSlide] = useState(0);
 
