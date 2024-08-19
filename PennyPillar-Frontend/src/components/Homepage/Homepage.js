@@ -3,42 +3,12 @@ import { Link } from 'react-router-dom';
 import './Homepage.css'; 
 import Carousel from './Carousel'; 
 import UserGuide from './UserGuide';
+import Header from '../Header';
 
 const Homepage = () => {
   return (
     <div>
-      <header className="header">
-        <div className="logo">PennyPillar</div>
-        <div className="hamburger" onClick={() => document.querySelector('.nav-links').classList.toggle('nav-open')}>☰</div>
-        <nav className="nav-links">
-          <a href="/">Home</a>
-          <Link to="/dashboard">Dashboard</Link>
-          <Link to="/cashflow">Cash Flow</Link>
-          <Link to="/budget">Budget</Link>
-          <Link to="/recurring">Recurring Payments</Link>
-          <Link to="/challenge">Penny Challenge</Link>
-          <Link to="/profile">Profile</Link>
-          <Link to="/insights">Insights</Link>
-          <Link
-            to="/logout"
-            onClick={(event) => {
-              event.preventDefault();
-              fetch('/logout/', { method: 'POST' })
-                .then(response => {
-                  if (response.ok) window.location.href = '/';
-                })
-                .catch(error => console.error('Logout failed:', error.message));
-            }}
-          >
-            Logout
-          </Link>
-          <Link to="/login">Login</Link>
-          <Link to="/signup">Sign Up</Link>
-          <Link to="/about">About Us</Link>
-          <Link to="/help">Help</Link>
-          <Link to="/contact">Contact</Link>
-        </nav>
-      </header>
+      <Header /> 
       
       <div className="main-content">
         <main>
@@ -51,7 +21,7 @@ const Homepage = () => {
               <h2 className="hero-heading">Unlock Your Financial Potential</h2>
               <p className="hero-subheading">Empower yourself with tools and insights to make smarter financial decisions.</p>
               <p className="hero-tagline">Building Wealth, One Step at a Time</p>
-              <a href="#get-started" className="hero-button">Get Started</a>
+              <Link to="/signup" className="hero-button">Get Started</Link>
             </div>
           </section>
 
@@ -89,7 +59,7 @@ const Homepage = () => {
                   <p className="value-text">Easily connect with your bank accounts and financial services for a unified experience.</p>
                 </div>
               </div>
-              <a href="#get-started" className="cta-button">Start Your Journey</a>
+              <Link to="/signup" className="cta-button">Start Your Journey</Link>
             </div>
           </section>
         </main>
@@ -98,26 +68,29 @@ const Homepage = () => {
       <footer className="footer">
         <div className="footer-container">
           <div className="branding">
-            <img src="/images/logo.jpg" alt="App Name Logo" className="footer-logo" />
+            <img src="/images/logo.png" alt="App Name Logo" className="footer-logo" />
             <p className="tagline">Building Wealth, One Step at a Time</p>
           </div>
           <div className="footer-nav">
             <h3>Quick Links</h3>
             <ul>
-              <li><a href="#home">Home</a></li>
-              <li><a href="#about">About Us</a></li>
-              <li><a href="#contact">Contact</a></li>
-              <li><a href="#help">Help</a></li>
+         <Link to="/">Home</Link>
+         <Link to="/signup">Sign Up</Link>}
+        <Link to="/about">About Us</Link>
+        <Link to="/help">Help</Link>
+        <Link to="/contact">Contact</Link>
             </ul>
           </div>
           <div className="footer-products">
             <h3>Our Products</h3>
             <ul>
-              <li><a href="#dashboard">Dashboard</a></li>
-              <li><a href="#cashflow">Cash Flow/Budget</a></li>
-              <li><a href="#recurring">Recurring Payments</a></li>
-              <li><a href="#challenge">Penny Challenge</a></li>
-            </ul>
+            <Link to="/dashboard">Dashboard</Link>
+            <Link to="/cashflow">Cash Flow</Link>
+            <Link to="/budget">Budget</Link>
+            <Link to="/recurring">Recurring Payments</Link>
+            <Link to="/challenge">Penny Challenge</Link>
+          
+               </ul>
           </div>
           <div className="footer-legal">
             <h3>Legal</h3>
@@ -130,7 +103,7 @@ const Homepage = () => {
             <h3>Contact Us</h3>
             <ul>
               <li>Email: <a href="mailto:support@pennypillar.com">support@pennypillar.com</a></li>
-              <li>Phone: <a href="tel:+1234567890">+1 (234) 567-890</a></li>
+              <li>Phone: <a href="tel:+1234567890">+27 567-890</a></li>
             </ul>
           </div>
         </div>
