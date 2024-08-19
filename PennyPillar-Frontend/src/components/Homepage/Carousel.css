@@ -42,3 +42,28 @@
     color: darkgreen; /* Dark green color for the check icon */
     margin-right: 10px;
 }
+
+.carousel-container {
+    position: relative;
+    overflow: hidden;
+}
+
+.carousel-slides {
+    display: flex;
+    transition: transform 0.3s ease-in-out;
+}
+.carousel-controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.control-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    color: darkgreen; /* Dark green color for the control buttons */
+}
+
