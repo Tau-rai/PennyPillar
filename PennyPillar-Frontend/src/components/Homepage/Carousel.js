@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react'; // Import useState
 import './Carousel.css'; // Ensure you create this CSS file for styling
 
 const featuresData = [
@@ -53,25 +53,45 @@ const featuresData = [
 ];
 
 const Carousel = () => {
+    const [currentSlide, setCurrentSlide] = useState(0);
+
+    const handlePrevSlide = () => {
+        if (currentSlide > 0) setCurrentSlide(currentSlide - 1);
+    };
+
+    const handleNextSlide = () => {
+        if (currentSlide < featuresData.length - 1) setCurrentSlide(currentSlide + 1);
+    };
+
     return (
         <div>
             <div className="title-section">
                 <h2>Explore Our Features</h2>
             </div>
-            <div className="features-container">
-                {featuresData.map((feature, index) => (
-                    <div className="feature-card" key={index}>
-                        <img src={feature.imgSrc} alt={`${feature.title} image`} width="400" height="400" />
-                        <h3>{feature.title}</h3>
-                        <ul>
-                            {feature.features.map((item, i) => (
-                                <li key={i}>
-                                    <i className="fas fa-check-circle check-icon"></i> {item}
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                ))}
+            <div className="carousel-container">
+                <div className="carousel-slides" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
+                    {featuresData.map((feature, index) => (
+                        <div className="feature-card" key={index}>
+                            <img src={feature.imgSrc} alt={`${feature.title} image`} width="400" height="400" />
+                            <h3>{feature.title}</h3>
+                            <ul>
+                                {feature.features.map((item, i) => (
+                                    <li key={i}>
+                                        <i className="fas fa-check-circle check-icon"></i> {item}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    ))}
+                </div>
+                <div className="carousel-controls">
+                    <button className="control-button" onClick={handlePrevSlide}>
+                        <i className="fas fa-chevron-left"></i>
+                    </button>
+                    <button className="control-button" onClick={handleNextSlide}>
+                        <i className="fas fa-chevron-right"></i>
+                    </button>
+                </div>
             </div>
         </div>
     );
