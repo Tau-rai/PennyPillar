@@ -68,9 +68,7 @@ const UserGuide = () => {
 
     return (
         <div>
-            <header>
-                <h1>User Guide</h1>
-            </header>
+            
             <div className="title-section">
                 <h2>First Time Here? Discover How to Navigate with Ease!</h2>
             </div>
