@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axiosInstance from '../../axiosConfig'; // Import the custom axios instance
 import './Cashflow.css'; // Import the CSS file for styling
 import { FaPencilAlt, FaTrashAlt } from 'react-icons/fa'; // Import icons
+import MainFooter from '../ComponentFooter';
 
 const Cashflow= () => {
   const [transactions, setTransactions] = useState([]);
@@ -231,6 +232,7 @@ const Cashflow= () => {
           </form>
         </div>
       )}
+	  <MainFooter />
     </div>
   );
 };

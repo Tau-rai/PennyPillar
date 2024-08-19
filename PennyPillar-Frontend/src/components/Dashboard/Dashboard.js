@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Chart, registerables } from 'chart.js';
 import './Dashboard.css';
 import axiosInstance from '../../axiosConfig';
-
+import MainFooter from '../ComponentFooter';
 Chart.register(...registerables);
 
 const Dashboard = () => {
@@ -359,7 +359,9 @@ const Dashboard = () => {
                     </div>
                 </div>
             </div>
+	    <MainFooter />
         </div>
+	    
     );
 };
 

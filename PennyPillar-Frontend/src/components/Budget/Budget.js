@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './Budget.css';
 import { Chart, registerables } from 'chart.js';
-
+import MainFooter from  '../ComponentFooter';
 Chart.register(...registerables);
-
+ 
 const Budget = () => {
     const [month, setMonth] = useState(new Date().getMonth());
     const [year, setYear] = useState(new Date().getFullYear());
@@ -181,7 +181,10 @@ const Budget = () => {
                     </div>
                 </section>
             </main>
-        </div>
+	
+	
+   </div>
+				     <MainFooter />
     );
 };
 

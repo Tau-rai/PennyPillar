@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './Recurring.css';
 import '../Dashboard/Dashboard.css';
 import axiosInstance from '../../axiosConfig';
+import MainFooter from '../ComponentFooter';
 
 const Recurring = () => {
     const [month, setMonth] = useState(new Date().getMonth());
@@ -221,6 +222,7 @@ const Recurring = () => {
                     </div>
                 )}
             </div>
+		<MainFooter />
         </div>
     );
 };
