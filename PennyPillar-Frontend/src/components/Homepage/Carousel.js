@@ -1,78 +1,78 @@
-import React, { useState } from 'react';
-import './Carousel.css'; 
-import './UserGuide.css';
+import React from 'react';
+import './Carousel.css'; // Ensure you create this CSS file for styling
 
-const slidesData = [
+const featuresData = [
     {
         title: "Income",
         features: [
             "Input all your sources of income.",
             "Review total income automatically.",
         ],
-        imgSrc: "./images/income.jpg"
+        imgSrc: "./images/budget.jpg" // Replace with actual image paths
     },
     {
         title: "Expenses",
         features: [
-            "Enter all your expenses.",
-            "Track spending against your income.",
+            "Categorize your expenses easily.",
+            "Track and review your spending.",
         ],
-        imgSrc: "./images/budget.jpg"
+        imgSrc: "./images/savings.jpg"
     },
     {
         title: "Savings",
         features: [
-            "Set your savings goals.",
-            "Review your progress towards savings.",
+            "Monitor your savings goals.",
+            "Automate your savings process.",
         ],
-        imgSrc: "./image/savings.jpg"
+        imgSrc: "./images/savings.jpg"
+    },
+    {
+        title: "Budget",
+        features: [
+            "Set and manage your budget effectively.",
+            "Review budget adherence and adjust as needed.",
+        ],
+        imgSrc: "./images/budget.jpg"
+    },
+    {
+        title: "Recurring",
+        features: [
+            "Track your recurring subscriptions.",
+            "Get reminders for upcoming payments.",
+        ],
+        imgSrc: "./images/recurring.jpg"
+    },
+    {
+        title: "Insights",
+        features: [
+            "Analyze spending patterns.",
+            "Gain insights into your financial habits.",
+        ],
+        imgSrc: "./images/insights.jpg"
     }
 ];
 
 const Carousel = () => {
-    const [currentSlide, setCurrentSlide] = useState(0);
-
-    const handlePrevSlide = () => {
-        setCurrentSlide((prevSlide) => (prevSlide === 0 ? slidesData.length - 1 : prevSlide - 1));
-    };
-
-    const handleNextSlide = () => {
-        setCurrentSlide((prevSlide) => (prevSlide === slidesData.length - 1 ? 0 : prevSlide + 1));
-    };
-
     return (
-        <div className="carousel-container">
-            <header>
-                <h2>Key Features</h2>
-            </header>
-            <main>
-                <div className="carousel-content">
-                    {slidesData.map((slide, index) => (
-                        <div
-                            className="carousel-slide"
-                            key={index}
-                            style={{
-                                transform: `translateX(-${currentSlide * 100}%)`,
-                                transition: 'transform 0.5s ease-in-out',
-                                opacity: currentSlide === index ? 1 : 0,
-                                visibility: currentSlide === index ? 'visible' : 'hidden',
-                            }}
-                        >
-                            <h3>{slide.title}</h3>
-                            <ul>
-                                {slide.features.map((feature, i) => (
-                                    <li key={i}>{feature}</li>
-                                ))}
-                            </ul>
-                            <img src={slide.imgSrc} alt={`${slide.title} illustration`} />
-                        </div>
-                    ))}
-                </div>
-                <div className="carousel-controls">
-                    <button onClick={handlePrevSlide}>&#10094;</button>
-                    <button onClick={handleNextSlide}>&#10095;</button>
-                </div>
-            </main>
+        <div>
+            <div className="title-section">
+                <h2>Explore Our Features</h2>
+            </div>
+            <div className="features-container">
+                {featuresData.map((feature, index) => (
+                    <div className="feature-card" key={index}>
+                        <img src={feature.imgSrc} alt={`${feature.title} image`} width="400" height="400" />
+                        <h3>{feature.title}</h3>
+                        <ul>
+                            {feature.features.map((item, i) => (
+                                <li key={i}>
+                                    <i className="fas fa-check-circle check-icon"></i> {item}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                ))}
+            </div>
         </div>
     );
 };
