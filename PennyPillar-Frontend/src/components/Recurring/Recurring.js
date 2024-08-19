@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
 import './Recurring.css';
 import '../Dashboard/Dashboard.css';
 import axiosInstance from '../../axiosConfig';
@@ -12,23 +10,20 @@ const Recurring = () => {
     const [formData, setFormData] = useState({
         name: '',
         amount: '',
-        frequency: 'monthly', // Default frequency
+        frequency: 'monthly',
         payment_method: '',
-        due_date: '', // Ensure the date is in 'YYYY-MM-DD' format
+        due_date: '',
         icon: '',
     });
-    const [selectedDate, setSelectedDate] = useState(new Date());
-    const [showForm, setShowForm] = useState(false); // State to toggle the form visibility
+    const [showForm, setShowForm] = useState(false);
 
     useEffect(() => {
-        // Fetch existing subscriptions when the component loads
         const fetchSubscriptions = async () => {
             try {
-                const activeMonth = new Date(); // Define the activeMonth variable
                 const response = await axiosInstance.get('/subscriptions/', {
                     params: {
-                        month: activeMonth.getMonth() + 1, // Month is zero-based
-                        year: activeMonth.getFullYear()
+                        month: month + 1, // Month is zero-based
+                        year: year,
                     }
                 });
                 setSubscriptionsData(response.data);
@@ -36,24 +31,16 @@ const Recurring = () => {
                 console.error('Error fetching subscriptions:', error);
             }
         };
-        
-    
+
         fetchSubscriptions();
-    }, []);
+        renderCalendar();
+    }, [month, year]);
 
     const handleFormChange = (event) => {
         const { name, value } = event.target;
         setFormData({
             ...formData,
             [name]: value,
-        });
-    };
-
-    const handleDateChange = (date) => {
-        setSelectedDate(date);
-        setFormData({
-            ...formData,
-            due_date: date.toISOString().split('T')[0], // Convert date to 'YYYY-MM-DD' format
         });
     };
 
@@ -65,21 +52,21 @@ const Recurring = () => {
                 amount: parseFloat(formData.amount),
                 frequency: formData.frequency,
                 payment_method: formData.payment_method,
-                due_date: formData.due_date, // Ensure date is in 'YYYY-MM-DD' format
-                icon: formData.icon || 'https://img.icons8.com/color/48/000000/default.png', // Default icon if not provided
+                due_date: formData.due_date,
+                icon: formData.icon || 'https://img.icons8.com/color/48/000000/default.png',
             };
             const response = await axiosInstance.post('/subscriptions/', newSubscription);
-            setSubscriptionsData([...subscriptionsData, response.data]); // Add the new subscription to the list
+            setSubscriptionsData([...subscriptionsData, response.data]);
             setFormData({
                 name: '',
                 amount: '',
-                frequency: 'monthly', // Reset to default
+                frequency: 'monthly',
                 payment_method: '',
                 due_date: '',
                 icon: '',
             });
-            setSelectedDate(new Date()); // Reset the calendar to the current date
-            setShowForm(false); // Hide the form after submission
+            setShowForm(false);
+            renderCalendar(); // Re-render the calendar after adding a new subscription
         } catch (error) {
             console.error('Error adding subscription:', error);
         }
@@ -99,12 +86,8 @@ const Recurring = () => {
     };
 
     const toggleForm = () => {
-        setShowForm(!showForm); // Toggle form visibility
+        setShowForm(!showForm);
     };
-  useEffect(() => {
-        renderCalendar();
-        
-    }, [month, year]);
 
     const renderCalendar = () => {
         const calendarDays = document.getElementById('calendar-days');
@@ -120,11 +103,22 @@ const Recurring = () => {
                 blankDay.className = 'calendar-day blank-day';
                 calendarDays.appendChild(blankDay);
             }
-              // Add the actual days
+
+            // Add the actual days
             for (let i = 1; i <= lastDate; i++) {
                 const day = document.createElement('div');
                 day.className = 'calendar-day';
                 day.textContent = i;
+
+                // Mark due dates
+                const dueDates = subscriptionsData.map((sub) => new Date(sub.due_date).getDate());
+                if (dueDates.includes(i)) {
+                    const dueDateMarker = document.createElement('div');
+                    dueDateMarker.className = 'due-date-marker';
+                    dueDateMarker.textContent = '📅';
+                    day.appendChild(dueDateMarker);
+                }
+
                 calendarDays.appendChild(day);
             }
         }
@@ -138,27 +132,22 @@ const Recurring = () => {
             setYear((prevYear) => prevYear + 1);
         }
     };
-    
-    // Mark due dates on the calendar
-    const markDueDates = ({ date }) => {
-        const dueDates = subscriptionsData.map((sub) => new Date(sub.due_date).toDateString());
-        if (dueDates.includes(date.toDateString())) {
-            return <div className="due-date-marker">📅</div>;
-        }
-        return null;
-    };
 
     return (
         <div>
             <div className="subscription-container">
                 <h2>Subscriptions</h2>
                 <p>Track your recurring expenses and never miss a payment!</p>
+
                 <div className="calendar-container">
-                                <Calendar
-                                    onChange={handleDateChange}
-                                    value={selectedDate}
-                                    tileContent={markDueDates} // Mark dates with subscription due dates
-                                /></div>
+                    <div className="calendar-controls">
+                        <button onClick={() => changeMonth(-1)}>Previous</button>
+                        <span>{`${new Date(year, month).toLocaleString('default', { month: 'long' })} ${year}`}</span>
+                        <button onClick={() => changeMonth(1)}>Next</button>
+                    </div>
+                    <div id="calendar-days" className="calendar-days"></div>
+                </div>
+
                 <ul id="subscription-list">
                     {subscriptionsData.map(subscription => {
                         const amount = Number(subscription.amount) || 0;
@@ -169,7 +158,6 @@ const Recurring = () => {
                                         <img src={subscription.icon} alt={subscription.name} />
                                         <div className="amount">{`${subscription.name}: $${amount.toFixed(2)}`}</div>
                                     </div>
-                                    <img src={subscription.receiptIcon} alt="Receipt Icon" className="receipt" />
                                     <button onClick={() => handleMarkAsPaid(subscription)}>
                                         {subscription.is_paid ? 'Paid' : 'Mark as Paid'}
                                     </button>
