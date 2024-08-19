@@ -11,11 +11,7 @@
             color: #2e8b57;
         }
 
-        main {
-            padding: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+       
 
         .slide-container {
             position: relative;
@@ -29,21 +25,7 @@
             width: 100%;
         }
 
-        .slide {
-            flex: 0 0 100%; /* Each slide takes full width */
-            box-sizing: border-box;
-            padding: 2rem;
-            background: #f9f9f9;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            margin: 0;
-            height: 100vh; /* Full viewport height for each slide */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
+      
         .slide h2 {
             color: #2e8b57; /* Dark green for headers */
             font-size: 2rem;
