@@ -14,7 +14,6 @@ const MainFooter = () => {
                             <span>Home</span>
                         </Link>
                     </li>
-                    <li className="active">
                         <Link to="/dashboard">
                             <i className="fas fa-tachometer-alt"></i>
                             <span>Dashboard</span>
@@ -35,7 +34,7 @@ const MainFooter = () => {
                     <li>
                         <Link to="/subscriptions">
                             <i className="fas fa-credit-card"></i>
-                            <span>Subscriptions</span>
+                            <span>Recurring</span>
                         </Link>
                     </li>
                     <li>
