@@ -1,76 +1,79 @@
-/* Container for the entire carousel */
 .carousel-container {
     position: relative;
     overflow: hidden;
-    display: flex;
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
-    height: 500px; /* Adjust height as needed */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: #f8f9f9; /* Light background for contrast */
+    padding: 20px;
+    margin: 0 auto;
+    max-width: 1200px;
 }
 
-/* Container for the slides */
 .carousel-slides {
     display: flex;
-    transition: transform 0.3s ease-in-out;
-    width: 100%; /* Ensure slides container takes full width */
+    transition: transform 0.5s ease-in-out;
 }
 
-/* Individual slide card styling */
 .feature-card {
-    flex: 0 0 100%; /* Each slide takes up 100% width of the container */
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Center content horizontally */
-    justify-content: center; /* Center content vertically */
+    min-width: 100%;
+    box-sizing: border-box;
     padding: 20px;
+    text-align: center;
+    color: #333;
 }
 
-/* Styling for the image */
 .feature-card img {
     border-radius: 10px;
     margin-bottom: 15px;
 }
 
-/* Title styling */
 .feature-card h3 {
-    margin: 10px 0;
+    color: #004d00; /* Dark green for headings */
+    font-size: 24px;
+    margin-bottom: 10px;
 }
 
-/* List styling */
 .feature-card ul {
     list-style: none;
     padding: 0;
+    margin: 0;
+    line-height: 1.6;
 }
 
-/* List item styling */
 .feature-card li {
-    display: flex;
-    align-items: center;
-    margin: 5px 0;
+    font-size: 16px;
+    color: #666;
 }
 
-/* Check icon styling */
 .check-icon {
-    color: darkgreen; /* Dark green color for the check icon */
+    color: #004d00; /* Dark green for check icons */
     margin-right: 10px;
 }
 
-/* Controls container styling */
 .carousel-controls {
-    position: absolute;
-    bottom: 10px; /* Adjust as needed */
-    width: 100%;
     display: flex;
-    justify-content: center;
-    gap: 10px;
+    justify-content: space-between;
+    margin-top: 20px;
 }
 
-/* Control button styling */
 .control-button {
-    background: none;
+    background-color: #004d00; /* Dark green background */
+    color: white;
     border: none;
+    border-radius: 5px;
+    padding: 10px;
     cursor: pointer;
-    font-size: 24px;
-    color: darkgreen; /* Dark green color for the control buttons */
+    font-size: 18px;
+    transition: background-color 0.3s ease;
+}
+
+.control-button:hover {
+    background-color: #003300; /* Darker green on hover */
+}
+
+.title-section h2 {
+    text-align: center;
+    color: #004d00; /* Dark green for title */
+    font-size: 28px;
+    margin-bottom: 20px;
 }
