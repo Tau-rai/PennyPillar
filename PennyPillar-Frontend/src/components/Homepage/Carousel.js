@@ -1,5 +1,6 @@
 import React, { useState } from 'react'; // Import useState
 import './Carousel.css'; // Ensure you create this CSS file for styling
+import './UserGuide.css';
 
 const featuresData = [
     {
