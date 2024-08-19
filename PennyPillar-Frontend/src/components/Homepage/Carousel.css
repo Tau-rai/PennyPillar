@@ -1,101 +1,44 @@
- .page-container {
-            display: flex;
-            justify-content: center;
-            padding: 20px;
-            background-color: #f8f8f8;
-        }
+.title-section {
+    text-align: center;
+    margin-bottom: 20px;
+}
 
+.features-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
 
-        .carousel-container {
-            position: relative;
-            width: 100%; /* Full width of the screen */
-            max-width: 800px; /* Maximum width for better appearance */
-            overflow: hidden;
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-        }
+.feature-card {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    max-width: 420px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
 
-        .carousel {
-            display: flex;
-            transition: transform 0.5s ease-in-out;
-        }
+.feature-card img {
+    border-radius: 10px;
+}
 
-        .carousel-item {
-            min-width: 100%;
-            box-sizing: border-box;
-            padding: 20px;
-        }
+.feature-card h3 {
+    margin: 10px 0;
+}
 
-        .infographic {
-            text-align: center;
-        }
+.feature-card ul {
+    list-style: none;
+    padding: 0;
+}
 
-        .infographic-header {
-            margin-bottom: 20px;
-        }
+.feature-card li {
+    display: flex;
+    align-items: center;
+    margin: 5px 0;
+}
 
-        .feature-title {
-            margin: 0;
-            font-size: 1.5em;
-            color: #1a73e8;
-        }
-
-        .feature-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .feature-list li {
-            margin: 10px 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.1em;
-        }
-
-        .check-icon {
-            width: 24px;
-            height: 24px;
-            margin-right: 10px;
-            fill: green;
-        }
-
-        .feature-screenshot {
-            width: 100%;
-            border-radius: 8px;
-            margin-top: 10px;
-        }
-
-        .carousel-nav {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: transparent;
-            border: none;
-            color: green;
-            font-size: 48px;
-            cursor: pointer;
-            padding: 10px;
-            z-index: 10;
-        }
-
-        .carousel-nav.prev {
-            left: 10px;
-        }
-
-        .carousel-nav.next {
-            right: 10px;
-        }
-
-        .carousel-nav:hover {
-            color: darkgreen;
-        }
-
-        @media (max-width: 768px) {
-            .carousel-nav {
-                font-size: 36px;
-                padding: 8px;
-            }
-        }
+.check-icon {
+    color: darkgreen; /* Dark green color for the check icon */
+    margin-right: 10px;
+}
