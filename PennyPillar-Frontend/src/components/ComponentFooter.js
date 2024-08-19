@@ -14,6 +14,7 @@ const MainFooter = () => {
                             <span>Home</span>
                         </Link>
                     </li>
+                    <li>
                         <Link to="/dashboard">
                             <i className="fas fa-tachometer-alt"></i>
                             <span>Dashboard</span>
@@ -50,4 +51,3 @@ const MainFooter = () => {
 };
 
 export default MainFooter;
-
