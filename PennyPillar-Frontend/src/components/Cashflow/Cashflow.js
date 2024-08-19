@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axiosInstance from '../../axiosConfig'; // Import the custom axios instance
-import { Pie } from 'react-chartjs-2';
 import './transactions.css'; // Import the CSS file for styling
 import { FaPencilAlt, FaTrashAlt } from 'react-icons/fa'; // Import icons
 
@@ -89,38 +88,10 @@ const Cashflow= () => {
   const totalSavings = savingsTransactions.reduce((sum, t) => sum + parseFloat(t.amount), 0);
   const netIncome = totalIncome + totalSavings - totalExpenses;
 
-  // Pie chart data and options
-  const pieChartData = [
-    { label: 'Income', value: totalIncome },
-    { label: 'Expenses', value: totalExpenses },
-    { label: 'Savings', value: totalSavings }
-  ];
-
-  const pieChartOptions = {
-    responsive: true,
-    maintainAspectRatio: false
-  };
 
   return (
     <div className="container">
-      <h1>Overview</h1>
-      <div className="pie-chart">
-        <Pie
-          data={{
-            labels: pieChartData.map(data => data.label),
-            datasets: [{
-              data: pieChartData.map(data => data.value),
-              backgroundColor: ['#36A2EB', '#FF6384', '#FFCE56']
-            }]
-          }}
-          options={pieChartOptions}
-        />
-      </div>
-
-      <button className="btn-toggle-form" onClick={() => setShowAddForm(!showAddForm)}>
-        {showAddForm ? 'Hide Add Transaction' : 'Add Transaction'}
-      </button>
-
+     
       {showAddForm && (
         <form onSubmit={handleAddTransaction} className="transaction-form">
           <input
