@@ -10,10 +10,10 @@ from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from decimal import Decimal
-from .models import Category, MonthlyBudget, Transaction, SavingsGoal, UserProfile, Subscription
+from .models import Category, MonthlyBudget, Transaction, SavingsGoal, UserProfile, Subscription, Insight
 from .serializers import (CategorySerializer, LoginSerializer,
                           MonthlyBudgetSerializer, RegisterSerializer,
-                          TransactionSerializer, UserProfileSerializer, SavingsGoalSerializer, SubscriptionSerializer)
+                          TransactionSerializer, UserProfileSerializer, SavingsGoalSerializer, SubscriptionSerializer, Insights Serializer)
 
 
 class UserProfileViewSet(viewsets.ModelViewSet):
