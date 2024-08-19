@@ -239,52 +239,45 @@ const Homepage = () => {
               <a href="#get-started" className="hero-button">Get Started</a>
             </div>
           </section>
-
-          <section>
-            <div className="slide-container">
-              {/* Feature Carousel Section */}
-              <section className="feature-carousel">
-                <h2 className="section-title">Explore the Features That Matter to You</h2>
-                <div className="carousel">
-                  <div className="carousel-inner" style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
-                    {featureSlides.map((slide, index) => (
-                      <FeatureSlide
-                        key={index}
-                        title={slide.title}
-                        description={slide.description}
-                        items={slide.items}
-                        imgSrc={slide.imgSrc}
-                      />
-                    ))}
-                  </div>
-                  <div className="carousel-buttons">
-                    <button className="carousel-prev" onClick={prevIndex}>Prev</button>
-                    <button className="carousel-next" onClick={nextIndex}>Next</button>
-                  </div>
+<section className="infographic-container">
+            <div className="carousel-container">
+              <div className="carousel">
+                <div className="carousel-inner" style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
+                  {featureSlides.map((slide, index) => (
+                    <FeatureSlide
+                      key={index}
+                      title={slide.title}
+                      description={slide.description}
+                      items={slide.items}
+                      imgSrc={slide.imgSrc}
+                    />
+                  ))}
                 </div>
-              </section>
+                <button className="carousel-nav prev" onClick={prevIndex}>‹</button>
+                <button className="carousel-nav next" onClick={nextIndex}>›</button>
+              </div>
+            </div>
+          </section>
 
-              {/* User Guide Carousel Section */}
-              <section className="slide-container">
-                <h2 className="section-title">How to Get Started</h2>
-                <div className="carousel">
-                  <div className="carousel-inner" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
-                    {slidesData.map((slide, index) => (
-                      <Slide
-                        key={index}
-                        title={slide.title}
-                        icon={slide.icon}
-                        content={slide.content}
-                      />
-                    ))}
-                  </div>
-                  <div className="carousel-buttons">
-                    <button className="carousel-prev" onClick={prevSlide}>Prev</button>
-                    <button className="carousel-next" onClick={nextSlide}>Next</button>
-                  </div>
-                </div>
-              </section>
+          <section className="slide-container">
+            <div className="slides" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
+              {slidesData.map((slide, index) => (
+                <Slide
+                  key={index}
+                  title={slide.title}
+                  icon={slide.icon}
+                  content={slide.content}
+                />
+              ))}
+            </div>
+            <div className="controls">
+              <button className="control-button prev" onClick={prevSlide}>‹</button>
+              <button className="control-button next" onClick={nextSlide}>›</button>
+            </div>
+          </section> 
 
+           
+          
               {/* Value Proposition Section */}
               <section className="value-proposition">
                 <div className="container">
