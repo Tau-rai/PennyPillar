@@ -6,6 +6,8 @@ import '../Dashboard/Dashboard.css';
 import axiosInstance from '../../axiosConfig';
 
 const Recurring = () => {
+    const [month, setMonth] = useState(new Date().getMonth());
+    const [year, setYear] = useState(new Date().getFullYear());
     const [subscriptionsData, setSubscriptionsData] = useState([]);
     const [formData, setFormData] = useState({
         name: '',
@@ -99,7 +101,44 @@ const Recurring = () => {
     const toggleForm = () => {
         setShowForm(!showForm); // Toggle form visibility
     };
+  useEffect(() => {
+        renderCalendar();
+        initializeCharts();
+    }, [month, year]);
 
+    const renderCalendar = () => {
+        const calendarDays = document.getElementById('calendar-days');
+        if (calendarDays) {
+            calendarDays.innerHTML = '';
+
+            const firstDay = new Date(year, month, 1).getDay();
+            const lastDate = new Date(year, month + 1, 0).getDate();
+
+            // Add blank days for the first week
+            for (let i = 0; i < firstDay; i++) {
+                const blankDay = document.createElement('div');
+                blankDay.className = 'calendar-day blank-day';
+                calendarDays.appendChild(blankDay);
+            }
+              // Add the actual days
+            for (let i = 1; i <= lastDate; i++) {
+                const day = document.createElement('div');
+                day.className = 'calendar-day';
+                day.textContent = i;
+                calendarDays.appendChild(day);
+            }
+        }
+    };
+
+    const changeMonth = (direction) => {
+        setMonth((prevMonth) => (prevMonth + direction + 12) % 12);
+        if (direction === -1 && month === 0) {
+            setYear((prevYear) => prevYear - 1);
+        } else if (direction === 1 && month === 11) {
+            setYear((prevYear) => prevYear + 1);
+        }
+    };
+    
     // Mark due dates on the calendar
     const markDueDates = ({ date }) => {
         const dueDates = subscriptionsData.map((sub) => new Date(sub.due_date).toDateString());
