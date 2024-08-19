@@ -182,10 +182,19 @@ const Homepage = () => {
           <Link to="/challenge">Penny Challenge</Link>
           <Link to="/profile">Profile</Link>
           <Link to="/logout" onClick={() => {
-            fetch('/logout/', { method: 'POST' })
-              .then(response => response.ok && window.location.href = '/')
-              .catch(error => console.error('Logout failed:', error.message));
-          }}>Logout</Link>
+                fetch('/logout/', {
+                  method: 'POST'
+                })
+                .then(response => {
+                  if (response.ok) {
+                    window.location.href = '/';
+                  }
+                })
+                .catch(error => {
+                  console.error('Logout failed:', error.message);
+                });
+              }}>Logout</Link>
+              <Link 
           <Link to="/login">Login</Link>
           <Link to="/signup">Sign Up</Link>
           <Link to="/about">About Us</Link>
