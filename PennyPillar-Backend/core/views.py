@@ -338,3 +338,9 @@ class SubscriptionViewSet(viewsets.ModelViewSet):
 
         status = "paid" if subscription.is_paid else "unpaid"
         return Response({"status": f"Subscription marked as {status}"})
+
+
+class InsightViewSet(viewsets.ModelViewSet):
+    """Insights view."""
+    queryset = Insight.objects.all().order_by('-date_posted')
+    serializer_class = InsightSerializer
