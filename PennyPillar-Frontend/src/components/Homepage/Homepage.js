@@ -241,7 +241,7 @@ const Homepage = () => {
           </section>
 
           <section>
-            <div className="page-container">
+            <div className="slide-container">
               {/* Feature Carousel Section */}
               <section className="feature-carousel">
                 <h2 className="section-title">Explore the Features That Matter to You</h2>
@@ -265,7 +265,7 @@ const Homepage = () => {
               </section>
 
               {/* User Guide Carousel Section */}
-              <section className="user-guide-carousel">
+              <section className="slide-container">
                 <h2 className="section-title">How to Get Started</h2>
                 <div className="carousel">
                   <div className="carousel-inner" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
