@@ -103,7 +103,7 @@ const Recurring = () => {
     };
   useEffect(() => {
         renderCalendar();
-        initializeCharts();
+        
     }, [month, year]);
 
     const renderCalendar = () => {
