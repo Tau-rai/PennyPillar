@@ -8,6 +8,8 @@ Chart.register(...registerables);
 const Dashboard = () => {
     const [month, setMonth] = useState(new Date().getMonth() + 1); // Month is 0-indexed in JavaScript, so add 1
     const [year, setYear] = useState(new Date().getFullYear());
+    const [budgetData, setBudgetData] = useState([]);
+    
 
     const budgetChartRef = useRef(null);
     const cashFlowChartRef = useRef(null);
