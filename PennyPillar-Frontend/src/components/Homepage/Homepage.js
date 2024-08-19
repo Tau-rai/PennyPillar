@@ -1,31 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './Homepage.css'; // Import your CSS file
+import './Homepage.css'; 
+import Carousel from './Carousel'; 
+import UserGuide from './UserGuide';
 
 const Homepage = () => {
-  const handleLogout = () => {
-    fetch('/logout/', {
-      method: 'POST'
-    })
-    .then(response => {
-      if (response.ok) {
-        window.location.href = '/';
-      }
-    })
-    .catch(error => {
-      console.error('Logout failed:', error.message);
-    });
-  };
-
-  const toggleNav = () => {
-    document.querySelector('.nav-links').classList.toggle('nav-open');
-  };
-
   return (
     <div>
       <header className="header">
         <div className="logo">PennyPillar</div>
-        <div className="hamburger" onClick={toggleNav}>☰</div>
+        <div className="hamburger" onClick={() => document.querySelector('.nav-links').classList.toggle('nav-open')}>☰</div>
         <nav className="nav-links">
           <a href="/">Home</a>
           <Link to="/dashboard">Dashboard</Link>
@@ -34,7 +18,19 @@ const Homepage = () => {
           <Link to="/recurring">Recurring Payments</Link>
           <Link to="/challenge">Penny Challenge</Link>
           <Link to="/profile">Profile</Link>
-          <Link to="/logout" onClick={handleLogout}>Logout</Link>
+          <Link
+            to="/logout"
+            onClick={(event) => {
+              event.preventDefault();
+              fetch('/logout/', { method: 'POST' })
+                .then(response => {
+                  if (response.ok) window.location.href = '/';
+                })
+                .catch(error => console.error('Logout failed:', error.message));
+            }}
+          >
+            Logout
+          </Link>
           <Link to="/login">Login</Link>
           <Link to="/signup">Sign Up</Link>
           <Link to="/about">About Us</Link>
@@ -57,10 +53,47 @@ const Homepage = () => {
               <a href="#get-started" className="hero-button">Get Started</a>
             </div>
           </section>
+
+          <section className="carousel-section">
+            <Carousel />
+          </section>
+
+          <section className="user-guide-section">
+            <UserGuide />
+          </section>
+
+          <section className="value-proposition">
+            <div className="container">
+              <h2 className="section-title">Reasons to Choose PennyPillar For Your Financial Future</h2>
+              <div className="value-proposition-content">
+                <div className="value-item">
+                  <div className="icon">
+                    <i className="fas fa-dollar-sign"></i>
+                  </div>
+                  <h3 className="value-heading">For Every Stage of Wealth</h3>
+                  <p className="value-text">Whether you're just starting to manage your finances or looking to optimize your wealth, our app caters to all stages of financial growth...</p>
+                </div>
+                <div className="value-item">
+                  <div className="icon">
+                    <i className="fas fa-lock"></i>
+                  </div>
+                  <h3 className="value-heading">Secure and Private</h3>
+                  <p className="value-text">Your financial data is encrypted and secure, ensuring that your privacy is always protected.</p>
+                </div>
+                <div className="value-item">
+                  <div className="icon">
+                    <i className="fas fa-sync"></i>
+                  </div>
+                  <h3 className="value-heading">Seamless Integration</h3>
+                  <p className="value-text">Easily connect with your bank accounts and financial services for a unified experience.</p>
+                </div>
+              </div>
+              <a href="#get-started" className="cta-button">Start Your Journey</a>
+            </div>
+          </section>
         </main>
       </div>
-      
-      {/* Footer Section */}
+
       <footer className="footer">
         <div className="footer-container">
           <div className="branding">
