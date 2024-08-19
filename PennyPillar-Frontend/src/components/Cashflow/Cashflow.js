@@ -4,7 +4,7 @@ import './Cashflow.css'; // Import the CSS file for styling
 import { FaPencilAlt, FaTrashAlt } from 'react-icons/fa'; // Import icons
 import MainFooter from '../ComponentFooter';
 
-const Cashflow= () => {
+const Cashflow = () => {
   const [transactions, setTransactions] = useState([]);
   const [categories, setCategories] = useState([]);
   const [newTransaction, setNewTransaction] = useState({ description: '', amount: '', category: '' });
@@ -89,10 +89,8 @@ const Cashflow= () => {
   const totalSavings = savingsTransactions.reduce((sum, t) => sum + parseFloat(t.amount), 0);
   const netIncome = totalIncome + totalSavings - totalExpenses;
 
-
   return (
-    <div className="container">
-     
+    <>
       {showAddForm && (
         <form onSubmit={handleAddTransaction} className="transaction-form">
           <input
@@ -232,8 +230,8 @@ const Cashflow= () => {
           </form>
         </div>
       )}
-	  <MainFooter />
-    </div>
+      <MainFooter />
+    </>
   );
 };
 
