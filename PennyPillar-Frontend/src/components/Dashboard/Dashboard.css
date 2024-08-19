@@ -12,7 +12,7 @@
 .calendar-container {
     width: 100%;
     max-width: 800px;
-    margin-bottom: 30px;
+    
 }
 
 /* Header for the calendar */
@@ -57,7 +57,7 @@
 /* Container for each chart */
 .chart-container {
     flex: 1;
-    min-width: 250px;
+    min-width: 400px;
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -67,9 +67,10 @@
 
 /* Header for each chart */
 .chart-header {
-    font-size: 1.2em;
+    font-size: 1.5em;
     margin-bottom: 10px;
-    color: #333;
+    color: white;
+    background-color: #00796b;
 }
 
 /* Canvas styling */
