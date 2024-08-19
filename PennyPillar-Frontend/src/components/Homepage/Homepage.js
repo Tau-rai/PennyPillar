@@ -308,7 +308,7 @@ const Homepage = () => {
                   <a href="#get-started" className="cta-button">Start Your Journey</a>
                 </div>
               </section>
-            </div>
+          
         </main>
       
 
