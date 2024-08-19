@@ -3,6 +3,116 @@ import { Link } from 'react-router-dom';
 import './Homepage.css'; // Import your CSS file
 
 const Homepage = () => {
+  const Slide = ({ title, icon, content }) => (
+  <div className="slide">
+    <h2><i className={`fas ${icon}`}></i> {title}</h2>
+    <p>{content.text}</p>
+    <ul>
+      {content.list.map((item, index) => (
+        <li key={index}>
+          <svg className="check-icon" viewBox="0 0 24 24">
+            <path d="M10 15l-3-3 1.4-1.4L10 12.2l7.6-7.6L19 7l-9 9z" />
+          </svg>
+          {item}
+        </li>
+      ))}
+    </ul>
+  </div>
+);
+
+// UserGuide Component
+const UserGuide = () => {
+  const slidesData = [
+    {
+      title: 'Getting Started',
+      icon: 'fa-play-circle',
+      content: {
+        text: 'Welcome to the user guide for our app. Follow these steps to get started:',
+        list: [
+          'Create an Account: Sign up with your email and create a password.',
+          'Log In: Use your credentials to access the dashboard.',
+          'Explore Features: Familiarize yourself with the app\'s main features.'
+        ]
+      }
+    },
+    {
+      title: 'Dashboard',
+      icon: 'fa-tachometer-alt',
+      content: {
+        text: 'The Dashboard provides an overview of your financial status:',
+        list: [
+          'Summary: View key metrics like total income, expenses, and savings.',
+          'Graphs: Analyze trends with various charts.'
+        ]
+      }
+    },
+    {
+      title: 'Cashflow',
+      icon: 'fa-chart-line',
+      content: {
+        text: 'The Cashflow section helps you track and manage your transactions:',
+        list: [
+          'Add Transactions: Input new income, expenses, or savings.',
+          'Edit Transactions: Modify existing entries.',
+          'View Reports: Analyze your cash flow over different periods.'
+        ]
+      }
+    },
+    {
+      title: 'Budget',
+      icon: 'fa-wallet',
+      content: {
+        text: 'The Budget feature helps you set and manage financial goals:',
+        list: [
+          'Create Budgets: Define your spending limits for various categories.',
+          'Track Spending: Monitor how well you adhere to your budget.'
+        ]
+      }
+    },
+    {
+      title: 'Save a Penny',
+      icon: 'fa-coins',
+      content: {
+        text: 'The Save a Penny feature encourages saving by rounding up transactions:',
+        list: [
+          'Round-Up Savings: Automatically round up your purchases to the nearest dollar and save the change.',
+          'Track Savings: View your accumulated savings over time.'
+        ]
+      }
+    },
+    {
+      title: 'Subscription',
+      icon: 'fa-credit-card',
+      content: {
+        text: 'Manage your recurring payments with the Subscription feature:',
+        list: [
+          'Add Subscriptions: Enter details of your recurring payments.',
+          'View Upcoming Payments: Track your upcoming subscription charges.',
+          'Manage Subscriptions: Edit or cancel existing subscriptions.'
+        ]
+      }
+    }
+  ];
+
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prevSlide) => (prevSlide + 1) % slidesData.length);
+    }, 5000); // Change slide every 5 seconds
+
+    return () => clearInterval(interval);
+  }, [slidesData.length]);
+
+  const nextSlide = () => {
+    setCurrentSlide((prevSlide) => (prevSlide + 1) % slidesData.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prevSlide) => (prevSlide - 1 + slidesData.length) % slidesData.length);
+  };
+
+  
   const [currentIndex, setCurrentIndex] = useState(0);
   const slides = [
     {
@@ -140,6 +250,28 @@ const Homepage = () => {
               </section>
             </div>
           </section>
+            <section className="user-guide">
+      <header className="guide-header">
+        <h1>User Guide</h1>
+      </header>
+      <div className="title-section">
+        <h2>First Time Here? Discover How to Navigate with Ease!</h2>
+      </div>
+      <main>
+        <div className="slide-container">
+          <div className="slides" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
+            {slidesData.map((slide, index) => (
+              <Slide key={index} title={slide.title} icon={slide.icon} content={slide.content} />
+            ))}
+          </div>
+          <div className="controls">
+            <button className="control-button" onClick={prevSlide}>
+              <i className="fas fa-chevron-left"></i>
+            </button>
+            <button className="control-button" onClick={nextSlide}>
+              <i className="fas fa-chevron-right"></i>
+            </button>
+          </div>
 
           <section className="value-proposition">
             <div className="container">
@@ -170,7 +302,7 @@ const Homepage = () => {
               <a href="#get-started" className="cta-button">Start Your Journey</a>
             </div>
           </section>
-        </main>
+        
 
         <footer className="footer">
           <div className="footer-container">
