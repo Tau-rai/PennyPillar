@@ -1,77 +1,77 @@
 import React, { useState } from 'react';
-import './Carousel.css'; // Create and import a corresponding CSS file for styles
+import './Carousel.css'; // Ensure you have a corresponding CSS file
+
+const slidesData = [
+    {
+        title: "Income",
+        features: [
+            "Input all your sources of income.",
+            "Review total income automatically.",
+        ],
+        imgSrc: "./images/income.jpg"
+    },
+    {
+        title: "Expenses",
+        features: [
+            "Enter all your expenses.",
+            "Track spending against your income.",
+        ],
+        imgSrc: "./images/budget.jpg"
+    },
+    {
+        title: "Savings",
+        features: [
+            "Set your savings goals.",
+            "Review your progress towards savings.",
+        ],
+        imgSrc: "./image/savings.jpg"
+    }
+];
 
 const Carousel = () => {
-    const [currentIndex, setCurrentIndex] = useState(0);
+    const [currentSlide, setCurrentSlide] = useState(0);
 
-    const slides = [
-        {
-            title: 'Income',
-            features: [
-                'Input all your sources of income.',
-                'Review total income automatically.',
-            ],
-            imgSrc: 'income.jpg',
-        },
-        {
-            title: 'Expenses',
-            features: [
-                'Enter all your expenses.',
-                'Track spending against your income.',
-            ],
-            imgSrc: 'expenses.jpg',
-        },
-        {
-            title: 'Savings',
-            features: [
-                'Set your savings goals.',
-                'Review your progress towards savings.',
-            ],
-            imgSrc: 'savings.jpg',
-        },
-    ];
+    const handlePrevSlide = () => {
+        setCurrentSlide((prevSlide) => (prevSlide === 0 ? slidesData.length - 1 : prevSlide - 1));
+    };
 
-    const showSlide = (index) => {
-        const totalSlides = slides.length;
-        if (index >= totalSlides) {
-            setCurrentIndex(0);
-        } else if (index < 0) {
-            setCurrentIndex(totalSlides - 1);
-        } else {
-            setCurrentIndex(index);
-        }
+    const handleNextSlide = () => {
+        setCurrentSlide((prevSlide) => (prevSlide === slidesData.length - 1 ? 0 : prevSlide + 1));
     };
 
     return (
         <div className="carousel-container">
-            <div className="carousel">
-                {slides.map((slide, index) => (
-                    <div
-                        key={index}
-                        className="carousel-item"
-                        style={{ transform: `translateX(-${currentIndex * 100}%)` }}
-                    >
-                        <div className="infographic">
-                            <div className="infographic-header">
-                                <h2 className="feature-title">{slide.title}</h2>
-                            </div>
-                            <ul className="feature-list">
+            <header>
+                <h2>Key Features</h2>
+            </header>
+            <main>
+                <div className="carousel-content">
+                    {slidesData.map((slide, index) => (
+                        <div
+                            className="carousel-slide"
+                            key={index}
+                            style={{
+                                transform: `translateX(-${currentSlide * 100}%)`,
+                                transition: 'transform 0.5s ease-in-out',
+                                opacity: currentSlide === index ? 1 : 0,
+                                visibility: currentSlide === index ? 'visible' : 'hidden',
+                            }}
+                        >
+                            <h3>{slide.title}</h3>
+                            <ul>
                                 {slide.features.map((feature, i) => (
-                                    <li key={i}>
-                                        <svg className="check-icon" viewBox="0 0 24 24">
-                                            <path d="M10 15l-3-3 1.4-1.4L10 12.2l7.6-7.6L19 7l-9 9z"></path>
-                                        </svg>
-                                        {feature}
-                                    </li>
+                                    <li key={i}>{feature}</li>
                                 ))}
                             </ul>
-                            <img src={slide.imgSrc} alt={`${slide.title} Screenshot`} className="feature-screenshot" />
+                            <img src={slide.imgSrc} alt={`${slide.title} illustration`} />
                         </div>
-                    </div>
-                ))}
-            </div>
-            <button className="carousel-nav prev" onClick={() => showSlide(currentIndex - 1)}>&#10094;</button>
-            <button className="carousel-nav next" onClick={() => showSlide(currentIndex + 1)}>&#10095;</button>
+                    ))}
+                </div>
+                <div className="carousel-controls">
+                    <button onClick={handlePrevSlide}>&#10094;</button>
+                    <button onClick={handleNextSlide}>&#10095;</button>
+                </div>
+            </main>
         </div>
     );
 };
