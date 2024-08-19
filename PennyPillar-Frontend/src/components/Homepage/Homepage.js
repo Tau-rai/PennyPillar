@@ -310,7 +310,7 @@ const Homepage = () => {
               </section>
             </div>
         </main>
-      </div>
+      
 
       {/* Footer Section */}
       <footer className="footer">
