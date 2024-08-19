@@ -1,67 +1,97 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './Homepage.css'; // Import your CSS file
 
-// Define the Homepage component
 const Homepage = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const slides = [
+    {
+      title: 'Budget Tracking',
+      description: 'Set limits, track expenses, and stay on top of your budget',
+      items: [
+        'Track all your expenses easily.',
+        'Set and manage budget limits.',
+        'Receive notifications for overspending.',
+      ],
+      imgSrc: '/images/budget.jpg',
+    },
+    // Add additional slide objects here
+    {
+      title: 'Savings Goals',
+      description: 'Save towards your financial goals effortlessly',
+      items: [
+        'Set and track savings goals.',
+        'Automate savings transfers.',
+        'Monitor your progress with ease.',
+      ],
+      imgSrc: '/images/savings.jpg',
+    },
+    {
+      title: 'Investment Insights',
+      description: 'Make informed investment decisions',
+      items: [
+        'Analyze investment options.',
+        'Track your portfolio performance.',
+        'Get insights and recommendations.',
+      ],
+      imgSrc: '/images/investment.jpg',
+    },
+    {
+      title: 'Expense Tracking',
+      description: 'Keep track of your spending',
+      items: [
+        'Categorize and track your expenses.',
+        'View spending trends over time.',
+        'Set spending limits and alerts.',
+      ],
+      imgSrc: '/images/expenses.jpg',
+    }
+  ];
 
-  // Function to handle navigation toggle
-  const toggleNav = () => {
-    const nav = document.querySelector('.nav-links');
-    nav.classList.toggle('nav-open');
-  };
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % slides.length);
+    }, 3000); // Change slide every 3 seconds
 
-  // Function to show the next carousel item
+    return () => clearInterval(interval);
+  }, [slides.length]);
+
   const nextSlide = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % 4);
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % slides.length);
   };
 
-  // Remove the unused prevSlide function
   const prevSlide = () => {
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + 4) % 4);
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + slides.length) % slides.length);
   };
-
-  // const isLoggedIn = true; // Replace with your login logic
 
   return (
     <div>
       <header className="header">
         <div className="logo">PennyPillar</div>
-        <div className="hamburger" onClick={toggleNav}>☰</div>
+        <div className="hamburger" onClick={() => document.querySelector('.nav-links').classList.toggle('nav-open')}>☰</div>
         <nav className="nav-links">
           <a href="/">Home</a>
-              <Link to="/dashboard">Dashboard</Link>
-              <Link to="/cashflow">Cash Flow</Link>
-              <Link to="/Budget">Budget</Link> 
-              <Link to="/recurring">Recurring Payments</Link>
-              <Link to="/challenge">Penny Challenge</Link>
-              <Link to="/profile">Profile</Link>
-              <Link to="/logout" onClick={() => {
-                fetch('/logout/', {
-                  method: 'POST'
-                })
-                .then(response => {
-                  if (response.ok) {
-                    window.location.href = '/';
-                  }
-                })
-                .catch(error => {
-                  console.error('Logout failed:', error.message);
-                });
-              }}>Logout</Link>
-              <Link to="/login">Login</Link>
-              <Link to="/signup">Sign Up</Link>
-              <Link to="/about">About Us</Link>
-              <Link to="/help">Help</Link>
-              <Link to="/contact">Contact</Link>
+          <Link to="/dashboard">Dashboard</Link>
+          <Link to="/cashflow">Cash Flow</Link>
+          <Link to="/budget">Budget</Link>
+          <Link to="/recurring">Recurring Payments</Link>
+          <Link to="/challenge">Penny Challenge</Link>
+          <Link to="/profile">Profile</Link>
+          <Link to="/logout" onClick={() => {
+            fetch('/logout/', { method: 'POST' })
+              .then(response => response.ok && window.location.href = '/')
+              .catch(error => console.error('Logout failed:', error.message));
+          }}>Logout</Link>
+          <Link to="/login">Login</Link>
+          <Link to="/signup">Sign Up</Link>
+          <Link to="/about">About Us</Link>
+          <Link to="/help">Help</Link>
+          <Link to="/contact">Contact</Link>
         </nav>
       </header>
       
-      {/* Main Content Section */}
       <div className="main-content">
         <main>
-          {/* Hero Section */}
           <section className="hero-section">
             <div className="hero-content">
               <div className="hero-logo">
@@ -75,46 +105,34 @@ const Homepage = () => {
             </div>
           </section>
 
-          {/* Infographic Section */}
           <section>
             <div className="page-container">
               <section className="infographic-container">
                 <div className="carousel-container">
                   <h2 className="section-title">Explore the Features That Matter to You</h2>
                   <div className="carousel">
-                    {/* Carousel Items */}
-                    <div className={`carousel-item ${currentIndex === 0 ? 'active' : ''}`}>
-                      <div className="infographic">
-                        <div className="infographic-header">
-                          <h2 className="feature-title">Budget Tracking: Set limits, track expenses, and stay on top of your budget</h2>
+                    <div className="carousel-inner" style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
+                      {slides.map((slide, index) => (
+                        <div key={index} className="carousel-item">
+                          <div className="infographic">
+                            <div className="infographic-header">
+                              <h2 className="feature-title">{slide.title}: {slide.description}</h2>
+                            </div>
+                            <ul className="feature-list">
+                              {slide.items.map((item, idx) => (
+                                <li key={idx}>
+                                  <svg className="check-icon" viewBox="0 0 24 24">
+                                    <path d="M10 15l-3-3 1.4-1.4L10 12.2l7.6-7.6L19 7l-9 9z"></path>
+                                  </svg>
+                                  {item}
+                                </li>
+                              ))}
+                            </ul>
+                            <img src={slide.imgSrc} alt={`${slide.title} Screenshot`} className="feature-screenshot" />
+                          </div>
                         </div>
-                        <ul className="feature-list">
-                          <li>
-                            <svg className="check-icon" viewBox="0 0 24 24">
-                              <path d="M10 15l-3-3 1.4-1.4L10 12.2l7.6-7.6L19 7l-9 9z"></path>
-                            </svg>
-                            Track all your expenses easily.
-                          </li>
-                          <li>
-                            <svg className="check-icon" viewBox="0 0 24 24">
-                              <path d="M10 15l-3-3 1.4-1.4L10 12.2l7.6-7.6L19 7l-9 9z"></path>
-                            </svg>
-                            Set and manage budget limits.
-                          </li>
-                          <li>
-                            <svg className="check-icon" viewBox="0 0 24 24">
-                              <path d="M10 15l-3-3 1.4-1.4L10 12.2l7.6-7.6L19 7l-9 9z"></path>
-                            </svg>
-                            Receive notifications for overspending.
-                          </li>
-                        </ul>
-                        <img src="/images/budget.jpg" alt="Budget Tracking Screenshot" className="feature-screenshot" />
-                      </div>
+                      ))}
                     </div>
-
-                    {/* Add additional carousel items here */}
-
-                    {/* Carousel Navigation */}
                     <button className="carousel-nav prev" onClick={prevSlide}>❮</button>
                     <button className="carousel-nav next" onClick={nextSlide}>❯</button>
                   </div>
@@ -123,7 +141,6 @@ const Homepage = () => {
             </div>
           </section>
 
-          {/* Value Proposition Section */}
           <section className="value-proposition">
             <div className="container">
               <h2 className="section-title">Reasons to Choose PennyPillar For Your Financial Future</h2>
@@ -155,7 +172,6 @@ const Homepage = () => {
           </section>
         </main>
 
-        {/* Footer Section */}
         <footer className="footer">
           <div className="footer-container">
             <div className="branding">
