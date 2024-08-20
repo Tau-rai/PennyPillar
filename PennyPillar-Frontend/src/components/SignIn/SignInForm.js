@@ -9,7 +9,7 @@ const SignInPage = () => {
     const [username, setUsername] = useState(''); 
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
-    const isLoggedIn = true;
+    const isLoggedIn = false;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
