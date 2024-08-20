@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import './Budget.css';
 import { Chart, registerables } from 'chart.js';
 import MainFooter from '../ComponentFooter';
-import Header from '../Header'; // Importing Header component
+import Topnav from '../TopNav'; // Importing Header component
 
 Chart.register(...registerables);
 
@@ -127,7 +127,7 @@ const Budget = () => {
 
     return (
         <>
-            <Header isLoggedIn={true} /> {/* Include the Header component */}
+            <Topnav /> {/* Include the Header component */}
             <div className="budget-container">
                 <main>
                     <section id="calendar" className="section">
