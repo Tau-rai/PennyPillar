@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Chart, registerables } from 'chart.js';
 import './Dashboard.css';
-import Topnav from '../Topnav';
+import Topnav from '../TopNav';
 import axiosInstance from '../../axiosConfig';
 import MainFooter from '../ComponentFooter';
 Chart.register(...registerables);
