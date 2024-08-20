@@ -169,9 +169,10 @@ const Challenge = () => {
                         <button onClick={handleGoalSubmit}>Submit Goal</button>
                     </div>
                 )}
-
+                </div>
+                    
                 <MainFooter />
-            </div>
+            
         </>
     );
 };
