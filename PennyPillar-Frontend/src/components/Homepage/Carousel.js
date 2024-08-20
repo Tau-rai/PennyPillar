@@ -105,14 +105,7 @@ const Carousel = () => {
                         </div>
                     ))}
                 </div>
-                <div className="carousel-controls">
-                    <button className="control-button" onClick={handlePrevSlide}>
-                        <i className="fas fa-chevron-left"></i>
-                    </button>
-                    <button className="control-button" onClick={handleNextSlide}>
-                        <i className="fas fa-chevron-right"></i>
-                    </button>
-                </div>
+               
                 <div className="carousel-dots">
                     {featuresData.map((_, index) => (
                         <div
