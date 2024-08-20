@@ -100,6 +100,7 @@ const Cashflow = () => {
   return (
     <>
     <Topnav />
+      <div className="cashflow-container"> 
       {showAddForm && (
         <form onSubmit={handleAddTransaction} className="transaction-form">
           <input
@@ -235,6 +236,8 @@ const Cashflow = () => {
           </form>
         </div>
       )}
+      <div/>
+        
       <MainFooter />
     </>
   );
