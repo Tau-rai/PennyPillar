@@ -1,4 +1,4 @@
-.import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Challenge.css';
 import axiosInstance from '../../axiosConfig';
 import MainFooter from '../ComponentFooter';
