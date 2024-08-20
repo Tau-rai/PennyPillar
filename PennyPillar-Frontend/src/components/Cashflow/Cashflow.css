@@ -81,3 +81,11 @@ th {
     font-size: 14px;
   }
 }
+
+.icon-add {
+  color: darkgreen; /* or any green color of your choice */
+  font-size: 16px; /* Adjust size as needed */
+  cursor: pointer;
+  margin-left: 8px; /* Optional: Add space between the title and the icon */
+}
+
