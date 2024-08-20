@@ -44,7 +44,7 @@ const Header = ({ isLoggedIn }) => {
         )}
         {!isLoggedIn ? (
           <>
-            <Link to="/signin">Sign In</Link>
+            <Link to="/login">Sign In</Link>
             <Link to="/signup">Sign Up</Link>
           </>
         ) : null}
