@@ -11,7 +11,7 @@
 
 .carousel-slides {
     display: flex;
-    transition: transform 0.5s ease-in-out;
+    transition: transform 1.5s ease-in-out;
 }
 
 .feature-card {
@@ -42,7 +42,7 @@
 
 .feature-card li {
     font-size: 16px;
-    color: #666;
+    color: #343a40;
 }
 
 .check-icon {
