@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import axiosInstance from '../../axiosConfig'; // Import the custom axios instance
-import './Cashflow.css'; // Import the CSS file for styling
-import { FaPencilAlt, FaTrashAlt } from 'react-icons/fa'; // Import icons
+import axiosInstance from '../../axiosConfig';
+import './Cashflow.css';
+import { FaPencilAlt, FaTrashAlt, FaPlus } from 'react-icons/fa'; // Import the FaPlus icon
 import MainFooter from '../ComponentFooter';
 
 const Cashflow = () => {
@@ -10,6 +10,7 @@ const Cashflow = () => {
   const [newTransaction, setNewTransaction] = useState({ description: '', amount: '', category: '' });
   const [editingTransaction, setEditingTransaction] = useState(null);
   const [showAddForm, setShowAddForm] = useState(false); // State to toggle add form visibility
+  const [selectedCategory, setSelectedCategory] = useState(''); // To track which category the add form is for
 
   useEffect(() => {
     const fetchTransactions = async () => {
@@ -37,7 +38,8 @@ const Cashflow = () => {
   const handleAddTransaction = async (e) => {
     e.preventDefault();
     try {
-      const response = await axiosInstance.post('/transactions/', newTransaction);
+      const transactionToAdd = { ...newTransaction, category: selectedCategory };
+      const response = await axiosInstance.post('/transactions/', transactionToAdd);
       setTransactions([...transactions, response.data]);
       setNewTransaction({ description: '', amount: '', category: '' });
       setShowAddForm(false); // Hide the form after submission
@@ -80,13 +82,17 @@ const Cashflow = () => {
     return category ? category.name : 'Unknown';
   };
 
+  const handleAddIconClick = (categoryName) => {
+    setSelectedCategory(categoryName);
+    setShowAddForm(true);
+  };
+
   // Calculate totals
   const incomeTransactions = transactions.filter(t => getCategoryName(t.category) === 'Income');
   const expenseTransactions = transactions.filter(t => getCategoryName(t.category) === 'Expenses');
   const savingsTransactions = transactions.filter(t => getCategoryName(t.category) === 'Savings');
   const totalIncome = incomeTransactions.reduce((sum, t) => sum + parseFloat(t.amount), 0);
   const totalExpenses = expenseTransactions.reduce((sum, t) => sum + Math.abs(parseFloat(t.amount)), 0);
-  // const totalSavings = savingsTransactions.reduce((sum, t) => sum + parseFloat(t.amount), 0);
   const netIncome = totalIncome - totalExpenses;
 
   return (
@@ -107,23 +113,15 @@ const Cashflow = () => {
             placeholder="Amount"
             className="form-input"
           />
-          <select
-            value={newTransaction.category}
-            onChange={(e) => setNewTransaction({ ...newTransaction, category: e.target.value })}
-            className="form-select"
-          >
-            <option value="">Select Category</option>
-            {categories.map(cat => (
-              <option key={cat.id} value={cat.id}>{cat.name}</option>
-            ))}
-          </select>
           <button type="submit" className="btn-submit">Add Transaction</button>
         </form>
       )}
 
       <div className="transaction-tables">
         <div className="transaction-category">
-          <h2>Income</h2>
+          <h2>Income 
+            <FaPlus onClick={() => handleAddIconClick('Income')} className="icon-add" />
+          </h2>
           <table>
             <thead>
               <tr>
@@ -148,7 +146,9 @@ const Cashflow = () => {
         </div>
 
         <div className="transaction-category">
-          <h2>Expenses</h2>
+          <h2>Expenses
+            <FaPlus onClick={() => handleAddIconClick('Expenses')} className="icon-add" />
+          </h2>
           <table>
             <thead>
               <tr>
@@ -173,7 +173,9 @@ const Cashflow = () => {
         </div>
 
         <div className="transaction-category">
-          <h2>Savings</h2>
+          <h2>Savings 
+            <FaPlus onClick={() => handleAddIconClick('Savings')} className="icon-add" />
+          </h2>
           <table>
             <thead>
               <tr>
