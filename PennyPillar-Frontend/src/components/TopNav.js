@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import './Topnav.css'; // Import your CSS file
+import './TopNav.css'; // Import your CSS file
 
 const Topnav = () => {
     const [navOpen, setNavOpen] = useState(false);
