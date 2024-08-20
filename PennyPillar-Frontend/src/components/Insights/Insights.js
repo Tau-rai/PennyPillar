@@ -17,10 +17,11 @@ const InsightsPage = () => {
     return (
         <div>
             <h1>Daily Financial Insights</h1>
-            {insights.map(insight => (
-                <div key={insight.id}>
+            {insights.map((insight, index) => (
+                <div key={index} className="insight-item">
                     <h2>{insight.title}</h2>
-                    <p>{insight.content}</p>
+                    {/* Render formatted content directly */}
+                    <div dangerouslySetInnerHTML={{ __html: insight.formatted_content }} />
                     <p><em>{new Date(insight.date_posted).toLocaleDateString()}</em></p>
                 </div>
             ))}

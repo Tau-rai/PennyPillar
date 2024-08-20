@@ -6,10 +6,9 @@ import MainFooter from '../ComponentFooter';
 Chart.register(...registerables);
 
 const Dashboard = () => {
-    const [month, setMonth] = useState(new Date().getMonth() + 1); // Month is 0-indexed in JavaScript, so add 1
+    const [month, setMonth] = useState(new Date().getMonth() + 1);
     const [year, setYear] = useState(new Date().getFullYear());
-    const [budgetData, setBudgetData] = useState([]);
-    
+    const [budgetData, setBudgetData] = useState([]);  // Ensure this is defined here
 
     const budgetChartRef = useRef(null);
     const cashFlowChartRef = useRef(null);
@@ -28,7 +27,7 @@ const Dashboard = () => {
                         year,
                     },
                 });
-                setBudgetData(response.data);
+                setBudgetData(response.data);  // Ensure this setter is correct
             } catch (error) {
                 console.error('Error fetching budget data:', error);
             }
@@ -80,7 +79,7 @@ const Dashboard = () => {
     useEffect(() => {
         renderCalendar();
         initializeCharts();
-    }, [month, year, budgetData]);
+    }, [month, year, budgetData, transactions, categories]);
 
     const renderCalendar = () => {
         const calendarDays = document.getElementById('calendar-days');

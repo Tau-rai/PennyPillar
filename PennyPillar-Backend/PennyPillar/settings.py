@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'drf_yasg',
     'django_filters',
+    'django_apscheduler',
+    
 ]
 
 
@@ -113,6 +115,7 @@ SWAGGER_SETTINGS = {
     'USE_SESSION_AUTH': True,
 }
 
+# CELERY_BROKER_URL = 'redis://localhost:6379/0'
 
 ROOT_URLCONF = 'PennyPillar.urls'
 

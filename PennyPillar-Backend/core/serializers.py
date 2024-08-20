@@ -7,8 +7,7 @@ from PIL import Image
 from rest_framework_simplejwt.tokens import RefreshToken
 from datetime import datetime
 from decimal import Decimal
-from utils import generate_daily_insight
-
+import markdown
 
 class RegisterSerializer(serializers.ModelSerializer):
     """User registration serializer."""
@@ -166,7 +165,15 @@ class SubscriptionSerializer(serializers.ModelSerializer):
 
 
 class InsightSerializer(serializers.ModelSerializer):
-    """Insights serializer."""
+    """Insights serializer with Markdown to HTML conversion."""
+    
+    # Add a field for the formatted HTML content
+    formatted_content = serializers.SerializerMethodField()
+
     class Meta:
         model = Insight
-        fields = generate_daily_insight()
+        fields = ['title', 'content', 'formatted_content', 'date_posted']
+
+    def get_formatted_content(self, obj):
+        """Convert Markdown content to HTML."""
+        return markdown.markdown(obj.content)
