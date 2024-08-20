@@ -1,4 +1,4 @@
-import React, { useState } from 'react'; // Import useState
+import React, { useState, useEffect } from 'react'; // Import useState
 import './Carousel.css'; // Ensure you create this CSS file for styling
 import './UserGuide.css';
 
