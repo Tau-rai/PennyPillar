@@ -33,13 +33,13 @@ const MainFooter = () => {
                         </Link>
                     </li>
                     <li>
-                        <Link to="/subscriptions">
+                        <Link to="/recurring">
                             <i className="fas fa-credit-card"></i>
                             <span>Recurring</span>
                         </Link>
                     </li>
                     <li>
-                        <Link to="/penny">
+                        <Link to="/challenge">
                             <i className="fas fa-coins"></i>
                             <span>Penny</span>
                         </Link>
