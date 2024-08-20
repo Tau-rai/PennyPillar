@@ -12,7 +12,7 @@ const SignUpPage = () => {
     const [password, setPassword] = useState('');
     const [password2, setPassword2] = useState('');
     const navigate = useNavigate();
-    const isLoggedIn = false;
+    const isLoggedIn = true;
     
 
     const handleRegister = async (e) => {
