@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Chart, registerables } from 'chart.js';
 import './Dashboard.css';
-import Header from '../Header';
+import Topnav from '../Topnav';
 import axiosInstance from '../../axiosConfig';
 import MainFooter from '../ComponentFooter';
 Chart.register(...registerables);
@@ -316,7 +316,7 @@ const Dashboard = () => {
 
     return (
         <>
-         <Header isLoggedIn={true} />
+         <Topnav />
             <div className="calendar-container">
                 <div className="calendar-header">
                     <button onClick={() => changeMonth(-1)}>Prev</button>
