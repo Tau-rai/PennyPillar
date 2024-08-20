@@ -236,7 +236,6 @@ const Cashflow = () => {
           </form>
         </div>
       )}
-      <div/>
         
       <MainFooter />
     </>
