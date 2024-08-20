@@ -195,7 +195,7 @@
         }
 
          .calendar-container {
-            max-width: 600px;
+            
             width: 100%;
             background: #fff;
             border-radius: 10px;
@@ -206,7 +206,9 @@
             text-align: center;
             transform: rotateX(-10deg);
             transform-style: preserve-3d;
-            
+            margin-top: 12vh;
+            margin-left: 25vh;
+          
         }
 
         .calendar-header {
