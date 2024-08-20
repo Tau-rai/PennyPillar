@@ -30,8 +30,8 @@ const Header = () => {
       <div className="hamburger" onClick={() => document.querySelector('.nav-links').classList.toggle('nav-open')}>☰</div>
       <nav className="nav-links">
         {isLoggedIn && profilePicture && (
-          <div className="profile-container" onClick={handleProfileClick}>
-            <img src={profilePicture || '/images/placeholder.png'} alt="Profile" className="profile-pic" />
+          <div className="prof-container" onClick={handleProfileClick}>
+            <img src={profilePicture || '/images/placeholder.png'} alt="Profile" className="prof-pic" />
           </div>
         )}
         <Link to="/">Home</Link>
