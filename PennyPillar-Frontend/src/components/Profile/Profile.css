@@ -5,7 +5,7 @@
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     width: 90%; /* Adjusted width for responsiveness */
-    max-width: 300px; /* Max width for larger screens */
+    max-width: 600px; /* Max width for larger screens */
     color: #004d00;
     position: absolute;
     top: 50%;
