@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Chart, registerables } from 'chart.js';
 import './Dashboard.css';
+import Header from '../Header';
 import axiosInstance from '../../axiosConfig';
 import MainFooter from '../ComponentFooter';
 Chart.register(...registerables);
@@ -9,7 +10,7 @@ const Dashboard = () => {
     const [month, setMonth] = useState(new Date().getMonth() + 1);
     const [year, setYear] = useState(new Date().getFullYear());
     const [budgetData, setBudgetData] = useState([]);  // Ensure this is defined here
-
+    
     const budgetChartRef = useRef(null);
     const cashFlowChartRef = useRef(null);
     const netIncomeRef = useRef(null);
@@ -315,6 +316,7 @@ const Dashboard = () => {
 
     return (
         <>
+         <Header isLoggedIn={true} />
             <div className="calendar-container">
                 <div className="calendar-header">
                     <button onClick={() => changeMonth(-1)}>Prev</button>
