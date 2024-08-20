@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import Header from '../TopNav';
+import Header from '../Header';
 import Footer from '../PillarFooter';
 import './SignInForm.css';
 import axiosInstance from '../../axiosConfig';
@@ -34,7 +34,7 @@ const SignInPage = () => {
 
     return (
         <>
-        <Header />
+        <Header  isLoggedIn={isLoggedIn} />
             <div className="sign-content">
                 <div className="form-container">
                     <div className="header-content">
