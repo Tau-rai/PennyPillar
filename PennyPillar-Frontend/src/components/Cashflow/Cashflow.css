@@ -1,7 +1,18 @@
-.cashflow-container {
-  padding: 20px;
-  margin-bottom: 60px; /* Ensure there's space for the footer */
+
+  .cashflow-container {
+    padding: 20px;
+    margin-bottom: 60px;
+    border: 8px;
+    margin-top: 15vh;
+    margin-bottom: 20vh;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0 0 0);
+    background-color: #f9f9f9;
+    margin-left: 30px;
+    margin-right: 30px;
+    
 }
+
 
 /* Styles for the container */
 .container {
