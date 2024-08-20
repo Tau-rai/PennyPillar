@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+.import React, { useState, useEffect } from 'react';
 import './Challenge.css';
 import axiosInstance from '../../axiosConfig';
 import MainFooter from '../ComponentFooter';
+import Topnav from '../TopNav';
 
 const numbers = Array.from({ length: 100 }, (_, index) => index + 1);
 numbers.sort(() => Math.random() - 0.5);
@@ -104,11 +105,8 @@ const Challenge = () => {
     };
 
     return (
+        <Topnav />
         <div className="challenge-content">
-            <header className="challenge-header">
-                <div className="logo">PennyPillar</div>
-            </header>
-
             <div className="change-header">
                 <div className="challenge-title">Save A Penny Challenge</div>
                 <div className="challenge-description">Track your savings and reach your financial goals with this daily challenge.</div>
