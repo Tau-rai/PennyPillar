@@ -1,14 +1,6 @@
-
-     
-
-   
-      
-
-       
-
         /* Subscriptions styles */
         .subscription-container {
-            max-width: 600px;
+            max-width: 1200px;
             width: 100%;
             background-color: #ffffff;
             padding: 20px;
@@ -16,12 +8,25 @@
             border-radius: 12px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
+            margin-left: 5vh;
+            margin-top: 10vh:
         }
 
         .subscription-container h2 {
             margin-top: 0;
             color: #004d40;
+            text-align: center;
         }
+
+
+       .subscription-container p {
+            margin-top: 0;
+            color: #004d40;
+            text-align: center;
+            font-size: 16px;
+            
+        }
+
 
         .due-date {
             font-weight: bold;
