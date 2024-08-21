@@ -431,7 +431,9 @@
 .section-title {
     font-size: 36px;
     margin-bottom: 30px;
-    color: #6c757d;
+    color: #333;
+    margin-top: 20px;
+    
 }
 
 .value-proposition-content {
