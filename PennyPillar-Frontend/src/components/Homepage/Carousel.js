@@ -4,26 +4,34 @@ import './UserGuide.css';
 
 const featuresData = [
     {
-        title: "Income",
+        title: "Dashboard",
         features: [
-            "Input all your sources of income.",
-            "Review total income automatically.",
+            "Overview of financial situation.",
+            "Quick access to key financial metrics.",
+            "Indications for critical activity.",
+             "Financial goal tracking and progress.",
         ],
         imgSrc: "./images/budget.jpg" // Replace with actual image paths
     },
     {
-        title: "Expenses",
+        title: "Cashflows",
         features: [
             "Categorize your expenses easily.",
             "Track and review your spending.",
+            "Input all your sources of income.",
+            "Review total income automatically.",
         ],
         imgSrc: "./images/savings.jpg"
     },
     {
-        title: "Savings",
+        title: "Save A Penny",
         features: [
-            "Monitor your savings goals.",
+            "Automatically calculates smallest amount to save.",
             "Automate your savings process.",
+            "Track progress of your saving goal.",
+            "Manage daily savings towards goals.",
+
+            
         ],
         imgSrc: "./images/savings.jpg"
     },
@@ -32,6 +40,8 @@ const featuresData = [
         features: [
             "Set and manage your budget effectively.",
             "Review budget adherence and adjust as needed.",
+            "Track expenses and stay within budget.",
+            "Receive alerts when overspending occurs",
         ],
         imgSrc: "./images/budget.jpg"
     },
@@ -40,6 +50,9 @@ const featuresData = [
         features: [
             "Track your recurring subscriptions.",
             "Get reminders for upcoming payments.",
+            "Monitor subscriptions (e.g., streaming services, software)",
+            "Identify areas for cost reduction"
+            
         ],
         imgSrc: "./images/recurring.jpg"
     },
@@ -47,7 +60,10 @@ const featuresData = [
         title: "Insights",
         features: [
             "Analyze spending patterns.",
-            "Gain insights into your financial habits.",
+            "Gain insights into healthy financial habits.",
+            "Make the most of your money.",
+            "Build wealth, not stress, hear what financial experts have to say"
+            
         ],
         imgSrc: "./images/insights.jpg"
     }
@@ -72,14 +88,9 @@ const Carousel = () => {
         if (currentSlide > 0) setCurrentSlide(currentSlide - 1);
     };
 
-    const handleNextSlide = () => {
-        if (currentSlide < featuresData.length - 1) {
-            setCurrentSlide(currentSlide + 1);
-        } else {
-            setCurrentSlide(0); // Loop back to the first slide
-        }
-    };
-
+    
+    const handleNextSlide = () => { setCurrentSlide((currentSlide + 1) % (featuresData.length - 1) + 1); };
+    
     const goToSlide = (index) => {
         setCurrentSlide(index);
     };
@@ -87,7 +98,7 @@ const Carousel = () => {
     return (
         <div>
             <div className="title-section">
-                <h2>Explore Our Features</h2>
+                <h2>Explore the Features That Matter to You</h2>
             </div>
             <div className="carousel-container">
                 <div className="carousel-slides" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
