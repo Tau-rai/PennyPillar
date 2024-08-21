@@ -4,7 +4,6 @@
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     background-color: #f8f9f9; /* Light background for contrast */
-    padding: 20px;
     margin: 0 auto;
     max-width: 1200px;
 }
@@ -20,6 +19,7 @@
     padding: 20px;
     text-align: center;
     color: #333;
+    background-color: #d3d3c5;
 }
 
 .feature-card img {
