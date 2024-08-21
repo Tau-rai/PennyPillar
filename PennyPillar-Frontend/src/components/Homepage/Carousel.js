@@ -65,7 +65,7 @@ const featuresData = [
             "Build wealth, not stress, hear what financial experts have to say"
             
         ],
-        imgSrc: "./images/Insights.jpg"
+        imgSrc: "./images/Insights.jpeg"
     }
 ];
 
