@@ -6,7 +6,7 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     width: 90%; /* Adjusted width for responsiveness */
     max-width: 600px; /* Max width for larger screens */
-    color: #004d00;
+    color: #004d40;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -49,9 +49,8 @@ input[type="text"], input[type="email"], input[type="file"] {
 
 /* Button styling */
 button {
-    width: 100%;
     padding: 10px;
-    background-color: #004d00;
+    background-color: #004d40;
     border: none;
     border-radius: 5px;
     cursor: pointer;
