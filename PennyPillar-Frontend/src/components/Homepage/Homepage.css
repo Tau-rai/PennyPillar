@@ -738,7 +738,7 @@
             border: 1px solid #ddd;
             border-radius: 8px;
             margin: 0;
-            height: 400px; 
+            min-height: 600px; 
             display: flex;
             flex-direction: column;
             justify-content: center;
