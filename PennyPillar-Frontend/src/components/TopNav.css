@@ -67,8 +67,3 @@
     background-color: #00695c;
 }
 
-/* Adjust the main content area to account for the fixed header */
-.main-content {
-    margin-top: 8vh; /* Space for the fixed header */
-    padding: 1rem;
-}
