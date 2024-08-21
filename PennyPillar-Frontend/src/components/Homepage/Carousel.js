@@ -63,7 +63,7 @@ const Carousel = () => {
     useEffect(() => {
         const interval = setInterval(() => {
             handleNextSlide();
-        }, 3000); // Change slide every 3 seconds
+        }, 5000); // Change slide every 3 seconds
 
         return () => clearInterval(interval);
     }, [currentSlide]);
@@ -93,7 +93,7 @@ const Carousel = () => {
                 <div className="carousel-slides" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
                     {featuresData.map((feature, index) => (
                         <div className="feature-card" key={index}>
-                            <img src={feature.imgSrc} alt={`${feature.title} image`} width="400" height="400" />
+                            <img src={feature.imgSrc} alt={`${feature.title} image`} width="700" height="600" />
                             <h3>{feature.title}</h3>
                             <ul>
                                 {feature.features.map((item, i) => (
