@@ -11,7 +11,7 @@ const featuresData = [
             "Indications for critical activity.",
              "Financial goal tracking and progress.",
         ],
-        imgSrc: "./images/budget.jpg" // Replace with actual image paths
+        imgSrc: "./images/dashboard.jpg" // Replace with actual image paths
     },
     {
         title: "Cashflows",
@@ -21,7 +21,7 @@ const featuresData = [
             "Input all your sources of income.",
             "Review total income automatically.",
         ],
-        imgSrc: "./images/savings.jpg"
+        imgSrc: "./images/cashflow.jpg"
     },
     {
         title: "Save A Penny",
@@ -33,7 +33,7 @@ const featuresData = [
 
             
         ],
-        imgSrc: "./images/savings.jpg"
+        imgSrc: "./images/penny.jpg"
     },
     {
         title: "Budget",
@@ -54,7 +54,7 @@ const featuresData = [
             "Identify areas for cost reduction"
             
         ],
-        imgSrc: "./images/recurring.jpg"
+        imgSrc: "./images/Subscriptions.jpeg"
     },
     {
         title: "Insights",
@@ -132,5 +132,3 @@ const Carousel = () => {
 };
 
 export default Carousel;
-
-  
