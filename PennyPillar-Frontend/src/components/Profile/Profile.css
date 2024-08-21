@@ -1,66 +1,91 @@
+/* Container for profile and form */
+.profile-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    width: 90%; /* Adjusted width for responsiveness */
+    max-width: 600px; /* Max width for larger screens */
+    color: #004d40;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-sizing: border-box;
+}
 
-   
-        .profile-container {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            width: 300px;
-            color: #004d00;
-        }
+/* Header styling */
+h1 {
+    text-align: center;
+    font-style: italic;
+    font-weight: bold;
+    font-size: 1.5em; /* Adjusted size for better responsiveness */
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    background: linear-gradient(to right, #004d00, #66ff66);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 20px; /* Space for better readability */
+}
 
-        h1 {
-            text-align: center;
-            font-style: italic;
-            font-weight: bold;
-            font-size: 2em; /* Increase font size */
-            letter-spacing: 2px; /* Adjust letter spacing */
-            text-transform: uppercase; /* Capitalize all letters */
-            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7); /* Enhanced shadow */
-            background: linear-gradient(to right, #004d00, #66ff66); /* Gradient text */
-            -webkit-background-clip: text; /* Clip the gradient to text */
-            -webkit-text-fill-color: transparent; /* Make text fill transparent for gradient effect */
-        }
+/* Label styling */
+label {
+    display: block;
+    margin: 10px 0 5px;
+    color: #004d00;
+}
 
-        label {
-            display: block;
-            margin: 10px 0 5px;
-            color: #004d00;
-        }
+/* Input fields styling */
+input[type="text"], input[type="email"], input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 2px solid #004d00;
+    border-radius: 5px;
+    box-sizing: border-box;
+    background-color: #f0f0f0;
+}
 
-        input[type="text"], input[type="email"], input[type="file"] {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 2px solid #004d00;
-            border-radius: 5px;
-            box-sizing: border-box;
-            background-color: #f0f0f0;
-        }
+/* Button styling */
+button {
+    padding: 10px;
+    background-color: #004d40;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #fff;
+    font-weight: bold;
+}
 
-        button {
-            
-            padding: 10px;
-            background-color: #004d00;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            color: #fff;
-            font-weight: bold;
-        }
+/* Button hover effect */
+button:hover {
+    background-color: #003300;
+}
 
-        button:hover {
-            background-color: #003300;
-        }
+/* Profile picture preview */
+.profile-picture-preview {
+    text-align: center;
+    margin: 15px 0;
+}
 
-        .profile-picture-preview {
-            text-align: center;
-            margin: 15px 0;
-        }
+/* Profile picture styling */
+.profile-picture-preview img {
+    max-width: 100px;
+    border-radius: 50%;
+    display: block;
+    margin: 0 auto;
+}
 
-        .profile-picture-preview img {
-            max-width: 100px;
-            border-radius: 50%;
-            display: block;
-            margin: 0 auto;
-          }
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .profile-container {
+        width: 95%; /* Adjust width for smaller screens */
+        max-width: none; /* Remove max-width restriction */
+        padding: 15px; /* Reduce padding */
+    }
+
+    h1 {
+        font-size: 1.2em; /* Smaller font size for smaller screens */
+    }
+}

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import Header from '../TopNav';
+import Header from '../Header';
 import Footer from '../PillarFooter';
 import './SignInForm.css';
 import axiosInstance from '../../axiosConfig';
@@ -9,6 +9,7 @@ const SignInPage = () => {
     const [username, setUsername] = useState(''); 
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
+    const isLoggedIn = false;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -34,7 +35,7 @@ const SignInPage = () => {
 
     return (
         <>
-        <Header />
+        <Header  isLoggedIn={isLoggedIn} />
             <div className="sign-content">
                 <div className="form-container">
                     <div className="header-content">

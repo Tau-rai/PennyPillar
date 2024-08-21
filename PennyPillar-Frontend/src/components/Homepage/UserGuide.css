@@ -2,7 +2,9 @@
             background: #f1f1f1;
             padding: 2rem 1rem;
             text-align: center;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 5px solid #ddd;
+            background-color: #d3d3c5;
+  
         }
 
         .title-section h2 {

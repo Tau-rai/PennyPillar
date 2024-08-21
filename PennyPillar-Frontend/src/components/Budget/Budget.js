@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import './Budget.css';
 import { Chart, registerables } from 'chart.js';
 import MainFooter from '../ComponentFooter';
+import Topnav from '../TopNav'; // Importing Header component
 
 Chart.register(...registerables);
 
@@ -54,12 +55,10 @@ const Budget = () => {
         const ctx = expenseChartRef.current.getContext('2d');
         const expenseData = getExpenseData();
 
-        // Destroy the previous chart instance if it exists
         if (chartInstanceRef.current) {
             chartInstanceRef.current.destroy();
         }
 
-        // Create a new chart instance
         chartInstanceRef.current = new Chart(ctx, {
             type: 'pie',
             data: {
@@ -122,12 +121,13 @@ const Budget = () => {
     const calculateGoalProgress = () => {
         if (goals.length === 0) return 0;
         const total = goals.reduce((sum, goal) => sum + goal.target, 0);
-        const progress = goals.reduce((sum, goal) => sum + (goal.target * 0.5), 0); // Example: 50% completion
+        const progress = goals.reduce((sum, goal) => sum + (goal.target * 0.5), 0);
         return (progress / total) * 100;
     };
 
     return (
         <>
+            <Topnav /> {/* Include the Header component */}
             <div className="budget-container">
                 <main>
                     <section id="calendar" className="section">

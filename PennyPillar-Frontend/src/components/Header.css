@@ -37,12 +37,13 @@
     top: 0;
     left: 0;
     width: 20%;
-    height: 100vh; /* Full viewport height */
+    height: 150vh; /* Full viewport height */
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
     padding: 1rem;
     z-index: 1000;
+    
   }
 
   .header .logo {

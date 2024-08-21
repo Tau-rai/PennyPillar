@@ -3,6 +3,7 @@ import axiosInstance from '../../axiosConfig';
 import './Cashflow.css';
 import { FaPencilAlt, FaTrashAlt, FaPlus } from 'react-icons/fa'; // Import the FaPlus icon
 import MainFooter from '../ComponentFooter';
+import Topnav from '../TopNav';
 
 const Cashflow = () => {
   const [transactions, setTransactions] = useState([]);
@@ -97,141 +98,147 @@ const Cashflow = () => {
 
   return (
     <>
-      {showAddForm && (
-        <form onSubmit={handleAddTransaction} className="transaction-form">
-          <input
-            type="text"
-            value={newTransaction.description}
-            onChange={(e) => setNewTransaction({ ...newTransaction, description: e.target.value })}
-            placeholder="Description"
-            className="form-input"
-          />
-          <input
-            type="number"
-            value={newTransaction.amount}
-            onChange={(e) => setNewTransaction({ ...newTransaction, amount: e.target.value })}
-            placeholder="Amount"
-            className="form-input"
-          />
-          <button type="submit" className="btn-submit">Add Transaction</button>
-        </form>
-      )}
-
-      <div className="transaction-tables">
-        <div className="transaction-category">
-          <h2>Income 
-            <FaPlus onClick={() => handleAddIconClick('Income')} className="icon-add" />
-          </h2>
-          <table>
-            <thead>
-              <tr>
-                <th>Description</th>
-                <th>Amount</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {incomeTransactions.map(transaction => (
-                <tr key={transaction.id}>
-                  <td>{transaction.description}</td>
-                  <td>${transaction.amount}</td>
-                  <td>
-                    <FaPencilAlt onClick={() => handleEditTransaction(transaction.id)} className="icon-pencil" />
-                    <FaTrashAlt onClick={() => handleDeleteTransaction(transaction.id)} className="icon-bin" />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-        <div className="transaction-category">
-          <h2>Expenses
-            <FaPlus onClick={() => handleAddIconClick('Expenses')} className="icon-add" />
-          </h2>
-          <table>
-            <thead>
-              <tr>
-                <th>Description</th>
-                <th>Amount</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {expenseTransactions.map(transaction => (
-                <tr key={transaction.id}>
-                  <td>{transaction.description}</td>
-                  <td>${Math.abs(transaction.amount)}</td>
-                  <td>
-                    <FaPencilAlt onClick={() => handleEditTransaction(transaction.id)} className="icon-pencil" />
-                    <FaTrashAlt onClick={() => handleDeleteTransaction(transaction.id)} className="icon-bin" />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-        <div className="transaction-category">
-          <h2>Savings 
-            <FaPlus onClick={() => handleAddIconClick('Savings')} className="icon-add" />
-          </h2>
-          <table>
-            <thead>
-              <tr>
-                <th>Description</th>
-                <th>Amount</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {savingsTransactions.map(transaction => (
-                <tr key={transaction.id}>
-                  <td>{transaction.description}</td>
-                  <td>${transaction.amount}</td>
-                  <td>
-                    <FaPencilAlt onClick={() => handleEditTransaction(transaction.id)} className="icon-pencil" />
-                    <FaTrashAlt onClick={() => handleDeleteTransaction(transaction.id)} className="icon-bin" />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <h2>Net Income: ${(Number(netIncome)).toFixed(2)}</h2>
-
-      {editingTransaction && (
-        <div className="transaction-edit">
-          <h2>Edit Transaction</h2>
-          <form onSubmit={handleUpdateTransaction} className="transaction-form">
+      <Topnav />
+      <div className="cashflow-container"> 
+        {showAddForm && (
+          <form onSubmit={handleAddTransaction} className="transaction-form">
             <input
               type="text"
-              value={editingTransaction.description}
-              onChange={(e) => setEditingTransaction({ ...editingTransaction, description: e.target.value })}
+              value={newTransaction.description}
+              onChange={(e) => setNewTransaction({ ...newTransaction, description: e.target.value })}
+              placeholder="Description"
               className="form-input"
             />
             <input
               type="number"
-              value={editingTransaction.amount}
-              onChange={(e) => setEditingTransaction({ ...editingTransaction, amount: e.target.value })}
+              value={newTransaction.amount}
+              onChange={(e) => setNewTransaction({ ...newTransaction, amount: e.target.value })}
+              placeholder="Amount"
               className="form-input"
             />
-            <select
-              value={editingTransaction.category}
-              onChange={(e) => setEditingTransaction({ ...editingTransaction, category: e.target.value })}
-              className="form-select"
-            >
-              <option value="">Select Category</option>
-              {categories.map(cat => (
-                <option key={cat.id} value={cat.id}>{cat.name}</option>
-              ))}
-            </select>
-            <button type="submit" className="btn-submit">Update Transaction</button>
+            <button type="submit" className="btn-submit">Add Transaction</button>
           </form>
+        )}
+
+        <div className="transaction-tables">
+          <div className="transaction-category">
+            <h2>
+              Income 
+              <FaPlus onClick={() => handleAddIconClick('Income')} className="icon-add" />
+            </h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Description</th>
+                  <th>Amount</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {incomeTransactions.map(transaction => (
+                  <tr key={transaction.id}>
+                    <td>{transaction.description}</td>
+                    <td>${transaction.amount}</td>
+                    <td>
+                      <FaPencilAlt onClick={() => handleEditTransaction(transaction.id)} className="icon-pencil" />
+                      <FaTrashAlt onClick={() => handleDeleteTransaction(transaction.id)} className="icon-bin" />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <div className="transaction-category">
+            <h2>
+              Expenses
+              <FaPlus onClick={() => handleAddIconClick('Expenses')} className="icon-add" />
+            </h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Description</th>
+                  <th>Amount</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {expenseTransactions.map(transaction => (
+                  <tr key={transaction.id}>
+                    <td>{transaction.description}</td>
+                    <td>${Math.abs(transaction.amount)}</td>
+                    <td>
+                      <FaPencilAlt onClick={() => handleEditTransaction(transaction.id)} className="icon-pencil" />
+                      <FaTrashAlt onClick={() => handleDeleteTransaction(transaction.id)} className="icon-bin" />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <div className="transaction-category">
+            <h2>
+              Savings 
+              <FaPlus onClick={() => handleAddIconClick('Savings')} className="icon-add" />
+            </h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Description</th>
+                  <th>Amount</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {savingsTransactions.map(transaction => (
+                  <tr key={transaction.id}>
+                    <td>{transaction.description}</td>
+                    <td>${transaction.amount}</td>
+                    <td>
+                      <FaPencilAlt onClick={() => handleEditTransaction(transaction.id)} className="icon-pencil" />
+                      <FaTrashAlt onClick={() => handleDeleteTransaction(transaction.id)} className="icon-bin" />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
-      )}
+
+        <h2>Net Income: ${(Number(netIncome)).toFixed(2)}</h2>
+
+        {editingTransaction && (
+          <div className="transaction-edit">
+            <h2>Edit Transaction</h2>
+            <form onSubmit={handleUpdateTransaction} className="transaction-form">
+              <input
+                type="text"
+                value={editingTransaction.description}
+                onChange={(e) => setEditingTransaction({ ...editingTransaction, description: e.target.value })}
+                className="form-input"
+              />
+              <input
+                type="number"
+                value={editingTransaction.amount}
+                onChange={(e) => setEditingTransaction({ ...editingTransaction, amount: e.target.value })}
+                className="form-input"
+              />
+              <select
+                value={editingTransaction.category}
+                onChange={(e) => setEditingTransaction({ ...editingTransaction, category: e.target.value })}
+                className="form-select"
+              >
+                <option value="">Select Category</option>
+                {categories.map(cat => (
+                  <option key={cat.id} value={cat.id}>{cat.name}</option>
+                ))}
+              </select>
+              <button type="submit" className="btn-submit">Update Transaction</button>
+            </form>
+          </div>
+        )}
+      </div>
       <MainFooter />
     </>
   );

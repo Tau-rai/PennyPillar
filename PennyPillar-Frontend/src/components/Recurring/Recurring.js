@@ -3,6 +3,7 @@ import './Recurring.css';
 import '../Dashboard/Dashboard.css';
 import axiosInstance from '../../axiosConfig';
 import MainFooter from '../ComponentFooter';
+import Topnav from '../TopNav';
 
 const Recurring = () => {
     const [month, setMonth] = useState(new Date().getMonth());
@@ -136,6 +137,7 @@ const Recurring = () => {
 
     return (
         <div>
+	    <Topnav />
             <div className="subscription-container">
                 <h2>Subscriptions</h2>
                 <p>Track your recurring expenses and never miss a payment!</p>

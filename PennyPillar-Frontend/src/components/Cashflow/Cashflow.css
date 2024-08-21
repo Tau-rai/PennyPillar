@@ -1,12 +1,30 @@
 
+  .cashflow-container {
+    padding: 20px;
+    margin-bottom: 60px;
+    border: 8px;
+    margin-top: 15vh;
+    margin-bottom: 20vh;
+    box-shadow: 0 4px 8px rgba(0 0 0);
+    background-color: #f9f9f9;
+    margin-left: 30px;
+    margin-right: 30px;
+    min-height: 600px;
+    
+    
+}
+
+
 /* Styles for the container */
 .container {
  
   margin: auto;
   padding: 20px;
   background-color: white;
-  border: 1px solid #ddd;
   position: relative;
+  background-image: url('Bbudget.jpeg');
+  background-size: cover;
+  background-position: center;
 }
 
 
@@ -77,3 +95,11 @@ th {
     font-size: 14px;
   }
 }
+
+.icon-add {
+  color: darkgreen; /* or any green color of your choice */
+  font-size: 16px; /* Adjust size as needed */
+  cursor: pointer;
+  margin-left: 8px; /* Optional: Add space between the title and the icon */
+}
+

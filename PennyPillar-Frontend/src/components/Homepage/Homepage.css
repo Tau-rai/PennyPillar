@@ -142,6 +142,7 @@
     display: flex;
     flex-direction: column;
     background-color: #004d40; /* Dark green */
+    margin-left: 30vh;
 }
 
 .footer-container {
@@ -257,7 +258,6 @@
 }
 
 .footer-container > div {
-    flex: 1;
     margin: 10px;
 }
 
@@ -371,7 +371,7 @@
     color: #fff;
     text-align: center;
     padding: 20px;
-    background-image: url('main.jpg');
+    background-image: url('Bbudget.jpeg');
     background-size: cover;
     background-position: center;
 }
@@ -425,14 +425,15 @@
 /* Unique Value Proposition Section Styles */
 .value-proposition {
     background-color: #fff;
-    padding: 60px 20px;
     text-align: center;
 }
 
 .section-title {
     font-size: 36px;
     margin-bottom: 30px;
-    color: #6c757d;
+    color: #333;
+    margin-top: 20px;
+    
 }
 
 .value-proposition-content {
@@ -451,6 +452,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     position: relative;
     align-items: center;
+    margin-top: 50px;
     
 }
 
@@ -476,13 +478,13 @@
 .cta-button {
     display: inline-block;
     padding: 15px 30px;
-    font-size: 18px;
+    font-size: 20px;
     color: #fff;
     background-color: #27ae60;
     border: none;
     border-radius: 5px;
     text-decoration: none;
-    margin-top: 20px;
+    margin-top: 50px;
     transition: background-color 0.3s;
 }
 
@@ -507,6 +509,7 @@
     .cta-button {
         font-size: 16px;
         padding: 10px 20px;
+        margin-top: 50px;
     }
 }
 
@@ -737,7 +740,7 @@
             border: 1px solid #ddd;
             border-radius: 8px;
             margin: 0;
-            height: 400px; 
+            min-height: 600px; 
             display: flex;
             flex-direction: column;
             justify-content: center;
