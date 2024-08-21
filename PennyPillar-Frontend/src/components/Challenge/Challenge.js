@@ -3,7 +3,7 @@ import './Challenge.css';
 import axiosInstance from '../../axiosConfig';
 import MainFooter from '../ComponentFooter';
 
-const numbers = Array.from({ length: 100 }, (_, index) => index + 1);
+const numbers = Array.from({ length: 50 }, (_, index) => index + 1);
 numbers.sort(() => Math.random() - 0.5);
 
 const Challenge = () => {

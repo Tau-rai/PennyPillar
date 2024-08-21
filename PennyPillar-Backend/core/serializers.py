@@ -7,7 +7,7 @@ from PIL import Image
 from rest_framework_simplejwt.tokens import RefreshToken
 from datetime import datetime
 from decimal import Decimal
-import markdown
+import markdown2
 
 class RegisterSerializer(serializers.ModelSerializer):
     """User registration serializer."""
@@ -176,4 +176,4 @@ class InsightSerializer(serializers.ModelSerializer):
 
     def get_formatted_content(self, obj):
         """Convert Markdown content to HTML."""
-        return markdown.markdown(obj.content)
+        return markdown2.markdown(obj.content)

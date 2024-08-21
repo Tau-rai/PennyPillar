@@ -80,7 +80,7 @@ const Recurring = () => {
             setSubscriptionsData(subscriptionsData.map((sub) =>
                 sub.id === subscription.id ? updatedSubscription : sub
             ));
-            alert(`Subscription marked as ${response.data.status}`);
+            // alert(`Subscription marked as ${response.data.status}`);
         } catch (error) {
             console.error('Error updating subscription status:', error);
         }

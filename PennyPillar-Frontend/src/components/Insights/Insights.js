@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axiosInstance from '../../axiosConfig';
+import './Insights.css';
+import Header from './TopNav'
+import MainFooter from '../MainFooter/MainFooter';
+
 
 const InsightsPage = () => {
     const [insights, setInsights] = useState([]);
@@ -15,17 +19,22 @@ const InsightsPage = () => {
     }, []);
 
     return (
+        <>
+         <Header />
+       
         <div>
             <h1>Daily Financial Insights</h1>
             {insights.map((insight, index) => (
                 <div key={index} className="insight-item">
                     <h2>{insight.title}</h2>
-                    {/* Render formatted content directly */}
                     <div dangerouslySetInnerHTML={{ __html: insight.formatted_content }} />
                     <p><em>{new Date(insight.date_posted).toLocaleDateString()}</em></p>
                 </div>
             ))}
+            
         </div>
+        <MainFooter />
+        </>
     );
 };
 
