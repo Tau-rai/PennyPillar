@@ -9,9 +9,7 @@
     background-color: #f9f9f9;
     margin-left: 30px;
     margin-right: 30px;
-    background-image: url('Bbudget.jpeg');
-    background-size: cover;
-    background-position: center;
+    
     
 }
 
@@ -23,6 +21,9 @@
   padding: 20px;
   background-color: white;
   position: relative;
+  background-image: url('Bbudget.jpeg');
+  background-size: cover;
+  background-position: center;
 }
 
 
