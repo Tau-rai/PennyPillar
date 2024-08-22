@@ -1,127 +1,149 @@
 import React, { useState, useEffect } from 'react';
-import './Profile.css';
 import axiosInstance from '../../axiosConfig';
 
-const Profile = () => {
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [username, setUsername] = useState('');
-    const [profilePicture, setProfilePicture] = useState(null);
-    const [profilePicturePreview, setProfilePicturePreview] = useState('https://via.placeholder.com/100');
+const UserProfile = () => {
+  const [profile, setProfile] = useState({
+    first_name: '',
+    last_name: '',
+    email: '',
+    username: '',
+    profile_picture: null,
+  });
 
-    // Fetch existing profile data on component mount
-    useEffect(() => {
-        const fetchProfile = async () => {
-            try {
-                const response = await axiosInstance.get('/profile/');
-                if (response.status === 200 && response.data.length > 0) {
-                    const profile = response.data[0]; // Assuming only one profile per user
-                    setFirstName(profile.first_name || '');
-                    setLastName(profile.last_name || '');
-                    setUsername(profile.user.username || '');
-                    setProfilePicturePreview(profile.image || 'https://via.placeholder.com/100');
-                }
-            } catch (error) {
-                console.error('Error fetching profile:', error.message);
-            }
-        };
+  const [isEditing, setIsEditing] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [profileImage, setProfileImage] = useState(null);
 
-        fetchProfile();
-    }, []);
-
-    const handleFileChange = (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            setProfilePicture(file);
-            setProfilePicturePreview(URL.createObjectURL(file));
-        }
+  // Fetch user profile on component mount
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const response = await axiosInstance.get('/profile/', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('access_token')}`, // Assuming JWT is stored in localStorage
+          },
+        });
+        setProfile(response.data); // Adjusted to handle a single object response
+        setLoading(false);
+      } catch (err) {
+        setError('Failed to load profile.');
+        setLoading(false);
+      }
     };
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
+    fetchProfile();
+  }, []);
 
-        const formData = new FormData();
-        formData.append('first_name', firstName);
-        formData.append('last_name', lastName);
-        if (profilePicture) {
-            formData.append('image', profilePicture); // Attach the image file if provided
-        }
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setProfile((prevProfile) => ({
+      ...prevProfile,
+      [name]: value,
+    }));
+  };
 
-        try {
-            // Check if the profile already exists in the database
-            const response = await axiosInstance.get('/profile/');
-            if (response.status === 200 && response.data.length > 0) {
-                // Profile exists, update it
-                await axiosInstance.put('/profile/', formData, {
-                    headers: { 'Content-Type': 'multipart/form-data' },
-                });
-            } else {
-                // Profile doesn't exist, create it
-                await axiosInstance.post('/profile/', formData, {
-                    headers: { 'Content-Type': 'multipart/form-data' },
-                });
+  const handleImageChange = (e) => {
+    setProfileImage(e.target.files[0]); // Capture the file object for upload
+  };
+
+  const handleEditToggle = () => {
+    setIsEditing(!isEditing);
+  };
+
+  const handleSave = async () => {
+    const formData = new FormData();
+    formData.append('first_name', profile.first_name);
+    formData.append('last_name', profile.last_name);
+    formData.append('email', profile.email);
+    if (profileImage) {
+      formData.append('profile_picture', profileImage); // Append the image file if it's changed
+    }
+
+    try {
+      const response = await axiosInstance.put('/profile/', formData, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+          'Content-Type': 'multipart/form-data', // Required for file uploads
+        },
+      });
+      setProfile(response.data);
+      setIsEditing(false);
+    } catch (err) {
+      setError('Failed to update profile.');
+    }
+  };
+
+  if (loading) return <p>Loading profile...</p>;
+  if (error) return <p>{error}</p>;
+
+  return (
+    <div className="profile-container">
+      <h2>User Profile</h2>
+      <div className="profile-details">
+        <label>First Name:</label>
+        {isEditing ? (
+          <input
+            type="text"
+            name="first_name"
+            value={profile.first_name}
+            onChange={handleChange}
+          />
+        ) : (
+          <p>{profile.first_name}</p>
+        )}
+
+        <label>Last Name:</label>
+        {isEditing ? (
+          <input
+            type="text"
+            name="last_name"
+            value={profile.last_name}
+            onChange={handleChange}
+          />
+        ) : (
+          <p>{profile.last_name}</p>
+        )}
+
+        <label>Profile Picture:</label>
+        {isEditing ? (
+          <input
+            type="file"
+            name="profile_picture"
+            accept="image/*"
+            onChange={handleImageChange}
+          />
+        ) : (
+          <img
+            src={
+              profile.profile_picture
+                ? profile.profile_picture
+                : 'https://via.placeholder.com/150'
             }
-            alert('Profile updated successfully!');
-        } catch (error) {
-            console.error('Error updating profile:', error.message);
-        }
-    };
+            alt="Profile"
+            width="150"
+          />
+        )}
 
-    return (
-        <div className="profile-container">
-            <h1>Your Profile Zone</h1>
-            <form className="profile-form" onSubmit={handleSubmit} encType="multipart/form-data">
-                <label htmlFor="firstname">First Name:</label>
-                <input
-                    type="text"
-                    id="firstname"
-                    name="firstname"
-                    placeholder="Enter your first name"
-                    value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
-                />
+        <label>Username:</label>
+        <p>{profile.username}</p> {/* Usually, username should not be editable */}
 
-                <label htmlFor="lastname">Last Name:</label>
-                <input
-                    type="text"
-                    id="lastname"
-                    name="lastname"
-                    placeholder="Enter your last name"
-                    value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
-                />
+        <label>Email:</label>
+        <p>{profile.email}</p> {/* Usually, email should not be editable */}
+      </div>
 
-                <label htmlFor="username">Username:</label>
-                <input
-                    type="text"
-                    id="username"
-                    name="username"
-                    placeholder="Enter your username"
-                    value={username}
-                    readOnly
-                />
-
-                <label htmlFor="profile-picture">Profile Picture:</label>
-                <input
-                    type="file"
-                    id="profile-picture"
-                    name="profile-picture"
-                    accept="image/*"
-                    onChange={handleFileChange}
-                />
-
-                <div className="profile-picture-preview">
-                    <img
-                        id="profile-picture-display"
-                        src={profilePicturePreview}
-                        alt="Profile Preview"
-                    />
-                </div>
-
-                <button type="submit">Update Profile</button>
-            </form>
-        </div>
-    );
+      <div className="profile-actions">
+        {isEditing ? (
+          <>
+            <button onClick={handleSave}>Save</button>
+            <button onClick={handleEditToggle}>Cancel</button>
+          </>
+        ) : (
+          <button onClick={handleEditToggle}>Edit Profile</button>
+        )}
+      </div>
+    </div>
+  );
 };
 
-export default Profile;
+export default UserProfile;
