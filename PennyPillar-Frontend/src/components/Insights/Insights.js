@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axiosInstance from '../../axiosConfig';
 import './Insights.css';
-// import Header from './TopNav'
-// import MainFooter from '../MainFooter/MainFooter';
+import Header from '../TopNav'
+
 
 
 const InsightsPage = () => {
@@ -20,20 +20,19 @@ const InsightsPage = () => {
 
     return (
         <>
-         <Header />
+         {/* <Header /> */}
        
         <div>
             <h1>Daily Financial Insights</h1>
             {insights.map((insight, index) => (
                 <div key={index} className="insight-item">
-                    <h2>{insight.title}</h2>
                     <div dangerouslySetInnerHTML={{ __html: insight.formatted_content }} />
                     <p><em>{new Date(insight.date_posted).toLocaleDateString()}</em></p>
                 </div>
             ))}
             
         </div>
-        <MainFooter />
+        {/* <MainFooter /> */}
         </>
     );
 };

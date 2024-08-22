@@ -46,7 +46,8 @@
 
         .number-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+            grid-template-columns: repeat(5, 1fr);
+            grid-template-rows: repeat(5, 1fr);
             gap: 10px;
             justify-items: center;
             margin-bottom: 1.5rem;
