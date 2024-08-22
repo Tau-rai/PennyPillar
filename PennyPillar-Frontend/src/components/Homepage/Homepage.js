@@ -74,22 +74,22 @@ const Homepage = () => {
           <div className="footer-nav">
             <h3>Quick Links</h3>
             <ul>
-          <Link to="/">Home</Link>
-          <Link to="/about">About Us</Link>
-          <Link to="/help">Help</Link>
-          <Link to="/contact">Contact</Link>
+          <li><Link to="/">Home</Link></li>
+          <li><Link to="/about">About Us</Link></li>
+          <li><Link to="/help">Help</Link></li>
+          <li><Link to="/contact">Contact</Link></li>
             </ul>
           </div>
           <div className="footer-products">
             <h3>Our Products</h3>
             <ul>
-            <Link to="/dashboard">Dashboard</Link>
-            <Link to="/cashflow">Cash Flow</Link>
-            <Link to="/budget">Budget</Link>
-            <Link to="/recurring">Recurring Payments</Link>
-            <Link to="/insights">Insights</Link>
-            <Link to="/challenge">Penny Challenge</Link>
-          
+            <li> <Link to="/dashboard">Dashboard</Link></li>
+            <li><Link to="/cashflow">Cash Flow</Link></li>
+            <li><Link to="/budget">Budget</Link></li>
+            <li><Link to="/recurring">Recurring Payments</Link></li>
+            <li><Link to="/insights">Insights</Link></li>
+            <li><Link to="/challenge">Penny Challenge</Link></li>
+        
                </ul>
           </div>
           <div className="footer-legal">
