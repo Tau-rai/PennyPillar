@@ -74,11 +74,10 @@ const Homepage = () => {
           <div className="footer-nav">
             <h3>Quick Links</h3>
             <ul>
-         <Link to="/">Home</Link>
-         <Link to="/signup">Sign Up</Link>}
-        <Link to="/about">About Us</Link>
-        <Link to="/help">Help</Link>
-        <Link to="/contact">Contact</Link>
+          <Link to="/">Home</Link>
+          <Link to="/about">About Us</Link>
+          <Link to="/help">Help</Link>
+          <Link to="/contact">Contact</Link>
             </ul>
           </div>
           <div className="footer-products">
@@ -88,6 +87,7 @@ const Homepage = () => {
             <Link to="/cashflow">Cash Flow</Link>
             <Link to="/budget">Budget</Link>
             <Link to="/recurring">Recurring Payments</Link>
+            <Link to="/insights">Insights</Link>
             <Link to="/challenge">Penny Challenge</Link>
           
                </ul>

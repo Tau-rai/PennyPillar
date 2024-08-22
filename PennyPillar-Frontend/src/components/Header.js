@@ -1,29 +1,30 @@
-// src/components/Header.js
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Header.css';
 
-const Header = ({ isLoggedIn }) => {
-  const [profilePicture, setProfilePicture] = useState('/path/to/profile-picture.png'); // Replace with actual profile picture URL or null
+const Header = () => {
+  const [profilePicture, setProfilePicture] = useState('/path/to/profile-picture.png'); // Replace with actual dynamic URL if available
   const navigate = useNavigate();
 
-  const handleLogout = (event) => {
+  const handleLogout = async (event) => {
     event.preventDefault();
-    fetch('/logout/', { method: 'POST' })
-      .then(response => {
-        if (response.ok) {
-          // Navigate to home after logout
-          navigate('/');
-        }
-      })
-      .catch(error => console.error('Logout failed:', error.message));
+    try {
+      const response = await fetch('/logout/', { method: 'POST' });
+      if (response.ok) {
+        // Perform logout actions
+        console.log('Logout successful');
+        navigate('/'); // Redirect to home after logout
+      }
+    } catch (error) {
+      console.error('Logout failed:', error.message);
+    }
   };
 
-  const handleProfileClick = () => {
-    // Navigate to the profile form page
-    navigate('/profile');
-  };
+  // const handleProfileClick = () => {
+  //   navigate('/profile');
+  // };
 
+  const isLoggedIn = false; // Set to true if user is logged in
   return (
     <header className="header">
       <div className="logo">PennyPillar</div>
@@ -32,7 +33,7 @@ const Header = ({ isLoggedIn }) => {
       </div>
       <nav className="nav-links">
         <Link to="/">Home</Link>
-        {isLoggedIn && (
+        {isLoggedIn ? (
           <>
             <Link to="/dashboard">Dashboard</Link>
             <Link to="/cashflow">Cash Flow/Budget</Link>
@@ -41,21 +42,20 @@ const Header = ({ isLoggedIn }) => {
             <Link to="/profile">Profile</Link>
             <Link to="/logout" onClick={handleLogout}>Logout</Link>
           </>
-        )}
-        {!isLoggedIn ? (
+        ) : (
           <>
             <Link to="/login">Sign In</Link>
             <Link to="/signup">Sign Up</Link>
           </>
-        ) : null}
+        )}
         <Link to="/about">About Us</Link>
         <Link to="/help">Help</Link>
       </nav>
-      {isLoggedIn && profilePicture && (
+      {/* {isLoggedIn && profilePicture && (
         <div className="profile-picture" onClick={handleProfileClick}>
           <img src={profilePicture} alt="Profile" />
         </div>
-      )}
+      )} */}
     </header>
   );
 };
