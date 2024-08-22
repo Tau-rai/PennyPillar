@@ -1,149 +1,128 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import './Profile.css';
 import axiosInstance from '../../axiosConfig';
 
-const UserProfile = () => {
-  const [profile, setProfile] = useState({
-    first_name: '',
-    last_name: '',
-    email: '',
-    username: '',
-    profile_picture: null,
-  });
+const Profile = () => {
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [username, setUsername] = useState('');
+    const [profilePicture, setProfilePicture] = useState('https://via.placeholder.com/100');
+    const [formVisible, setFormVisible] = useState(false);
 
-  const [isEditing, setIsEditing] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-  const [profileImage, setProfileImage] = useState(null);
-
-  // Fetch user profile on component mount
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const response = await axiosInstance.get('/profile/', {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('access_token')}`, // Assuming JWT is stored in localStorage
-          },
-        });
-        setProfile(response.data); // Adjusted to handle a single object response
-        setLoading(false);
-      } catch (err) {
-        setError('Failed to load profile.');
-        setLoading(false);
-      }
+    const handleFileChange = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                setProfilePicture(reader.result);
+            };
+            reader.readAsDataURL(file);
+        }
     };
 
-    fetchProfile();
-  }, []);
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        // Handle form submission logic here
+        const updatedProfile = {
+            firstName: firstName,
+            lastName: lastName,
+            username: username,
+            profilePicture: profilePicture
+        };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setProfile((prevProfile) => ({
-      ...prevProfile,
-      [name]: value,
-    }));
-  };
-
-  const handleImageChange = (e) => {
-    setProfileImage(e.target.files[0]); // Capture the file object for upload
-  };
-
-  const handleEditToggle = () => {
-    setIsEditing(!isEditing);
-  };
-
-  const handleSave = async () => {
-    const formData = new FormData();
-    formData.append('first_name', profile.first_name);
-    formData.append('last_name', profile.last_name);
-    formData.append('email', profile.email);
-    if (profileImage) {
-      formData.append('profile_picture', profileImage); // Append the image file if it's changed
-    }
-
-    try {
-      const response = await axiosInstance.put('/profile/', formData, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-          'Content-Type': 'multipart/form-data', // Required for file uploads
-        },
-      });
-      setProfile(response.data);
-      setIsEditing(false);
-    } catch (err) {
-      setError('Failed to update profile.');
-    }
-  };
-
-  if (loading) return <p>Loading profile...</p>;
-  if (error) return <p>{error}</p>;
-
-  return (
-    <div className="profile-container">
-      <h2>User Profile</h2>
-      <div className="profile-details">
-        <label>First Name:</label>
-        {isEditing ? (
-          <input
-            type="text"
-            name="first_name"
-            value={profile.first_name}
-            onChange={handleChange}
-          />
-        ) : (
-          <p>{profile.first_name}</p>
-        )}
-
-        <label>Last Name:</label>
-        {isEditing ? (
-          <input
-            type="text"
-            name="last_name"
-            value={profile.last_name}
-            onChange={handleChange}
-          />
-        ) : (
-          <p>{profile.last_name}</p>
-        )}
-
-        <label>Profile Picture:</label>
-        {isEditing ? (
-          <input
-            type="file"
-            name="profile_picture"
-            accept="image/*"
-            onChange={handleImageChange}
-          />
-        ) : (
-          <img
-            src={
-              profile.profile_picture
-                ? profile.profile_picture
-                : 'https://via.placeholder.com/150'
+        try {
+            // Check if the profile already exists in the database
+            const response = await axiosInstance.get('/profile/');
+            if (response.status === 200) {
+                // Profile exists, update it
+                await axiosInstance.put('/profile/', updatedProfile);
+            } else {
+                // Profile doesn't exist, create it
+                await axiosInstance.post('/profile/', updatedProfile);
             }
-            alt="Profile"
-            width="150"
-          />
-        )}
+        } catch (error) {
+            console.error('Error:', error.message);
+        }
+    };
 
-        <label>Username:</label>
-        <p>{profile.username}</p> {/* Usually, username should not be editable */}
+    return (
+        <div className="profile-container">
+            <h1>Welcome to Your Profile</h1>
+            
+            {/* Profile Display Section */}
+            <div className="profile-info">
+                <div className="profile-picture">
+                    <img src={profilePicture} alt="Profile Picture" />
+                </div>
+                <div className="profile-details">
+                    <h2>{firstName} {lastName}</h2>
+                    <p>Username: {username}</p>
+                </div>
+            </div>
 
-        <label>Email:</label>
-        <p>{profile.email}</p> {/* Usually, email should not be editable */}
-      </div>
+            {/* Edit Button */}
+            <button className="edit-button" onClick={() => setFormVisible(!formVisible)}>
+                {formVisible ? 'Cancel' : 'Edit Profile'}
+            </button>
 
-      <div className="profile-actions">
-        {isEditing ? (
-          <>
-            <button onClick={handleSave}>Save</button>
-            <button onClick={handleEditToggle}>Cancel</button>
-          </>
-        ) : (
-          <button onClick={handleEditToggle}>Edit Profile</button>
-        )}
-      </div>
-    </div>
-  );
+            {/* Profile Update Form */}
+            {formVisible && (
+                <form className="profile-form" onSubmit={handleSubmit}>
+                    <label htmlFor="firstname">First Name:</label>
+                    <input
+                        type="text"
+                        id="firstname"
+                        name="firstname"
+                        placeholder="Enter your first name"
+                        value={firstName}
+                        onChange={(e) => setFirstName(e.target.value)}
+                        required
+                    />
+
+                    <label htmlFor="lastname">Last Name:</label>
+                    <input
+                        type="text"
+                        id="lastname"
+                        name="lastname"
+                        placeholder="Enter your last name"
+                        value={lastName}
+                        onChange={(e) => setLastName(e.target.value)}
+                        required
+                    />
+
+                    <label htmlFor="username">Username:</label>
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        placeholder="Enter your username"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        required
+                    />
+
+                    <label htmlFor="profile-picture">Profile Picture:</label>
+                    <input
+                        type="file"
+                        id="profile-picture"
+                        name="profile-picture"
+                        accept="image/*"
+                        onChange={handleFileChange}
+                    />
+
+                    <div className="profile-picture-preview">
+                        <img
+                            id="profile-picture-display"
+                            src={profilePicture}
+                            alt="Profile Preview"
+                        />
+                    </div>
+
+                    <button type="submit">Update Profile</button>
+                </form>
+            )}
+        </div>
+    );
 };
 
-export default UserProfile;
+export default Profile;

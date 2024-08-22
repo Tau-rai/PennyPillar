@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+// src/components/Header.js
+import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Header.css';
 
-const Header = () => {
-  const [profilePicture, setProfilePicture] = useState('/path/to/profile-picture.png'); // Replace with actual dynamic URL if available
+// Placeholder image URL (replace with actual URL or path if necessary)
+const placeholderImage = '/path/to/placeholder-image.png'; 
+
+const Header = ({ isLoggedIn, profilePicture }) => {
   const navigate = useNavigate();
 
   const handleLogout = async (event) => {
@@ -11,22 +14,24 @@ const Header = () => {
     try {
       const response = await fetch('/logout/', { method: 'POST' });
       if (response.ok) {
-        // Perform logout actions
-        console.log('Logout successful');
-        navigate('/'); // Redirect to home after logout
+        navigate('/');
       }
     } catch (error) {
       console.error('Logout failed:', error.message);
     }
   };
 
-  // const handleProfileClick = () => {
-  //   navigate('/profile');
-  // };
+  const handleProfileClick = () => {
+    navigate('/profile');
+  };
 
-  const isLoggedIn = false; // Set to true if user is logged in
   return (
     <header className="header">
+      {isLoggedIn && (
+        <div className="profile-picture" onClick={handleProfileClick}>
+          <img src={profilePicture || placeholderImage} alt="Profile" />
+        </div>
+      )}
       <div className="logo">PennyPillar</div>
       <div className="hamburger" onClick={() => document.querySelector('.header').classList.toggle('show-nav')}>
         ☰
@@ -36,10 +41,11 @@ const Header = () => {
         {isLoggedIn ? (
           <>
             <Link to="/dashboard">Dashboard</Link>
-            <Link to="/cashflow">Cash Flow/Budget</Link>
+            <Link to="/cashflow">Cash Flow</Link>
+            <Link to="/budget">Budget</Link>
             <Link to="/recurring">Recurring Payments</Link>
             <Link to="/challenge">Penny Challenge</Link>
-            <Link to="/profile">Profile</Link>
+            <Link to="/insights">Insights</Link>
             <Link to="/logout" onClick={handleLogout}>Logout</Link>
           </>
         ) : (
@@ -51,11 +57,6 @@ const Header = () => {
         <Link to="/about">About Us</Link>
         <Link to="/help">Help</Link>
       </nav>
-      {/* {isLoggedIn && profilePicture && (
-        <div className="profile-picture" onClick={handleProfileClick}>
-          <img src={profilePicture} alt="Profile" />
-        </div>
-      )} */}
     </header>
   );
 };
