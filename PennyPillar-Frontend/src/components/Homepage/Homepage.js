@@ -77,6 +77,7 @@ const Homepage = () => {
           <li><Link to="/">Home</Link></li>
           <li><Link to="/about">About Us</Link></li>
           <li><Link to="/help">Help</Link></li>
+          <li>
           <li><Link to="/contact">Contact</Link></li>
             </ul>
           </div>
