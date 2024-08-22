@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axiosInstance from '../../axiosConfig';
 import './Insights.css';
-// import Header from './TopNav'
-// import MainFooter from '../MainFooter/MainFooter';
+import Header from '../TopNav'
+
 
 
 const InsightsPage = () => {
