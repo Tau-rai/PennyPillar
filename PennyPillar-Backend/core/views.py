@@ -12,6 +12,8 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from decimal import Decimal
 from datetime import date
+import requests
+from django.core.files.base import ContentFile
 from .models import Category, MonthlyBudget, Transaction, SavingsGoal, UserProfile, Subscription, Income, Expense
 from .models import Category, MonthlyBudget, Transaction, SavingsGoal, UserProfile, Subscription, Insight
 from .serializers import (CategorySerializer, LoginSerializer,
@@ -40,15 +42,26 @@ class UserProfileViewSet(viewsets.ModelViewSet):
         self.perform_update(serializer)
 
         # Update the User model fields if needed
-        if 'first_name' in request.data or 'last_name' in request.data:
-            user = user_profile.user
-            if 'first_name' in request.data:
-                user.first_name = request.data['first_name']
-            if 'last_name' in request.data:
-                user.last_name = request.data['last_name']
-            user.save()
+        user = user_profile.user
+        if 'first_name' in request.data:
+            user.first_name = request.data['first_name']
+        if 'last_name' in request.data:
+            user.last_name = request.data['last_name']
+        user.save()
 
-        return Response(serializer.data)
+        # Handle placeholder logic if the image field is empty
+        if not user_profile.image and not request.data.get('image'):
+            placeholder_url = 'https://via.placeholder.com/150'
+            response = requests.get(placeholder_url)
+            if response.status_code == 200:
+                user_profile.image.save('placeholder.jpg', ContentFile(response.content), save=False)
+                user_profile.save()
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def perform_update(self, serializer):
+        """Set the user before saving the updated profile."""
+        serializer.save(user=self.request.user)
 
 class RegisterView(generics.CreateAPIView):
     """Register view."""
