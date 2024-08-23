@@ -41,8 +41,7 @@ const SignUpPage = () => {
 
     return (
         <>
-            <Header isLoggedIn={isLoggedIn}  />
-
+            <Header isLoggedIn={false}  />
             <div className="sign-content mt-16 md:mt-0 flex items-center justify-center min-h-screen bg-gray-100">
                 <div className="form-container bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
                     <div className="header-content bg-teal-800 text-white p-4 rounded-t-lg">

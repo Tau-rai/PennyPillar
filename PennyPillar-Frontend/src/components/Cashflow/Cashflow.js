@@ -3,7 +3,7 @@ import axiosInstance from '../../axiosConfig';
 import './Cashflow.css';
 import { FaPencilAlt, FaTrashAlt, FaPlus } from 'react-icons/fa'; // Import the FaPlus icon
 import MainFooter from '../ComponentFooter';
-import Topnav from '../TopNav';
+import Header from '../Header';
 
 const Cashflow = () => {
   const [transactions, setTransactions] = useState([]);
@@ -98,7 +98,8 @@ const Cashflow = () => {
 
   return (
     <>
-      <Topnav />
+    <Header isLoggedIn={true} />
+      
       <div className="cashflow-container"> 
         {showAddForm && (
           <form onSubmit={handleAddTransaction} className="transaction-form">

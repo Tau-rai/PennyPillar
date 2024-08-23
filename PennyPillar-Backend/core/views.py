@@ -14,6 +14,7 @@ from decimal import Decimal
 from datetime import date
 import requests
 from django.core.files.base import ContentFile
+from rest_framework.parsers import MultiPartParser, FormParser
 from .models import Category, MonthlyBudget, Transaction, SavingsGoal, UserProfile, Subscription, Income, Expense
 from .models import Category, MonthlyBudget, Transaction, SavingsGoal, UserProfile, Subscription, Insight
 from .serializers import (CategorySerializer, LoginSerializer,
@@ -26,13 +27,11 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     serializer_class = UserProfileSerializer
     permission_classes = [permissions.IsAuthenticated]
     authentication_classes = [JWTAuthentication]
+    parser_classes = [MultiPartParser, FormParser]  # Allow file uploads
 
     def get_queryset(self):
         """Filter user profile by the current user."""
-        user = self.request.user
-        if user.is_authenticated:
-            return UserProfile.objects.filter(user=user)
-        return UserProfile.objects.none()
+        return UserProfile.objects.filter(user=self.request.user)
 
     def update(self, request, *args, **kwargs):
         """Handle profile updates."""
@@ -43,14 +42,12 @@ class UserProfileViewSet(viewsets.ModelViewSet):
 
         # Update the User model fields if needed
         user = user_profile.user
-        if 'first_name' in request.data:
-            user.first_name = request.data['first_name']
-        if 'last_name' in request.data:
-            user.last_name = request.data['last_name']
+        user.first_name = request.data.get('first_name', user.first_name)
+        user.last_name = request.data.get('last_name', user.last_name)
         user.save()
 
         # Handle placeholder logic if the image field is empty
-        if not user_profile.image and not request.data.get('image'):
+        if not user_profile.image and not request.data.get('profile_picture'):  # Ensure key matches
             placeholder_url = 'https://via.placeholder.com/150'
             response = requests.get(placeholder_url)
             if response.status_code == 200:
@@ -62,6 +59,7 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     def perform_update(self, serializer):
         """Set the user before saving the updated profile."""
         serializer.save(user=self.request.user)
+
 
 class RegisterView(generics.CreateAPIView):
     """Register view."""
@@ -129,9 +127,7 @@ class TransactionViewSet(viewsets.ModelViewSet):
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
-    """
-    Category view
-    """
+    """Category view."""
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -278,9 +274,6 @@ class SavingsGoalViewSet(viewsets.ModelViewSet):
 
         # Calculate remaining amount to reach the goal
         remaining_amount = goal.get_remaining_amount()
-
-        # if savings_amount > remaining_amount:
-        #     return Response({'detail': 'Savings amount exceeds the remaining amount.'}, status=status.HTTP_400_BAD_REQUEST)
 
         # Add savings amount to current savings
         goal.current_savings += savings_amount

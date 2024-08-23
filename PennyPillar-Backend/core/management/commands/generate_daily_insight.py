@@ -16,10 +16,6 @@ class Command(BaseCommand):
             try:
                 response = model.generate_content(
                     "Generate a daily financial insight",
-                    # generation_config = genai.GenerationConfig(
-                    # max_output_tokens=150,
-                    # temperature=0.1,
-                    # )
                 )
                 
                 

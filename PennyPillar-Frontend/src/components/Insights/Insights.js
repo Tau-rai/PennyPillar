@@ -21,7 +21,8 @@ const InsightsPage = () => {
 
     return (
         <>
-         <Topnav />
+        <Header isLoggedIn={true} />
+         
        
         <div>
             <h1>Daily Financial Insights</h1>

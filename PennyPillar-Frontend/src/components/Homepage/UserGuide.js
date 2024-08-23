@@ -8,9 +8,9 @@ const slidesData = [
         content: [
             "Create an Account: Sign up with your email and create a password.",
             "Log In: Use your credentials to access the dashboard.",
-            "Explore Features: Familiarize yourself with the app's main features."
+            "Explore Features: Familiarize yourself with the  main features."
         ],
-        backgroundImage: "url('/images/start.jpg')" // Example image path
+        
     },
     {
         title: "Dashboard",
@@ -19,35 +19,40 @@ const slidesData = [
             "Summary: View key metrics like total income, expenses, and savings.",
             "Graphs: Analyze trends with various charts."
         ],
-        backgroundImage: "url('/images/dashboard.jpg')" // Example image path
+        
     },
     {
         title: "Cashflow",
         icon: "fas fa-chart-line",
         content: [
-            "Add Transactions: Input new income, expenses, or savings.",
-            "Edit Transactions: Modify existing entries.",
-            "View Reports: Analyze your cash flow over different periods."
+            "Add Transactions: Click '+' enter the description and the amount",
+            "Edit Transactions: Modify existing entries by clicking the pencil icon.",
+            "Delete :Click the trash icon to remove the transaction",
+            "Automatic Cash Flow Update: calculatr will instantly reflect changes."
         ],
-        backgroundImage: "url('/images/cashflow.jpg')" // Example image path
+
     },
     {
         title: "Budget",
         icon: "fas fa-wallet",
         content: [
             "Create Budgets: Define your spending limits for various categories.",
-            "Track Spending: Monitor how well you adhere to your budget."
+            "Set Your Budget: Enter your budgeted amounts. ",
+            "Track Spending: Monitor how well you adhere to your budget.",
+            "Reach Your Goals: Make conscious finacial decisions to archieve your objectives."
         ],
-        backgroundImage: "url('/images/budget.jpg')" // Example image path
+       
     },
     {
         title: "Save a Penny",
         icon: "fas fa-coins",
         content: [
-            "Round-Up Savings: Automatically round up your purchases to the nearest dollar and save the change.",
-            "Track Savings: View your accumulated savings over time."
+            "Set Goal: click 'Set Goal' enter your targetted savings amount. ",
+            "Coose Daily Savings: Select a daily amount (e.g R0.50 , R1 , R50) that fits your budget for the day",
+            "Start Saving: Begin your penny saving challenge and track your progress to stay maotivated.",
+            "Track Savings Metrics: View your accumulated savings over time on dashboard."
         ],
-        backgroundImage: "url('/images/pile.jpg')" // Example image path
+        
     },
     {
         title: "Subscription",
@@ -55,9 +60,10 @@ const slidesData = [
         content: [
             "Add Subscriptions: Enter details of your recurring payments.",
             "View Upcoming Payments: Track your upcoming subscription charges.",
-            "Manage Subscriptions: Edit or cancel existing subscriptions."
+            "Reminder Alerts: Get notified before the payments are due .",
+            "Recurring Subscriptions: Easily access thhe subscription details and manage all subscription payments."
         ],
-        backgroundImage: "url('/images/subscription.jpg')" // Example image path
+       
     }
 ];
 
