@@ -10,7 +10,7 @@ const slidesData = [
             "Log In: Use your credentials to access the dashboard.",
             "Explore Features: Familiarize yourself with the app's main features."
         ],
-        backgroundImage: "url('/images/start.jpg')" // Example image path
+        
     },
     {
         title: "Dashboard",
@@ -19,7 +19,7 @@ const slidesData = [
             "Summary: View key metrics like total income, expenses, and savings.",
             "Graphs: Analyze trends with various charts."
         ],
-        backgroundImage: "url('/images/dashboard.jpg')" // Example image path
+        
     },
     {
         title: "Cashflow",
@@ -29,7 +29,7 @@ const slidesData = [
             "Edit Transactions: Modify existing entries.",
             "View Reports: Analyze your cash flow over different periods."
         ],
-        backgroundImage: "url('/images/cashflow.jpg')" // Example image path
+
     },
     {
         title: "Budget",
@@ -38,7 +38,7 @@ const slidesData = [
             "Create Budgets: Define your spending limits for various categories.",
             "Track Spending: Monitor how well you adhere to your budget."
         ],
-        backgroundImage: "url('/images/budget.jpg')" // Example image path
+       
     },
     {
         title: "Save a Penny",
@@ -47,7 +47,7 @@ const slidesData = [
             "Round-Up Savings: Automatically round up your purchases to the nearest dollar and save the change.",
             "Track Savings: View your accumulated savings over time."
         ],
-        backgroundImage: "url('/images/pile.jpg')" // Example image path
+        
     },
     {
         title: "Subscription",
@@ -57,7 +57,7 @@ const slidesData = [
             "View Upcoming Payments: Track your upcoming subscription charges.",
             "Manage Subscriptions: Edit or cancel existing subscriptions."
         ],
-        backgroundImage: "url('/images/subscription.jpg')" // Example image path
+       
     }
 ];
 

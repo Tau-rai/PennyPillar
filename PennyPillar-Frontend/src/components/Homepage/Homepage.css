@@ -454,7 +454,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     position: relative;
     align-items: center;
-    margin-top: 50px;
+    margin-top: 10vh;
     
 }
 
@@ -486,7 +486,7 @@
     border: none;
     border-radius: 5px;
     text-decoration: none;
-    margin-top: 50px;
+    margin-top: 12vh;
     transition: background-color 0.3s;
 }
 
