@@ -23,7 +23,8 @@
         .challenge-content {
             background-color: #fff;
             border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);margin-left: 40vh;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-left: 45vh;
             margin-top: 5vh;
             margin-bottom: 5vh;
             margin-right: 5vh;
@@ -50,9 +51,10 @@
 
         .number-grid {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            grid-template-rows: repeat(5, 1fr);
-            gap: 10px;
+            grid-template-columns: repeat(10, 2fr);
+            grid-template-rows: repeat(5, 2fr);
+            gap: 5px;
+            margin-top: 3vh;
             justify-items: center;
             margin-bottom: 1.5rem;
         }
