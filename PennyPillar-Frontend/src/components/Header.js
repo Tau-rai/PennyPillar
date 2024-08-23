@@ -27,12 +27,14 @@ const Header = ({ isLoggedIn, profilePicture }) => {
 
   return (
     <header className="header">
-      {isLoggedIn && (
-        <div className="profile-picture" onClick={handleProfileClick}>
-          <img src={profilePicture || placeholderImage} alt="Profile" />
-        </div>
-      )}
-      <div className="logo">PennyPillar</div>
+      <div className="logo-container">
+        <div className="logo">PennyPillar</div>
+        {isLoggedIn && (
+          <div className="profile-picture" onClick={handleProfileClick}>
+            <img src={profilePicture || placeholderImage} alt="Profile" />
+          </div>
+        )}
+      </div>
       <div className="hamburger" onClick={() => document.querySelector('.header').classList.toggle('show-nav')}>
         ☰
       </div>

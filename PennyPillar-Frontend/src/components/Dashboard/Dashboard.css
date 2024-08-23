@@ -1,20 +1,39 @@
 /* Dashboard.css */
-
-/* Container for the entire dashboard */
 .dashboard-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 20px;
+    min-height: 100vh; /* Ensures the background covers the entire viewport */
 }
 
-/* Container for the calendar */
 .calendar-container {
     width: 100%;
-    max-width: 800px;
-    
+    margin-bottom: 20px;
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background for better readability */
+    padding: 15px;
+    border-radius: 8px;
 }
 
+.charts-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background for better readability */
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.chart {
+    width: 45%;
+    margin-bottom: 20px;
+}
+
+.chart canvas {
+    width: 100%;
+    height: auto;
+}
 /* Header for the calendar */
 .calendar-header {
     display: flex;

@@ -7,6 +7,7 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             margin-top: 12vh;
             margin-bottom: 10vh;
+            margin-left: 40vh;
   
         }
 
@@ -209,7 +210,7 @@
             transform: rotateX(-10deg);
             transform-style: preserve-3d;
             margin-top: 12vh;
-            margin-left: 25vh;
+            margin-left: 10vh;
           
         }
 

@@ -301,8 +301,9 @@ const Dashboard = () => {
     };
 
     return (
+        <>
         <div className="dashboard-container"> {/* Add this container */}
-            <Header isLoggedIn={true} />
+            <Header />
             <div className="calendar-container">
                 <div className="calendar">
                     <div className="calendar-header">
@@ -327,8 +328,11 @@ const Dashboard = () => {
                     <canvas ref={challengeChartRef} id="challengeChart"></canvas>
                 </div>
             </div>
-            <MainFooter />
+            
         </div>
+        <MainFooter />
+        </>
+
     );
 };
 

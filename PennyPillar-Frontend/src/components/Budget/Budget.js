@@ -143,16 +143,13 @@ const Budget = () => {
                     </section>
                     <section id="expenses" className="section">
                         <h2>Expense Tracker</h2>
+                        
                         <div className="input-group">
-                            <label htmlFor="expense-name">Expense Name:</label>
-                            <input type="text" id="expense-name" placeholder="Enter expense name" />
-                        </div>
-                        <div className="input-group">
-                            <label htmlFor="expense-amount">Amount:</label>
+                            <label htmlFor="expense-amount">Budgeted Expenses Amount:</label>
                             <input type="number" id="expense-amount" placeholder="Enter amount" />
                         </div>
                         <div className="input-group">
-                            <button onClick={addExpense}>Add Expense</button>
+                            <button onClick={addExpense}>Review Expenses</button>
                         </div>
                         <div className="expense-summary">
                             <h3>Expense Summary</h3>
