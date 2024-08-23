@@ -5,14 +5,19 @@
     align-items: center;
     padding: 20px;
     min-height: 100vh; /* Ensures the background covers the entire viewport */
+    margin-left: 40vh;
+    box-shadow: 0 4px 8px rgba(0 0 0);
+
 }
 
 .calendar-container {
     width: 100%;
     margin-bottom: 20px;
-    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background for better readability */
+    background-color: #fff; /* Semi-transparent background for better readability */
     padding: 15px;
     border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0 0 0);
+
 }
 
 .charts-container {
@@ -20,9 +25,13 @@
     flex-wrap: wrap;
     justify-content: space-around;
     width: 100%;
-    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background for better readability */
+    background-color: #fff; /* Semi-transparent background for better readability */
     padding: 15px;
     border-radius: 8px;
+    margin-top: 1vh;
+    box-shadow: 0 4px 8px rgba(0 0 0);
+
+
 }
 
 .chart {
