@@ -17,6 +17,7 @@ class UserProfile(models.Model):
     first_name = models.CharField(max_length=100, blank=True, null=True)
     last_name = models.CharField(max_length=100, blank=True, null=True)
     email = models.EmailField(max_length=100, blank=True, null=True)
+    username = models.CharField(max_length=150, blank=True, null=True)  # Add this line
     image = models.ImageField(upload_to='profile_pics', blank=True, null=True)
 
     class Meta:
@@ -27,12 +28,17 @@ class UserProfile(models.Model):
         return f"{self.user.username} Profile"
 
     def save(self, *args, **kwargs):
+        # Automatically set the email and username fields from the related User object
+        self.email = self.user.email
+        self.username = self.user.username  # Set username here
+
+        # Set placeholder image if no image is provided
         if not self.image:
-            # Set placeholder image if no image is provided
             placeholder_url = 'https://via.placeholder.com/150'
             response = requests.get(placeholder_url)
             if response.status_code == 200:
                 self.image.save('placeholder.jpg', ContentFile(response.content), save=False)
+
         super().save(*args, **kwargs)
 
 

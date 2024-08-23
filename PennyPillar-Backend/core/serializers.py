@@ -60,17 +60,29 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class UserProfileSerializer(serializers.ModelSerializer):
-    """User profile serializer."""
-    image = serializers.ImageField(required=False)
-
+    """User profile serializer"""
     class Meta:
         model = UserProfile
-        fields = ['id', 'first_name', 'last_name', 'image']
-        extra_kwargs = {
-            'first_name': {'required': False},
-            'last_name': {'required': False},
-            'image': {'required': False}
-        }
+        fields = ['id', 'first_name', 'last_name', 'email', 'username', 'image']
+        read_only_fields = ['email', 'username']
+
+    def create(self, validated_data):
+        user = self.context['request'].user
+        profile = UserProfile.objects.create(
+            user=user,
+            email=user.email,
+            username=user.username,
+            **validated_data
+        )
+        return profile
+
+    def update(self, instance, validated_data):
+        user = self.context['request'].user
+        instance.email = user.email
+        instance.username = user.username
+        return super().update(instance, validated_data)
+
+
 
 class TransactionSerializer(serializers.ModelSerializer):
     """Transaction serializer."""
