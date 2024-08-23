@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './AboutUs.css';
+import Footer from '../PillarFooter';
+
 
 const AboutUs = () => {
     const [showNav, setShowNav] = useState(false);
@@ -70,14 +72,8 @@ const AboutUs = () => {
                 </div>
             </main>
 
-            <footer className="footer">
-                <p>&copy; 2024 PennyPillar - All Rights Reserved</p>
-                <nav>
-                    <Link to="/privacy">Privacy Policy</Link> |
-                    <Link to="/terms">Terms of Service</Link> |
-                    <Link to="/contact">Contact Us</Link>
-                </nav>
-            </footer>
+            <footer />
+                
         </div>
     );
 };

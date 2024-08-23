@@ -1,15 +1,16 @@
 
   .cashflow-container {
     padding: 20px;
-    margin-bottom: 60px;
     border: 8px;
     margin-top: 15vh;
     margin-bottom: 20vh;
     box-shadow: 0 4px 8px rgba(0 0 0);
     background-color: #f9f9f9;
-    margin-left: 30px;
+    margin-left: 40vh;
     margin-right: 30px;
     min-height: 600px;
+    height: 80vh;
+
     
     
 }
@@ -20,11 +21,11 @@
  
   margin: auto;
   padding: 20px;
-  background-color: white;
+  background-color: rgba(0, 0, 0, 0.1);
   position: relative;
-  background-image: url('Bbudget.jpeg');
-  background-size: cover;
-  background-position: center;
+  max-width: 1400px;
+   margin-top: 10vh;
+   min-height: 800px;
 }
 
 

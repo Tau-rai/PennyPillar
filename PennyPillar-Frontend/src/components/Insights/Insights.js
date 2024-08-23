@@ -20,7 +20,8 @@ const InsightsPage = () => {
 
     return (
         <>
-         {/* <Header /> */}
+        <Header isLoggedIn={true} />
+         
        
         <div>
             <h1>Daily Financial Insights</h1>

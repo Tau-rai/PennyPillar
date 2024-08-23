@@ -3,7 +3,7 @@ import './Recurring.css';
 import '../Dashboard/Dashboard.css';
 import axiosInstance from '../../axiosConfig';
 import MainFooter from '../ComponentFooter';
-import Topnav from '../TopNav';
+import Header from '../Header';
 
 const Recurring = () => {
     const [month, setMonth] = useState(new Date().getMonth());
@@ -81,7 +81,6 @@ const Recurring = () => {
             setSubscriptionsData(subscriptionsData.map((sub) =>
                 sub.id === subscription.id ? updatedSubscription : sub
             ));
-            // alert(`Subscription marked as ${response.data.status}`);
         } catch (error) {
             console.error('Error updating subscription status:', error);
         }
@@ -135,113 +134,147 @@ const Recurring = () => {
         }
     };
 
+    const viewDetails = (subscription) => {
+        alert(`
+            Name: ${subscription.name}
+            Amount: $${subscription.amount.toFixed(2)}
+            Frequency: ${subscription.frequency}
+            Payment Method: ${subscription.payment_method}
+            Due Date: ${subscription.due_date}
+        `);
+    };
+
+    const viewFormDetails = () => {
+        alert(`
+            Name: ${formData.name}
+            Amount: $${formData.amount}
+            Frequency: ${formData.frequency}
+            Payment Method: ${formData.payment_method}
+            Due Date: ${formData.due_date}
+            Icon: ${formData.icon || 'Default Icon'}
+        `);
+    };
+
     return (
-        <div>
-	    <Topnav />
-            <div className="subscription-container">
-                <h2>Subscriptions</h2>
-                <p>Track your recurring expenses and never miss a payment!</p>
-
-                <div className="calendar-container">
-                    <div className="calendar-controls">
-                        <button onClick={() => changeMonth(-1)}>Previous</button>
-                        <span>{`${new Date(year, month).toLocaleString('default', { month: 'long' })} ${year}`}</span>
-                        <button onClick={() => changeMonth(1)}>Next</button>
-                    </div>
-                    <div id="calendar-days" className="calendar-days"></div>
-                </div>
-
-                <ul id="subscription-list">
-                    {subscriptionsData.map(subscription => {
-                        const amount = Number(subscription.amount) || 0;
-                        return (
-                            <li key={subscription.id} className="expense-description">
-                                <div className="icon-amount">
-                                    <div className="left-side">
-                                        <img src={subscription.icon} alt={subscription.name} />
-                                        <div className="amount">{`${subscription.name}: $${amount.toFixed(2)}`}</div>
-                                    </div>
-                                    <button onClick={() => handleMarkAsPaid(subscription)}>
-                                        {subscription.is_paid ? 'Paid' : 'Mark as Paid'}
-                                    </button>
-                                </div>
-                                <div className="due-date">Due Date: {subscription.due_date}</div>
-                                <div className="frequency">Frequency: {subscription.frequency}</div>
-                                <div className="payment-method">Payment Method: {subscription.payment_method}</div>
-                            </li>
-                        );
-                    })}
-                </ul>
-                <button onClick={toggleForm} className="toggle-form-button">
-                    {showForm ? 'Hide Form' : 'Add Subscription'}
-                </button>
-                {showForm && (
-                    <div className="add-subscription-container">
-                        <form onSubmit={handleFormSubmit}>
-                            <label><strong>Subscription Name : </strong>
-                            <input
-                                type="text"
-                                name="name"
-                                placeholder="Subscription Name"
-                                value={formData.name}
-                                onChange={handleFormChange}
-                                required
-                            />
-                            </label>
-                            <label><strong>Amount : </strong>
-                            <input
-                                type="number"
-                                name="amount"
-                                placeholder="Amount"
-                                value={formData.amount}
-                                onChange={handleFormChange}
-                                required
-                            />
-                            </label>
-                            <label><strong>Frequency : </strong>
-                            <select
-                                name="frequency"
-                                value={formData.frequency}
-                                onChange={handleFormChange}
-                                required
-                            >
-                                <option value="monthly">Monthly</option>
-                                <option value="weekly">Weekly</option>
-                                <option value="yearly">Yearly</option>
-                            </select>
-                            </label>
-                                <label><strong>Payment Method : </strong> 
-                            <select
-                                name="payment_method"
-                                placeholder="Payment Method"
-                                value={formData.payment_method}
-                                onChange={handleFormChange}
-                                required
-                                >
-                                <option value="credit_card">Credit Card</option>
-                                <option value="debit_card">Debit Card</option>
-                                <option value="paypal">PayPal</option>
-                                <option value="bank_transfer">Bank Transfer</option>
-                                <option value="cash">Cash</option>
-                                </select>
-                                </label>
-                            <label><strong>Due Date : </strong>
-                            <input
-                                type="date"
-                                name="due_date"
-                                value={formData.due_date}
-                                onChange={handleFormChange}
-                                required
-                            />
-                            </label>
+        <>
+            <div className="outer-container">
+                <Header isLoggedIn={true} />
+                <div className="calendar-and-subscription-container">
+                    <div className="calendar-container">
+                        <div className="calendar-controls">
+                            <button onClick={() => changeMonth(-1)}>Prev</button>
+                            <span>{`${new Date(year, month).toLocaleString('default', { month: 'long' })} ${year}`}</span>
+                            <button onClick={() => changeMonth(1)}>Next</button>
                             
-                            <button type="submit">Add Subscription</button>
-                        </form>
+                        </div>
+                        <div id="calendar-days" className="calendar-days"></div>
                     </div>
-                )}
+                       
+                    <div className="subscription-container">
+                        <h2>Subscriptions</h2>
+                        <p>Track your recurring expenses and never miss a payment!</p>
+
+                        <ul id="subscription-list">
+                            {subscriptionsData.map(subscription => (
+                                <li key={subscription.id} className="subscription-item">
+                                    <img src={subscription.icon || 'https://img.icons8.com/color/48/000000/default.png'} alt={subscription.name} className="subscription-icon" />
+                                    <div className="subscription-details">
+                                        <div className="subscription-name">{subscription.name}</div>
+                                        <div className="subscription-amount">${subscription.amount.toFixed(2)}</div>
+                                    </div>
+                                    <div className="subscription-actions">
+                                        <button onClick={() => handleMarkAsPaid(subscription)}>
+                                            {subscription.is_paid ? 'Paid' : 'Pay Now'}
+                                        </button>
+                                        <button onClick={() => viewDetails(subscription)}>
+                                            View Details
+                                        </button>
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
+                        <button onClick={toggleForm} className="toggle-form-button">
+                            {showForm ? 'Hide Form' : 'Add Subscription'}
+                        </button>
+
+                        {showForm && (
+                            <div className="add-subscription-container">
+                                <form onSubmit={handleFormSubmit}>
+                                    <label>Subscription Name:
+                                        <input
+                                            type="text"
+                                            name="name"
+                                            placeholder="Subscription Name"
+                                            value={formData.name}
+                                            onChange={handleFormChange}
+                                            required
+                                        />
+                                    </label>
+                                    <label>Amount:
+                                        <input
+                                            type="number"
+                                            name="amount"
+                                            placeholder="Amount"
+                                            value={formData.amount}
+                                            onChange={handleFormChange}
+                                            required
+                                        />
+                                    </label>
+                                    <label>Frequency:
+                                        <select
+                                            name="frequency"
+                                            value={formData.frequency}
+                                            onChange={handleFormChange}
+                                            required
+                                        >
+                                            <option value="monthly">Monthly</option>
+                                            <option value="weekly">Weekly</option>
+                                            <option value="yearly">Yearly</option>
+                                        </select>
+                                    </label>
+                                    <label>Payment Method:
+                                        <select
+                                            name="payment_method"
+                                            value={formData.payment_method}
+                                            onChange={handleFormChange}
+                                            required
+                                        >
+                                            <option value="credit_card">Credit Card</option>
+                                            <option value="debit_card">Debit Card</option>
+                                            <option value="paypal">PayPal</option>
+                                            <option value="bank_transfer">Bank Transfer</option>
+                                            <option value="cash">Cash</option>
+                                        </select>
+                                    </label>
+                                    <label>Due Date:
+                                        <input
+                                            type="date"
+                                            name="due_date"
+                                            value={formData.due_date}
+                                            onChange={handleFormChange}
+                                            required
+                                        />
+                                    </label>
+                                    <label>Icon:
+                                        <input
+                                            type="text"
+                                            name="icon"
+                                            placeholder="Enter icon URL or leave blank for default"
+                                            value={formData.icon}
+                                            onChange={handleFormChange}
+                                        />
+                                    </label>
+                                    <button type="submit">Add Subscription</button>
+                                </form>
+                            </div>
+                        )}
+                        <button type='button' onClick={viewFormDetails}>View Details</button>
+                    </div>
+                </div>
             </div>
-		<MainFooter />
-        </div>
+
+            <MainFooter />
+        </>
     );
 };
 

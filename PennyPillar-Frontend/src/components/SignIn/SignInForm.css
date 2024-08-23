@@ -1,5 +1,10 @@
 
-
+body {
+    background-image: url('stock.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat; 
+}
 /* Main Content and Footer Styles */
 .sign-content {
     margin-top: 10vh; /* Space for the header */

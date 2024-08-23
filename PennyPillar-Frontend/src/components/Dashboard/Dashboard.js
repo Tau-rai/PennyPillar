@@ -1,31 +1,34 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Chart, registerables } from 'chart.js';
 import './Dashboard.css';
-import Topnav from '../TopNav';
+import Header from '../Header';
 import axiosInstance from '../../axiosConfig';
 import MainFooter from '../ComponentFooter';
-
 Chart.register(...registerables);
 
 const Dashboard = () => {
     const [month, setMonth] = useState(new Date().getMonth() + 1);
     const [year, setYear] = useState(new Date().getFullYear());
-    const [budgetData, setBudgetData] = useState({});
-    const [transactions, setTransactions] = useState([]);
-    const [categories, setCategories] = useState([]);
-
+    const [budgetData, setBudgetData] = useState([]); 
+    
     const budgetChartRef = useRef(null);
     const cashFlowChartRef = useRef(null);
     const netIncomeRef = useRef(null);
     const challengeChartRef = useRef(null);
 
+    const [transactions, setTransactions] = useState([]);
+    const [categories, setCategories] = useState([]);
+
     useEffect(() => {
         const fetchBudgetData = async () => {
             try {
                 const response = await axiosInstance.get('/monthly-budgets/check_budget_status/', {
-                    params: { month, year },
+                    params: {
+                        month,
+                        year,
+                    },
                 });
-                setBudgetData(response.data);
+                setBudgetData(response.data); 
             } catch (error) {
                 console.error('Error fetching budget data:', error);
             }
@@ -55,31 +58,23 @@ const Dashboard = () => {
     }, [month, year]);
 
     const getCategoryName = (id) => {
-        const category = categories.find((cat) => cat.id === id);
+        const category = categories.find(cat => cat.id === id);
         return category ? category.name : 'Unknown';
     };
 
-    const incomeTransactions = transactions.filter(
-        (t) => getCategoryName(t.category) === 'Income'
-    );
-    const expenseTransactions = transactions.filter(
-        (t) => getCategoryName(t.category) === 'Expenses'
-    );
-    const savingsTransactions = transactions.filter(
-        (t) => getCategoryName(t.category) === 'Savings'
-    );
-
+    // Calculate totals
+    const incomeTransactions = transactions.filter(t => getCategoryName(t.category) === 'Income');
+    const expenseTransactions = transactions.filter(t => getCategoryName(t.category) === 'Expenses');
+    const savingsTransactions = transactions.filter(t => getCategoryName(t.category) === 'Savings');
     const totalIncome = incomeTransactions.reduce((sum, t) => sum + parseFloat(t.amount), 0);
-    const totalExpenses = expenseTransactions.reduce(
-        (sum, t) => sum + Math.abs(parseFloat(t.amount)),
-        0
-    );
+    const totalExpenses = expenseTransactions.reduce((sum, t) => sum + Math.abs(parseFloat(t.amount)), 0);
     const totalSavings = savingsTransactions.reduce((sum, t) => sum + parseFloat(t.amount), 0);
 
+    // Pie chart data and options
     const pieChartData = [
         { label: 'Income', value: totalIncome },
         { label: 'Expenses', value: totalExpenses },
-        { label: 'Savings', value: totalSavings },
+        { label: 'Savings', value: totalSavings }
     ];
 
     useEffect(() => {
@@ -123,7 +118,7 @@ const Dashboard = () => {
     };
 
     const destroyCharts = () => {
-        [budgetChartRef, cashFlowChartRef, netIncomeRef, challengeChartRef].forEach((chartRef) => {
+        [budgetChartRef, cashFlowChartRef, netIncomeRef, challengeChartRef].forEach(chartRef => {
             if (chartRef.current && chartRef.current.chartInstance) {
                 chartRef.current.chartInstance.destroy();
             }
@@ -133,37 +128,38 @@ const Dashboard = () => {
     const initializeCharts = () => {
         destroyCharts();
 
+        // Initialize Budget Chart
         if (budgetChartRef.current) {
             budgetChartRef.current.chartInstance = new Chart(budgetChartRef.current, {
                 type: 'bar',
                 data: {
                     labels: ['Total Budget', 'Spent', 'Remaining'],
-                    datasets: [
-                        {
-                            label: 'Budget Overview',
-                            data: [
-                                budgetData.totalBudget,
-                                budgetData.expenditure,
-                                budgetData.remainingBudget,
-                            ],
-                            backgroundColor: [
-                                'rgba(75, 192, 192, 0.2)',
-                                'rgba(255, 99, 132, 0.2)',
-                                'rgba(255, 206, 86, 0.2)',
-                            ],
-                            borderColor: [
-                                'rgba(75, 192, 192, 1)',
-                                'rgba(255, 99, 132, 1)',
-                                'rgba(255, 206, 86, 1)',
-                            ],
-                            borderWidth: 1,
-                        },
-                    ],
+                    datasets: [{
+                        label: 'Budget Overview',
+                        data: [
+                            budgetData.totalBudget, 
+                            budgetData.expenditure, 
+                            budgetData.remainingBudget
+                        ],
+                        backgroundColor: [
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                        ],
+                        borderColor: [
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(255, 206, 86, 1)',
+                        ],
+                        borderWidth: 1,
+                    }],
                 },
                 options: {
                     responsive: true,
                     plugins: {
-                        legend: { position: 'top' },
+                        legend: {
+                            position: 'top',
+                        },
                         tooltip: {
                             callbacks: {
                                 label: function (context) {
@@ -179,152 +175,164 @@ const Dashboard = () => {
             });
         }
 
+        // Initialize Cash Flow Chart
         if (cashFlowChartRef.current) {
             cashFlowChartRef.current.chartInstance = new Chart(cashFlowChartRef.current, {
                 type: 'line',
                 data: {
                     labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
-                    datasets: [
-                        {
-                            label: 'Cash Flow',
-                            data: [500, 700, 600, 800],
-                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                            borderColor: 'rgba(54, 162, 235, 1)',
-                            borderWidth: 1,
-                        },
-                    ],
+                    datasets: [{
+                        label: 'Cash Flow',
+                        data: [500, 700, 600, 800], // Placeholder values
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
                 },
                 options: {
                     responsive: true,
                     plugins: {
-                        legend: { position: 'top' },
+                        legend: {
+                            position: 'top',
+                        },
                         tooltip: {
                             callbacks: {
                                 label: function (context) {
                                     let label = context.dataset.label || '';
-                                    if (label) label += ': ';
-                                    if (context.parsed.y !== null) label += '$' + context.parsed.y;
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += '$' + context.parsed.y;
+                                    }
                                     return label;
-                                },
-                            },
-                        },
-                    },
-                },
+                                }
+                            }
+                        }
+                    }
+                }
             });
         }
 
+        // Initialize Net Income Chart
         if (netIncomeRef.current) {
             netIncomeRef.current.chartInstance = new Chart(netIncomeRef.current, {
                 type: 'pie',
                 data: {
-                    labels: pieChartData.map((data) => data.label),
-                    datasets: [
-                        {
-                            data: pieChartData.map((data) => data.value),
-                            backgroundColor: [
-                                'rgba(255, 99, 132, 0.2)',
-                                'rgba(255, 206, 86, 0.2)',
-                                'rgba(75, 192, 192, 0.2)',
-                            ],
-                            borderColor: [
-                                'rgba(255, 99, 132, 1)',
-                                'rgba(255, 206, 86, 1)',
-                                'rgba(75, 192, 192, 1)',
-                            ],
-                            borderWidth: 1,
-                        },
-                    ],
+                    labels: pieChartData.map(data => data.label),
+                    datasets: [{
+                        data: pieChartData.map(data => data.value),
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
                 },
                 options: {
                     responsive: true,
                     plugins: {
-                        legend: { position: 'top' },
+                        legend: {
+                            position: 'top',
+                        },
                         tooltip: {
                             callbacks: {
                                 label: function (context) {
                                     let label = context.dataset.label || '';
-                                    if (label) label += ': ';
-                                    if (context.parsed !== null) label += '$' + context.parsed;
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed !== null) {
+                                        label += '$' + context.parsed;
+                                    }
                                     return label;
-                                },
-                            },
-                        },
-                    },
-                },
+                                }
+                            }
+                        }
+                    }
+                }
             });
         }
 
+        // Initialize Penny Challenge Chart
         if (challengeChartRef.current) {
             challengeChartRef.current.chartInstance = new Chart(challengeChartRef.current, {
                 type: 'line',
                 data: {
                     labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4'],
-                    datasets: [
-                        {
-                            label: 'Penny Challenge Savings',
-                            data: [0.01, 0.02, 0.04, 0.08],
-                            backgroundColor: 'rgba(153, 102, 255, 0.2)',
-                            borderColor: 'rgba(153, 102, 255, 1)',
-                            borderWidth: 2,
-                        },
-                    ],
+                    datasets: [{
+                        label: 'Penny Challenge Savings',
+                        data: [0.01, 0.02, 0.04, 0.08], // Placeholder values
+                        backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                        borderColor: 'rgba(153, 102, 255, 1)',
+                        borderWidth: 1
+                    }]
                 },
                 options: {
                     responsive: true,
                     plugins: {
-                        legend: { position: 'top' },
+                        legend: {
+                            position: 'top',
+                        },
                         tooltip: {
                             callbacks: {
                                 label: function (context) {
                                     let label = context.dataset.label || '';
-                                    if (label) label += ': ';
-                                    if (context.parsed.y !== null) label += '$' + context.parsed.y;
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += '$' + context.parsed.y;
+                                    }
                                     return label;
-                                },
-                            },
-                        },
-                    },
-                },
+                                }
+                            }
+                        }
+                    }
+                }
             });
         }
     };
 
     return (
         <>
-            <Topnav />
-            <div className="dashboard">
-                <div className="dashboard-header">
-                    <h1>Dashboard</h1>
-                </div>
-                <div className="budget-summary">
-                    <div className="month-navigation">
-                        <button onClick={() => changeMonth(-1)}>&lt;</button>
-                        <span>
-                            {month} / {year}
-                        </span>
-                        <button onClick={() => changeMonth(1)}>&gt;</button>
+        <div className="dashboard-container"> {/* Add this container */}
+            <Header />
+            <div className="calendar-container">
+                <div className="calendar">
+                    <div className="calendar-header">
+                        <button onClick={() => changeMonth(-1)}>Previous</button>
+                        <h2>{new Date(year, month - 1).toLocaleString('default', { month: 'long' })} {year}</h2>
+                        <button onClick={() => changeMonth(1)}>Next</button>
                     </div>
-                    <canvas ref={budgetChartRef}></canvas>
-                </div>
-                <div className="cash-flow-chart">
-                    <h2>Cash Flow</h2>
-                    <canvas ref={cashFlowChartRef}></canvas>
-                </div>
-                <div className="net-income-pie-chart">
-                    <h2>Net Income Distribution</h2>
-                    <canvas ref={netIncomeRef}></canvas>
-                </div>
-                <div className="savings-challenge-chart">
-                    <h2>Penny Savings Challenge</h2>
-                    <canvas ref={challengeChartRef}></canvas>
+                    <div id="calendar-days" className="calendar-days"></div>
                 </div>
             </div>
-            <div id="calendar">
-                <h2>Calendar</h2>
-                <div id="calendar-days"></div>
+            <div className="charts-container">
+                <div className="chart">
+                    <canvas ref={budgetChartRef} id="budgetChart"></canvas>
+                </div>
+                <div className="chart">
+                    <canvas ref={cashFlowChartRef} id="cashFlowChart"></canvas>
+                </div>
+                <div className="chart">
+                    <canvas ref={netIncomeRef} id="netIncomeChart"></canvas>
+                </div>
+                <div className="chart">
+                    <canvas ref={challengeChartRef} id="challengeChart"></canvas>
+                </div>
             </div>
-            <MainFooter />
+            
+        </div>
+        <MainFooter />
         </>
+
     );
 };
 
