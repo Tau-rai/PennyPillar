@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axiosInstance from '../../axiosConfig';
 import './Insights.css';
-import Header from '../TopNav'
+import MainFooter from '../ComponentFooter';
+import Topnav from '../TopNav';
 
 
 
@@ -20,7 +21,7 @@ const InsightsPage = () => {
 
     return (
         <>
-         {/* <Header /> */}
+         <Topnav />
        
         <div>
             <h1>Daily Financial Insights</h1>
@@ -32,7 +33,7 @@ const InsightsPage = () => {
             ))}
             
         </div>
-        {/* <MainFooter /> */}
+        <MainFooter />
         </>
     );
 };
