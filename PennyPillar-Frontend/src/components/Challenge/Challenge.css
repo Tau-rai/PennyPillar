@@ -27,7 +27,7 @@
             margin-top: 5vh;
             margin-bottom: 5vh;
             margin-right: 5vh;
-
+            max-width: 800px;
         }
 
         .change-header {

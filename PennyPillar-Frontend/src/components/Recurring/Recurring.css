@@ -1,6 +1,6 @@
         /* Subscriptions styles */
         .subscription-container {
-            max-width: 900px;
+            max-width: 890px;
             width: 100%;
             background-color: #ffffff;
             padding: 20px;
@@ -8,8 +8,7 @@
             border-radius: 12px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
-            margin-left: 5vh;
-            margin-top: 10vh;
+            margin-top: 5vh;
         }
 
         .subscription-container h2 {
@@ -216,8 +215,10 @@
     background-color: #f9f9f9; /* Light background color for contrast */
     border-radius: 8px; /* Rounded corners for a softer look */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    margin-left: 40vh;
+    margin-left: 42vh;
     height: 100vh;
+    margin-right: 12vh;
+    margin-bottom: 5vh;
 }
 
 .toggle-form-button, .view-form-details-button {
