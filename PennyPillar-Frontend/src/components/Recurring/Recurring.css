@@ -216,7 +216,6 @@
     border-radius: 8px; /* Rounded corners for a softer look */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
     margin-left: 42vh;
-    height: 100vh;
     margin-right: 12vh;
     margin-bottom: 5vh;
 }
