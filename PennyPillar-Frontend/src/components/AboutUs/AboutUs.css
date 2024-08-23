@@ -1,12 +1,14 @@
 
         .content {
-            margin-top: 10vh; /* Space for fixed header */
+            margin-top: 3vh; /* Space for fixed header */
             padding: 2rem;
             flex: 1;
             background-color: white;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
-            margin-left: 20%; /* Offset for the sidebar on wider screens */
+            margin-left: 40vh; /* Offset for the sidebar on wider screens */
+            margin-bottom: 5vh;
+            margin-right: 12vh;
         }
 
         @media (max-width: 767px) {
