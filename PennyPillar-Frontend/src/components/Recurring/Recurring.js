@@ -175,26 +175,21 @@ const Recurring = () => {
                         <p>Track your recurring expenses and never miss a payment!</p>
 
                         <ul id="subscription-list">
-                            {subscriptionsData.map(subscription => {
-                                const subamount = parseFloat(subscription.amount); 
-                                return (
-                                    <li key={subscription.id} className="subscription-item">
-                                        <img src={subscription.icon || 'https://img.icons8.com/color/48/000000/default.png'} alt={subscription.name} className="subscription-icon" />
-                                        <div className="subscription-details">
-                                            <div className="subscription-name">{subscription.name}</div>
-                                            <div className="subscription-amount">${subamount.toFixed(2)}</div>
-                                        </div>
-                                        <div className="subscription-actions">
-                                            <button onClick={() => handleMarkAsPaid(subscription)}>
-                                                {subscription.is_paid ? 'Paid' : 'Pay Now'}
-                                            </button>
-                                            <button onClick={() => viewDetails(subscription)}>
-                                                View Details
-                                            </button>
-                                        </div>
-                                    </li>
-                                );
-                            })}
+                            {subscriptionsData.map(subscription => (
+                                <li key={subscription.id} className="subscription-item">
+                                    <img src={subscription.icon || 'https://img.icons8.com/color/48/000000/default.png'} alt={subscription.name} className="subscription-icon" />
+                                    <div className="subscription-details">
+                                        <div className="subscription-name">{subscription.name}</div>
+                                        <div className="subscription-amount">${subscription.amount.toFixed(2)}</div>
+                                    </div>
+                                    <div className="subscription-actions">
+                                        <button onClick={() => handleMarkAsPaid(subscription)}>
+                                            {subscription.is_paid ? 'Paid' : 'Mark As Paid'}
+                                        </button>
+                                        
+                                    </div>
+                                </li>
+                            ))}
                         </ul>
                         <button onClick={toggleForm} className="toggle-form-button">
                             {showForm ? 'Hide Form' : 'Add Subscription'}
@@ -271,7 +266,7 @@ const Recurring = () => {
                                 </form>
                             </div>
                         )}
-                        <button type='button' onClick={viewFormDetails}>View Details</button>
+                       
                     </div>
                 </div>
             </div>
