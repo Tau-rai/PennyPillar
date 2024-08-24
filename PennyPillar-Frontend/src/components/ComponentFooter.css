@@ -5,12 +5,11 @@
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
     position: relative;
     bottom: 0;
-   
     border-top: 2px solid #004d40;
     margin-left: 30vh;
-
 }
 
+/* Footer navigation styling */
 .sub-footer nav ul {
     list-style: none;
     margin: 0;
@@ -39,13 +38,41 @@
     font-size: 18px;
 }
 
+/* Active state */
 .sub-footer nav ul li.active a i,
 .sub-footer nav ul li.active a span {
     color: yellow; /* Active icon and text color */
 }
 
+/* Hover state */
 .sub-footer nav ul li a:hover i,
 .sub-footer nav ul li a:hover span {
     color: yellow;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .sub-footer {
+        margin-left: 0; /* Remove left margin on smaller screens */
+        padding: 10px; /* Adjust padding */
+    }
+
+    .sub-footer nav ul {
+        flex-direction: row; /* Keep the icons in a row on smaller screens */
+        justify-content: space-between;
+    }
+
+    .sub-footer nav ul li a {
+        flex-direction: row; /* Align icons and text horizontally */
+        gap: 10px; /* Adjust gap between icons and text */
+    }
+
+    .sub-footer nav ul li a span {
+        display: none; /* Hide text on smaller screens */
+    }
+
+    .sub-footer nav ul li a i {
+        font-size: 24px; /* Increase icon size slightly */
+    }
 }
 

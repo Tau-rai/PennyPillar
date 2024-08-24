@@ -1,206 +1,181 @@
-        /* Subscriptions styles */
-        .subscription-container {
-            max-width: 890px;
-            width: 100%;
-            background-color: #ffffff;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 12px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-            margin-top: 5vh;
-        }
-
-        .subscription-container h2 {
-            margin-top: 0;
-            color: #004d40;
-            text-align: center;
-        }
-
-
-       .subscription-container p {
-            margin-top: 0;
-            color: #004d40;
-            text-align: center;
-            font-size: 16px;
-            
-        }
-
-
-        .due-date {
-            font-weight: bold;
-            color: #666;
-        }
-
-        .expense-description {
-            margin-bottom: 10px;
-            font-size: 16px;
-        }
-
-        .icon-amount {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 15px;
-        }
-
-        .icon-amount .left-side {
-            display: flex;
-            align-items: center;
-        }
-
-        .icon-amount .left-side img {
-            width: 50px;
-            height: 50px;
-            margin-right: 10px;
-        }
-
-        .icon-amount .amount {
-            margin-right: auto;
-            font-size: 18px;
-            color: #333;
-        }
-
-        .icon-amount .receipt {
-            display: flex;
-            align-items: center;
-        }
-
-        .icon-amount .receipt img {
-            width: 50px;
-            height: 50px;
-            margin-left: 10px;
-        }
-
-        .icon-amount button {
-            background-color: #004d40;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 10px 20px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        .icon-amount button:hover {
-            background-color: #00382e;
-        }
-
-        /* Pay Now Form Modal */
-        #pay-now-modal {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: #ffffff;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 12px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-        }
-
-        #pay-now-modal h2 {
-            margin-top: 0;
-            color: #004d40;
-        }
-
-        #pay-now-modal form {
-            display: flex;
-            flex-direction: column;
-        }
-
-        #pay-now-modal label {
-            margin-bottom: 10px;
-            font-weight: bold;
-            color: #333;
-        }
-
-        #pay-now-modal input {
-            margin-bottom: 20px;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-
-        #pay-now-modal button {
-            padding: 10px 20px;
-            background-color: #004d40;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        #pay-now-modal button:hover {
-            background-color: #00382e;
-        }
-
-        #overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 999;
-        }
-        @media (max-width: 480px) {
-            .calendar-header {
-                font-size: 1rem;
-            }
-
-            .calendar-body th, .calendar-body td {
-                padding: 6px;
-            }
-
-            .icon-amount .left-side img, .icon-amount .receipt img {
-                width: 25px;
-                height: 25px;
-            }
-
-            .icon-amount button {
-                font-size: 0.8rem;
-                padding: 6px 12px;
-            }
-
-            #pay-now-modal {
-                width: 90%;
-            }
-
-            #pay-now-modal input, #pay-now-modal button {
-                font-size: 0.8rem;
-            }
-        }
-        /* Existing CSS */
-
-/* Add Subscription Button Styles */
-.add-subscription-container {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px 10px;
+     /* Subscriptions styles */
+.subscription-container {
+    max-width: 890px;
     width: 100%;
+    background-color: #ffffff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    margin-top: 5vh;
 }
 
-#add-subscription-btn {
-    background-color: #004d40; /* Matches the color scheme */
-    color: #fff;
+.subscription-container h2 {
+    margin-top: 0;
+    color: #004d40;
+    text-align: center;
+}
+
+.subscription-container p {
+    margin-top: 0;
+    color: #004d40;
+    text-align: center;
+    font-size: 16px;
+}
+
+.due-date {
+    font-weight: bold;
+    color: #666;
+}
+
+.expense-description {
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.icon-amount {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.icon-amount .left-side {
+    display: flex;
+    align-items: center;
+}
+
+.icon-amount .left-side img {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+}
+
+.icon-amount .amount {
+    margin-right: auto;
+    font-size: 18px;
+    color: #333;
+}
+
+.icon-amount .receipt {
+    display: flex;
+    align-items: center;
+}
+
+.icon-amount .receipt img {
+    width: 50px;
+    height: 50px;
+    margin-left: 10px;
+}
+
+.icon-amount button {
+    background-color: #004d40;
+    color: white;
     border: none;
     border-radius: 5px;
     padding: 10px 20px;
-    font-size: 16px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    font-size: 16px;
 }
 
-#add-subscription-btn:hover {
-    background-color: #00382e; /* Darker shade for hover effect */
+.icon-amount button:hover {
+    background-color: #00382e;
 }
 
-/* Responsive Styles */
+/* Pay Now Form Modal */
+#pay-now-modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #ffffff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+#pay-now-modal h2 {
+    margin-top: 0;
+    color: #004d40;
+}
+
+#pay-now-modal form {
+    display: flex;
+    flex-direction: column;
+}
+
+#pay-now-modal label {
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #333;
+}
+
+#pay-now-modal input {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+#pay-now-modal button {
+    padding: 10px 20px;
+    background-color: #004d40;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#pay-now-modal button:hover {
+    background-color: #00382e;
+}
+
+#overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 999;
+}
+
+/* Responsive styles */
+@media (max-width: 480px) {
+    .subscription-container {
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+
+    .icon-amount .left-side img, .icon-amount .receipt img {
+        width: 30px;
+        height: 30px;
+    }
+
+    .icon-amount .amount {
+        font-size: 14px;
+    }
+
+    .icon-amount button {
+        font-size: 0.8rem;
+        padding: 6px 12px;
+    }
+
+    #pay-now-modal {
+        width: 90%;
+    }
+
+    #pay-now-modal input, #pay-now-modal button {
+        font-size: 0.8rem;
+    }
+}
+
 @media (max-width: 580px) {
     #add-subscription-btn {
         font-size: 0.8rem;
@@ -209,29 +184,43 @@
 }
 
 .outer-container {
-    max-width: 1000px; /* Adjust based on your desired maximum width */
-    margin: 0 auto; /* Center the container horizontally */
-    padding: 20px; /* Add some padding around the content */
-    background-color: #f9f9f9; /* Light background color for contrast */
-    border-radius: 8px; /* Rounded corners for a softer look */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-left: 42vh;
     margin-right: 12vh;
     margin-bottom: 5vh;
 }
 
+@media (max-width: 768px) {
+    .outer-container {
+        margin-left: 5vh;
+        margin-right: 5vh;
+        padding: 15px;
+    }
+}
+
 .toggle-form-button, .view-form-details-button {
-    background-color: #004d00; /* Dark green background for buttons */
-    color: #fff; /* White text color */
-    border: none; /* Remove default border */
-    border-radius: 4px; /* Rounded corners for buttons */
-    padding: 10px 15px; /* Padding inside the buttons */
-    cursor: pointer; /* Pointer cursor on hover */
-    font-size: 16px; /* Adjust font size as needed */
-    margin-top: 10px; /* Space above buttons */
+    background-color: #004d00;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
 }
 
 .toggle-form-button:hover, .view-form-details-button:hover {
-    background-color: #003300; /* Slightly darker green on hover */
+    background-color: #003300;
 }
 
+@media (max-width: 480px) {
+    .toggle-form-button, .view-form-details-button {
+        font-size: 0.8rem;
+        padding: 6px 10px;
+    }
+}
