@@ -98,11 +98,23 @@ class MonthlyBudgetSerializer(serializers.ModelSerializer):
     """Monthly budget serializer"""
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
     month = serializers.DateField()
+    get_expenditure = serializers.SerializerMethodField()
+    is_over_budget = serializers.SerializerMethodField()
+    get_remaining_budget = serializers.SerializerMethodField()
 
     class Meta:
         model = MonthlyBudget
-        fields = ['id', 'user', 'month', 'budget_amount', 'get_expenditure', 'is_over_budget']
-        read_only_fields = ['user', 'month', 'get_expenditure', 'is_over_budget']
+        fields = ['id', 'user', 'month', 'budget_amount', 'get_expenditure', 'is_over_budget', 'get_remaining_budget']
+        read_only_fields = ['user', 'get_expenditure', 'is_over_budget', 'get_remaining_budget']
+
+    def get_get_expenditure(self, obj):
+        return obj.get_expenditure()
+
+    def get_is_over_budget(self, obj):
+        return obj.is_over_budget()
+
+    def get_get_remaining_budget(self, obj):
+        return obj.get_remaining_budget()
 
 
 class SavingsGoalSerializer(serializers.ModelSerializer):

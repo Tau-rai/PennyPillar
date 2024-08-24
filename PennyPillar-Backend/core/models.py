@@ -87,21 +87,22 @@ class Expense(Transaction):
 
 class MonthlyBudget(models.Model):
     """Monthly budget model"""
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     month = models.DateField()
     budget_amount = models.DecimalField(max_digits=10, decimal_places=2)
-    
+
+    class Meta:
+        unique_together = ('user', 'month')  # Ensure uniqueness of user-month combination
+
     def __str__(self):
         return f'{self.user.username} - {self.month.strftime("%B %Y")}'
 
     def get_expenditure(self):
-        # Retrieve the category object for 'Expenses'
         try:
             expense_category = Category.objects.get(name='Expenses')
         except Category.DoesNotExist:
-            return 0  # Or handle this case as needed
+            return 0
 
-        # Calculate the total expenditure for this month
         return Transaction.objects.filter(
             user=self.user,
             category=expense_category,
@@ -111,7 +112,7 @@ class MonthlyBudget(models.Model):
 
     def is_over_budget(self):
         return self.get_expenditure() > self.budget_amount
-    
+
     def get_remaining_budget(self):
         return self.budget_amount - self.get_expenditure()
 

@@ -28,6 +28,7 @@ const Profile = () => {
             firstName: firstName,
             lastName: lastName,
             username: username,
+            email: email,
             profilePicture: profilePicture
         };
 
@@ -54,7 +55,8 @@ const Profile = () => {
                     </div>
                     <div className="profile-details">
                         <h2>{firstName} {lastName}</h2>
-                        <p>Username: {username}</p>
+                        <p>Username: {localStorage.getItem('username')}</p>
+                        <p>Email: {localStorage.getItem('email')}</p>
                     </div>
                 </div>
 

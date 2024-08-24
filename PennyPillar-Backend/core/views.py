@@ -149,14 +149,34 @@ class MonthlyBudgetViewSet(viewsets.ModelViewSet):
         user = self.request.user
         if user.is_authenticated:
             month_str = self.request.query_params.get('month', timezone.now().date().replace(day=1).strftime('%Y-%m-%d'))
-            if month_str:
-                try:
-                    # Expect 'YYYY-MM-DD' format by default
-                    month = datetime.strptime(month_str, '%Y-%m-%d').date().replace(day=1)
-                    return MonthlyBudget.objects.filter(user=user, month__year=month.year, month__month=month.month)
-                except ValueError:
-                    return MonthlyBudget.objects.none()  # Handle invalid month format
+            try:
+                month = datetime.strptime(month_str, '%Y-%m-%d').date().replace(day=1)
+                return MonthlyBudget.objects.filter(user=user, month__year=month.year, month__month=month.month)
+            except ValueError:
+                return MonthlyBudget.objects.none()
         return MonthlyBudget.objects.none()
+
+    def create(self, request, *args, **kwargs):
+        user = request.user
+        month_str = request.data.get('month')
+        budget_amount = request.data.get('budget_amount')
+
+        try:
+            month = datetime.strptime(month_str, '%Y-%m-%d').date()
+        except ValueError:
+            return Response({'error': 'Invalid month format. Use YYYY-MM-DD.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Update or create the MonthlyBudget record
+        monthly_budget, created = MonthlyBudget.objects.update_or_create(
+            user=user,
+            month=month,
+            defaults={'budget_amount': budget_amount}
+        )
+
+        if created:
+            return Response({'message': 'Budget created successfully'}, status=status.HTTP_201_CREATED)
+        else:
+            return Response({'message': 'Budget updated successfully'}, status=status.HTTP_200_OK)
 
     @action(detail=False, methods=['get'])
     def check_budget_status(self, request):
@@ -164,8 +184,7 @@ class MonthlyBudgetViewSet(viewsets.ModelViewSet):
         user = request.user
         month_str = request.query_params.get('month', timezone.now().date().replace(day=1).strftime('%Y-%m-%d'))
         try:
-            # Expect 'YYYY-MM-DD' format by default
-            month = datetime.strptime(month_str, '%Y-%m-%d').date().replace(day=1)
+            month = datetime.strptime(month_str, '%Y-%m-%d').date()
         except ValueError:
             return Response({'detail': 'Invalid month format.'}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -175,11 +194,11 @@ class MonthlyBudgetViewSet(viewsets.ModelViewSet):
             data = {
                 'budget_amount': str(budget.budget_amount),
                 'expenditure': str(budget.get_expenditure()),
-                'is_over_budget': budget.is_over_budget()
+                'is_over_budget': budget.is_over_budget(),
+                'remaining_budget': budget.get_remaining_budget()
             }
             return Response(data, status=status.HTTP_200_OK)
         return Response({'detail': 'Budget not found.'}, status=status.HTTP_404_NOT_FOUND)
-  
 
 class SavingsGoalViewSet(viewsets.ModelViewSet):
     """Savings goal view."""
