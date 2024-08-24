@@ -28,6 +28,7 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
     authentication_classes = [JWTAuthentication]
     parser_classes = [MultiPartParser, FormParser]  # Allow file uploads
+    http_method_names = ['get', 'put', 'patch']
 
     def get_queryset(self):
         """Filter user profile by the current user."""
