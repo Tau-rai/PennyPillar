@@ -1,13 +1,15 @@
+/* General Styles */
 .carousel-container {
     position: relative;
     overflow: hidden;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    background-color: #f9f9f9; /* Light background for contrast */
+    background-color: #f9f9f9; /* Light background for contrast */   
     margin: 0 auto;
     max-width: 1200px;
 }
 
+/* Carousel Slides */
 .carousel-slides {
     display: flex;
     transition: transform 1.5s ease-in-out;
@@ -23,6 +25,8 @@
 }
 
 .feature-card img {
+    width: 100%; /* Ensure images scale with the container */
+    height: auto; /* Maintain aspect ratio */
     border-radius: 10px;
     margin-bottom: 15px;
 }
@@ -50,6 +54,7 @@
     margin-right: 10px;
 }
 
+/* Carousel Controls */
 .carousel-controls {
     display: flex;
     justify-content: center;
@@ -72,6 +77,7 @@
     background-color: #003300; /* Darker green on hover */
 }
 
+/* Title Section */
 .title-section h2 {
     text-align: center;
     color: #004d00; /* Dark green for title */
@@ -99,3 +105,57 @@
 .dot.active {
     background-color: #004d00; /* Dark green for active dot */
 }
+
+/* Media Queries for Smaller Screens */
+@media (max-width: 768px) {
+    .feature-card {
+        padding: 15px;
+    }
+
+    .feature-card h3 {
+        font-size: 20px;
+    }
+
+    .feature-card li {
+        font-size: 14px;
+    }
+
+    .control-button {
+        font-size: 16px;
+        padding: 8px;
+    }
+
+    .carousel-dots {
+        margin-top: 15px;
+    }
+
+    .dot {
+        width: 10px;
+        height: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .feature-card {
+        padding: 10px;
+    }
+
+    .feature-card h3 {
+        font-size: 18px;
+    }
+
+    .feature-card li {
+        font-size: 12px;
+    }
+
+    .control-button {
+        font-size: 14px;
+        padding: 6px;
+    }
+
+    .dot {
+        width: 8px;
+        height: 8px;
+    }
+}
+
