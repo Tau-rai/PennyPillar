@@ -193,3 +193,15 @@
         font-size: 1.2em;
     }
 }
+
+.chart h3 {
+    margin: 0;
+    background-color: #065b4d; /* Adjust color as needed */
+    border-bottom: 1px solid #ddd; /* Optional */
+    color: #fff;
+    text-align: center;
+    
+}
+.chart:not(:last-child) {
+    border-bottom: 2px solid #00796b; /* Bottom border as dividing line */
+}

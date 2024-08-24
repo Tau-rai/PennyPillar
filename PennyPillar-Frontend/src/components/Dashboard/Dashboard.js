@@ -369,8 +369,9 @@ const Dashboard = () => {
     };
 
     return (
+        <>
         <div className="dashboard-container">
-            <Header />
+            <Header isLoggedIn={true} />
             <div className="calendar-controls">
                 <button onClick={() => changeMonth(-1)}>Previous</button>
                 <span>{`Month: ${month}/${year}`}</span>
@@ -383,23 +384,29 @@ const Dashboard = () => {
             </div>
             <div className="charts-container">
                 <div className="chart">
+                <h3>Budget Overview</h3>
                     <canvas ref={budgetChartRef} />
                 </div>
                 <div className="chart">
+                <h3>Cashflow Overview</h3>
                     <canvas ref={cashFlowChartRef} />
                 </div>
                 <div className="chart">
+                <h3>Net Income Overview</h3>
                     <canvas ref={netIncomeRef} />
                 </div>
                 <div className="chart">
+                <h3>Penny Challenge Overview</h3>
                     <canvas ref={challengeChartRef} />
                 </div>
                 <div className="chart">
+                    <h3>Expenses Overview</h3>
                     <canvas ref={expenseChartRef} />
                 </div>
             </div>
-            <MainFooter />
         </div>
+        <MainFooter />
+        </>
     );
     
 };
