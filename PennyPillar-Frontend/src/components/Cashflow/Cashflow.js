@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axiosInstance from '../../axiosConfig';
 import './Cashflow.css';
-import { FaPencilAlt, FaTrashAlt, FaPlus } from 'react-icons/fa'; // Import the FaPlus icon
+import { FaPencilAlt, FaTrashAlt, FaPlus } from 'react-icons/fa';
 import MainFooter from '../ComponentFooter';
 import Header from '../Header';
 
@@ -10,8 +10,8 @@ const Cashflow = () => {
   const [categories, setCategories] = useState([]);
   const [newTransaction, setNewTransaction] = useState({ description: '', amount: '', category: '' });
   const [editingTransaction, setEditingTransaction] = useState(null);
-  const [showAddForm, setShowAddForm] = useState(false); // State to toggle add form visibility
-  const [selectedCategory, setSelectedCategory] = useState(''); // To track which category the add form is for
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState('');
 
   useEffect(() => {
     const fetchTransactions = async () => {
@@ -39,23 +39,28 @@ const Cashflow = () => {
   const handleAddTransaction = async (e) => {
     e.preventDefault();
     try {
-      const transactionToAdd = { ...newTransaction, category: selectedCategory };
+      const category = categories.find(cat => cat.name === selectedCategory);
+      if (!category) {
+        console.error('Category not found.');
+        return;
+      }
+
+      const transactionToAdd = { 
+        ...newTransaction, 
+        category: category.id 
+      };
+
       const response = await axiosInstance.post('/transactions/', transactionToAdd);
       setTransactions([...transactions, response.data]);
       setNewTransaction({ description: '', amount: '', category: '' });
-      setShowAddForm(false); // Hide the form after submission
+      setShowAddForm(false);
     } catch (error) {
       console.error('Error adding transaction:', error);
     }
   };
 
-  const handleEditTransaction = async (id) => {
-    try {
-      const response = await axiosInstance.get(`/transactions/${id}/`);
-      setEditingTransaction(response.data);
-    } catch (error) {
-      console.error('Error fetching transaction:', error);
-    }
+  const handleEditTransaction = (transaction) => {
+    setEditingTransaction(transaction);
   };
 
   const handleUpdateTransaction = async (e) => {
@@ -85,10 +90,9 @@ const Cashflow = () => {
 
   const handleAddIconClick = (categoryName) => {
     setSelectedCategory(categoryName);
-    setShowAddForm(true);
+    setShowAddForm(!showAddForm); // Toggle the form visibility
   };
 
-  // Calculate totals
   const incomeTransactions = transactions.filter(t => getCategoryName(t.category) === 'Income');
   const expenseTransactions = transactions.filter(t => getCategoryName(t.category) === 'Expenses');
   const savingsTransactions = transactions.filter(t => getCategoryName(t.category) === 'Savings');
@@ -98,35 +102,16 @@ const Cashflow = () => {
 
   return (
     <>
-    <Header isLoggedIn={true} />
-      
-      <div className="cashflow-container"> 
-        {showAddForm && (
-          <form onSubmit={handleAddTransaction} className="transaction-form">
-            <input
-              type="text"
-              value={newTransaction.description}
-              onChange={(e) => setNewTransaction({ ...newTransaction, description: e.target.value })}
-              placeholder="Description"
-              className="form-input"
-            />
-            <input
-              type="number"
-              value={newTransaction.amount}
-              onChange={(e) => setNewTransaction({ ...newTransaction, amount: e.target.value })}
-              placeholder="Amount"
-              className="form-input"
-            />
-            <button type="submit" className="btn-submit">Add Transaction</button>
-          </form>
-        )}
+      <Header isLoggedIn={true} />
+      <div className="cashflow-container">
 
         <div className="transaction-tables">
+          {/* Income Category */}
           <div className="transaction-category">
-            <h2>
-              Income 
+            <div className="category-header">
+              <h2>Income</h2>
               <FaPlus onClick={() => handleAddIconClick('Income')} className="icon-add" />
-            </h2>
+            </div>
             <table>
               <thead>
                 <tr>
@@ -141,20 +126,44 @@ const Cashflow = () => {
                     <td>{transaction.description}</td>
                     <td>${transaction.amount}</td>
                     <td>
-                      <FaPencilAlt onClick={() => handleEditTransaction(transaction.id)} className="icon-pencil" />
+                      <FaPencilAlt onClick={() => handleEditTransaction(transaction)} className="icon-pencil" />
                       <FaTrashAlt onClick={() => handleDeleteTransaction(transaction.id)} className="icon-bin" />
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
+
+            {/* Show Add Form Below the Income Table */}
+            {showAddForm && selectedCategory === 'Income' && (
+              <div className="add-transaction-form">
+                <form onSubmit={handleAddTransaction} className="transaction-form">
+                  <input
+                    type="text"
+                    value={newTransaction.description}
+                    onChange={(e) => setNewTransaction({ ...newTransaction, description: e.target.value })}
+                    placeholder="Description"
+                    className="form-input"
+                  />
+                  <input
+                    type="number"
+                    value={newTransaction.amount}
+                    onChange={(e) => setNewTransaction({ ...newTransaction, amount: e.target.value })}
+                    placeholder="Amount"
+                    className="form-input"
+                  />
+                  <button type="submit" className="btn-submit">Add Transaction</button>
+                </form>
+              </div>
+            )}
           </div>
 
+          {/* Expenses Category */}
           <div className="transaction-category">
-            <h2>
-              Expenses
+            <div className="category-header">
+              <h2>Expenses</h2>
               <FaPlus onClick={() => handleAddIconClick('Expenses')} className="icon-add" />
-            </h2>
+            </div>
             <table>
               <thead>
                 <tr>
@@ -169,20 +178,44 @@ const Cashflow = () => {
                     <td>{transaction.description}</td>
                     <td>${Math.abs(transaction.amount)}</td>
                     <td>
-                      <FaPencilAlt onClick={() => handleEditTransaction(transaction.id)} className="icon-pencil" />
+                      <FaPencilAlt onClick={() => handleEditTransaction(transaction)} className="icon-pencil" />
                       <FaTrashAlt onClick={() => handleDeleteTransaction(transaction.id)} className="icon-bin" />
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
+
+            {/* Show Add Form Below the Expenses Table */}
+            {showAddForm && selectedCategory === 'Expenses' && (
+              <div className="add-transaction-form">
+                <form onSubmit={handleAddTransaction} className="transaction-form">
+                  <input
+                    type="text"
+                    value={newTransaction.description}
+                    onChange={(e) => setNewTransaction({ ...newTransaction, description: e.target.value })}
+                    placeholder="Description"
+                    className="form-input"
+                  />
+                  <input
+                    type="number"
+                    value={newTransaction.amount}
+                    onChange={(e) => setNewTransaction({ ...newTransaction, amount: e.target.value })}
+                    placeholder="Amount"
+                    className="form-input"
+                  />
+                  <button type="submit" className="btn-submit">Add Transaction</button>
+                </form>
+              </div>
+            )}
           </div>
 
+          {/* Savings Category */}
           <div className="transaction-category">
-            <h2>
-              Savings 
+            <div className="category-header">
+              <h2>Savings</h2>
               <FaPlus onClick={() => handleAddIconClick('Savings')} className="icon-add" />
-            </h2>
+            </div>
             <table>
               <thead>
                 <tr>
@@ -197,48 +230,66 @@ const Cashflow = () => {
                     <td>{transaction.description}</td>
                     <td>${transaction.amount}</td>
                     <td>
-                      <FaPencilAlt onClick={() => handleEditTransaction(transaction.id)} className="icon-pencil" />
+                      <FaPencilAlt onClick={() => handleEditTransaction(transaction)} className="icon-pencil" />
                       <FaTrashAlt onClick={() => handleDeleteTransaction(transaction.id)} className="icon-bin" />
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
+
+            {/* Show Add Form Below the Savings Table */}
+            {showAddForm && selectedCategory === 'Savings' && (
+              <div className="add-transaction-form">
+                <form onSubmit={handleAddTransaction} className="transaction-form">
+                  <input
+                    type="text"
+                    value={newTransaction.description}
+                    onChange={(e) => setNewTransaction({ ...newTransaction, description: e.target.value })}
+                    placeholder="Description"
+                    className="form-input"
+                  />
+                  <input
+                    type="number"
+                    value={newTransaction.amount}
+                    onChange={(e) => setNewTransaction({ ...newTransaction, amount: e.target.value })}
+                    placeholder="Amount"
+                    className="form-input"
+                  />
+                  <button type="submit" className="btn-submit">Add Transaction</button>
+                </form>
+              </div>
+            )}
           </div>
         </div>
 
-        <h2>Net Income: ${(Number(netIncome)).toFixed(2)}</h2>
-
+        {/* Form for Editing Transactions */}
         {editingTransaction && (
-          <div className="transaction-edit">
-            <h2>Edit Transaction</h2>
-            <form onSubmit={handleUpdateTransaction} className="transaction-form">
+          <div className="edit-transaction-form">
+            <h3>Edit Transaction</h3>
+            <form onSubmit={handleUpdateTransaction}>
               <input
                 type="text"
                 value={editingTransaction.description}
                 onChange={(e) => setEditingTransaction({ ...editingTransaction, description: e.target.value })}
+                placeholder="Description"
                 className="form-input"
               />
               <input
                 type="number"
                 value={editingTransaction.amount}
                 onChange={(e) => setEditingTransaction({ ...editingTransaction, amount: e.target.value })}
+                placeholder="Amount"
                 className="form-input"
               />
-              <select
-                value={editingTransaction.category}
-                onChange={(e) => setEditingTransaction({ ...editingTransaction, category: e.target.value })}
-                className="form-select"
-              >
-                <option value="">Select Category</option>
-                {categories.map(cat => (
-                  <option key={cat.id} value={cat.id}>{cat.name}</option>
-                ))}
-              </select>
               <button type="submit" className="btn-submit">Update Transaction</button>
             </form>
           </div>
         )}
+         {/* Net Income Display */}
+         <div className="net-income">
+          <h3>Net Income: ${netIncome.toFixed(2)}</h3>
+        </div>
       </div>
       <MainFooter />
     </>

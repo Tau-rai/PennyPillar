@@ -9,15 +9,15 @@ Chart.register(...registerables);
 const Dashboard = () => {
     const [month, setMonth] = useState(new Date().getMonth() + 1);
     const [year, setYear] = useState(new Date().getFullYear());
-    const [budgetData, setBudgetData] = useState([]); 
-    
+    const [budgetData, setBudgetData] = useState([]);
+    const [transactions, setTransactions] = useState([]);
+    const [categories, setCategories] = useState([]);
+
     const budgetChartRef = useRef(null);
     const cashFlowChartRef = useRef(null);
     const netIncomeRef = useRef(null);
     const challengeChartRef = useRef(null);
-
-    const [transactions, setTransactions] = useState([]);
-    const [categories, setCategories] = useState([]);
+    const expenseChartRef = useRef(null); // Reference for expenseChart
 
     useEffect(() => {
         const fetchBudgetData = async () => {
@@ -77,6 +77,10 @@ const Dashboard = () => {
         { label: 'Savings', value: totalSavings }
     ];
 
+    // Prepare expense chart data
+    const expenseLabels = expenseTransactions.map(t => t.description || 'No Description');
+    const expenseValues = expenseTransactions.map(t => Math.abs(parseFloat(t.amount)));
+
     useEffect(() => {
         renderCalendar();
         initializeCharts();
@@ -118,7 +122,7 @@ const Dashboard = () => {
     };
 
     const destroyCharts = () => {
-        [budgetChartRef, cashFlowChartRef, netIncomeRef, challengeChartRef].forEach(chartRef => {
+        [budgetChartRef, cashFlowChartRef, netIncomeRef, challengeChartRef, expenseChartRef].forEach(chartRef => {
             if (chartRef.current && chartRef.current.chartInstance) {
                 chartRef.current.chartInstance.destroy();
             }
@@ -263,14 +267,59 @@ const Dashboard = () => {
         // Initialize Penny Challenge Chart
         if (challengeChartRef.current) {
             challengeChartRef.current.chartInstance = new Chart(challengeChartRef.current, {
-                type: 'line',
+                type: 'doughnut',
                 data: {
-                    labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4'],
+                    labels: ['Challenge', 'Remaining'],
                     datasets: [{
-                        label: 'Penny Challenge Savings',
-                        data: [0.01, 0.02, 0.04, 0.08], // Placeholder values
-                        backgroundColor: 'rgba(153, 102, 255, 0.2)',
-                        borderColor: 'rgba(153, 102, 255, 1)',
+                        label: 'Challenge Status',
+                        data: [500, 1500], // Placeholder values
+                        backgroundColor: [
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(255, 99, 132, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(255, 99, 132, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed !== null) {
+                                        label += '$' + context.parsed;
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Initialize Expense Chart
+        if (expenseChartRef.current) {
+            expenseChartRef.current.chartInstance = new Chart(expenseChartRef.current, {
+                type: 'bar',
+                data: {
+                    labels: expenseLabels,
+                    datasets: [{
+                        label: 'Expenses',
+                        data: expenseValues,
+                        backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                        borderColor: 'rgba(255, 159, 64, 1)',
                         borderWidth: 1
                     }]
                 },
@@ -294,6 +343,25 @@ const Dashboard = () => {
                                 }
                             }
                         }
+                    },
+                    scales: {
+                        x: {
+                            stacked: true,
+                            grid: {
+                                display: false
+                            }
+                        },
+                        y: {
+                            stacked: true,
+                            grid: {
+                                display: true
+                            },
+                            ticks: {
+                                callback: function (value) {
+                                    return '$' + value;
+                                }
+                            }
+                        }
                     }
                 }
             });
@@ -301,39 +369,39 @@ const Dashboard = () => {
     };
 
     return (
-        <>
-        <div className="dashboard-container"> {/* Add this container */}
+        <div className="dashboard-container">
             <Header />
+            <div className="calendar-controls">
+                <button onClick={() => changeMonth(-1)}>Previous</button>
+                <span>{`Month: ${month}/${year}`}</span>
+                <button onClick={() => changeMonth(1)}>Next</button>
+            </div>
             <div className="calendar-container">
-                <div className="calendar">
-                    <div className="calendar-header">
-                        <button onClick={() => changeMonth(-1)}>Previous</button>
-                        <h2>{new Date(year, month - 1).toLocaleString('default', { month: 'long' })} {year}</h2>
-                        <button onClick={() => changeMonth(1)}>Next</button>
-                    </div>
-                    <div id="calendar-days" className="calendar-days"></div>
+                <div className="calendar-days" id="calendar-days">
+                    {/* Days will be dynamically rendered here */}
                 </div>
             </div>
             <div className="charts-container">
                 <div className="chart">
-                    <canvas ref={budgetChartRef} id="budgetChart"></canvas>
+                    <canvas ref={budgetChartRef} />
                 </div>
                 <div className="chart">
-                    <canvas ref={cashFlowChartRef} id="cashFlowChart"></canvas>
+                    <canvas ref={cashFlowChartRef} />
                 </div>
                 <div className="chart">
-                    <canvas ref={netIncomeRef} id="netIncomeChart"></canvas>
+                    <canvas ref={netIncomeRef} />
                 </div>
                 <div className="chart">
-                    <canvas ref={challengeChartRef} id="challengeChart"></canvas>
+                    <canvas ref={challengeChartRef} />
+                </div>
+                <div className="chart">
+                    <canvas ref={expenseChartRef} />
                 </div>
             </div>
-            
+            <MainFooter />
         </div>
-        <MainFooter />
-        </>
-
     );
+    
 };
 
 export default Dashboard;

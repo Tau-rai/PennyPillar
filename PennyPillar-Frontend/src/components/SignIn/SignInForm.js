@@ -15,11 +15,6 @@ const SignInPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (localStorage.getItem('authToken')) {
-            alert('Please log out the current user before logging in a new user.');
-            return;
-        }
-
         if (!username || !password) {
             setError('Please fill in all the required fields.');
             return;
