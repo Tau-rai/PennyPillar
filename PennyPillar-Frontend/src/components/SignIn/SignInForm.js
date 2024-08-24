@@ -14,17 +14,25 @@ const SignInPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (localStorage.getItem('authToken')) {
+            alert('Please log out the current user before logging in a new user.');
+            return;
+        }
+
         if (!username || !password) {
             setError('Please fill in all the required fields.');
             return;
         }
+
         try {
             const response = await axiosInstance.post('/token/', { username, password }); 
             
             // Store both access and refresh tokens
             localStorage.setItem('authToken', response.data.access);
             localStorage.setItem('refreshToken', response.data.refresh);
-        
+            localStorage.setItem('user', JSON.stringify({ username }));
+
             // Redirect to the home page
             navigate('/');
         } catch (error) {
@@ -41,8 +49,7 @@ const SignInPage = () => {
                     <div className="header-content">
                         <h3>Great to have you back! Your next financial milestone awaits.</h3>
                     </div>
-                    <div></div>
-                    {error && <div className="error-message" style={{ backgroundColor: 'red', button: 'medium' }}>{error}</div>}
+                    {error && <div className="alert alert-danger" role="alert">{error}</div>}
                     <form onSubmit={handleSubmit}>
                         <div className="mb-3">
                             <label htmlFor="username" className="form-label">Username:</label>

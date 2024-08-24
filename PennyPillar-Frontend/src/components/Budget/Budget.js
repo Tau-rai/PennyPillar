@@ -1,133 +1,139 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './Budget.css';
 import { Chart, registerables } from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+import axiosInstance from '../../axiosConfig';
 import MainFooter from '../ComponentFooter';
-import Header from '../Header'; // Importing Header component
+import Header from '../Header';
 
-Chart.register(...registerables);
+Chart.register(...registerables, ChartDataLabels);
 
 const Budget = () => {
     const [month, setMonth] = useState(new Date().getMonth());
     const [year, setYear] = useState(new Date().getFullYear());
-    const [expenses, setExpenses] = useState([]);
-    const [goals, setGoals] = useState([]);
-    const [goalProgress, setGoalProgress] = useState(0);
-
+    const [budgetStatus, setBudgetStatus] = useState(null); // Stores budget status from the API
+    const [budgetAmount, setBudgetAmount] = useState(''); // Stores the input for setting a budget
     const expenseChartRef = useRef(null);
     const chartInstanceRef = useRef(null);
 
     useEffect(() => {
-        renderCalendar();
-        initializeCharts();
-    }, [month, year, expenses]);
+        fetchBudgetStatus(); // Fetch the budget status when month or year changes
+    }, [month, year]);
 
-    const renderCalendar = () => {
-        const calendarDays = document.getElementById('calendar-days');
-        calendarDays.innerHTML = '';
-
-        const firstDay = new Date(year, month, 1).getDay();
-        const lastDate = new Date(year, month + 1, 0).getDate();
-
-        for (let i = 0; i < firstDay; i++) {
-            const blankDay = document.createElement('div');
-            blankDay.className = 'calendar-day';
-            calendarDays.appendChild(blankDay);
+    useEffect(() => {
+        if (expenseChartRef.current && budgetStatus) {
+            initializeCharts(); // Initialize the chart only if the canvas element is available and budgetStatus is loaded
         }
+    }, [budgetStatus]); // Re-run when budgetStatus changes
 
-        for (let i = 1; i <= lastDate; i++) {
-            const day = document.createElement('div');
-            day.className = 'calendar-day';
-            day.textContent = i;
-            calendarDays.appendChild(day);
+    const fetchBudgetStatus = async () => {
+        try {
+            const monthStr = `${year}-${String(month + 1).padStart(2, '0')}-01`; // Format month as 'YYYY-MM-DD'
+            const response = await axiosInstance.get('/monthly-budget/check_budget_status/', {
+                params: { month: monthStr },
+            });
+            setBudgetStatus(response.data);
+        } catch (error) {
+            if (error.response && error.response.status === 404) {
+                setBudgetStatus(null); // No budget found
+            } else {
+                console.error('Failed to fetch budget status:', error);
+            }
+        }
+    };
+
+    const handleSetBudget = async () => {
+        if (!budgetAmount) return;
+
+        try {
+            const monthStr = `${year}-${String(month + 1).padStart(2, '0')}-01`;
+            await axiosInstance.post('/monthly-budget/', {
+                month: monthStr,
+                budget_amount: budgetAmount,
+            });
+            fetchBudgetStatus(); // Refresh the budget status after setting it
+        } catch (error) {
+            console.error('Failed to set budget:', error);
         }
     };
 
     const changeMonth = (direction) => {
-        setMonth(prevMonth => (prevMonth + direction + 12) % 12);
+        setMonth((prevMonth) => (prevMonth + direction + 12) % 12);
         if (direction === -1 && month === 0) {
-            setYear(prevYear => prevYear - 1);
+            setYear((prevYear) => prevYear - 1);
         } else if (direction === 1 && month === 11) {
-            setYear(prevYear => prevYear + 1);
+            setYear((prevYear) => prevYear + 1);
         }
+    };
+
+    const getExpenseData = () => {
+        if (!budgetStatus) return {};
+        return {
+            'Budget Amount': parseFloat(budgetStatus.budget_amount),
+            'Amount Spent': parseFloat(budgetStatus.expenditure),
+            'Remaining Balance': parseFloat(budgetStatus.budget_amount) - parseFloat(budgetStatus.expenditure),
+        };
     };
 
     const initializeCharts = () => {
         const ctx = expenseChartRef.current.getContext('2d');
         const expenseData = getExpenseData();
+        const total = Object.values(expenseData).reduce((a, b) => a + b, 0); // Calculate total for percentage
 
         if (chartInstanceRef.current) {
-            chartInstanceRef.current.destroy();
+            chartInstanceRef.current.destroy(); // Destroy the previous chart instance if it exists
         }
 
         chartInstanceRef.current = new Chart(ctx, {
-            type: 'pie',
+            type: 'bar',
             data: {
                 labels: Object.keys(expenseData),
-                datasets: [{
-                    data: Object.values(expenseData),
-                    backgroundColor: ['#ff6384', '#36a2eb', '#cc65fe', '#ffce56']
-                }]
+                datasets: [
+                    {
+                        data: Object.values(expenseData),
+                        backgroundColor: ['#ff6384', '#36a2eb', '#4caf50'],
+                    },
+                ],
             },
             options: {
                 responsive: true,
                 plugins: {
-                    legend: {
-                        position: 'top',
-                    },
+                    legend: { display: false }, // Hide legend
                     tooltip: {
                         callbacks: {
-                            label: function(tooltipItem) {
-                                return `${tooltipItem.label}: $${tooltipItem.raw}`;
-                            }
-                        }
-                    }
-                }
-            }
+                            label: (tooltipItem) => {
+                                const value = tooltipItem.raw;
+                                return `${tooltipItem.label}: $${value}`;
+                            },
+                        },
+                    },
+                    datalabels: {
+                        display: true,
+                        color: '#fff',
+                        anchor: 'end',
+                        align: 'top',
+                        formatter: (value) => {
+                            const percentage = ((value / total) * 100).toFixed(2); // Calculate percentage
+                            return `${percentage}%`;
+                        },
+                    },
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Amount ($)',
+                        },
+                    },
+                },
+            },
         });
-    };
-
-    const getExpenseData = () => {
-        const expenseData = {};
-        expenses.forEach(expense => {
-            if (!expenseData[expense.name]) {
-                expenseData[expense.name] = 0;
-            }
-            expenseData[expense.name] += expense.amount;
-        });
-        return expenseData;
-    };
-
-    const addExpense = () => {
-        const name = document.getElementById('expense-name').value;
-        const amount = parseFloat(document.getElementById('expense-amount').value);
-        if (name && !isNaN(amount)) {
-            setExpenses([...expenses, { name, amount }]);
-            document.getElementById('expense-name').value = '';
-            document.getElementById('expense-amount').value = '';
-        }
-    };
-
-    const addGoal = () => {
-        const name = document.getElementById('goal-name').value;
-        const target = parseFloat(document.getElementById('goal-target').value);
-        if (name && !isNaN(target)) {
-            setGoals([...goals, { name, target }]);
-            setGoalProgress(calculateGoalProgress());
-            document.getElementById('goal-name').value = '';
-            document.getElementById('goal-target').value = '';
-        }
-    };
-
-    const calculateGoalProgress = () => {
-        if (goals.length === 0) return 0;
-        const total = goals.reduce((sum, goal) => sum + goal.target, 0);
-        const progress = goals.reduce((sum, goal) => sum + (goal.target * 0.5), 0);
-        return (progress / total) * 100;
     };
 
     return (
         <>
-             <Header isLoggedIn={true} />
+            <Header isLoggedIn={true} />
             <div className="budget-container">
                 <main>
                     <section id="calendar" className="section">
@@ -135,48 +141,39 @@ const Budget = () => {
                         <div className="calendar-container">
                             <div className="calendar-header">
                                 <button onClick={() => changeMonth(-1)}>&#8249;</button>
-                                <span id="calendar-month">{`${new Date(year, month).toLocaleString('default', { month: 'long' })} ${year}`}</span>
+                                <span id="calendar-month">
+                                    {`${new Date(year, month).toLocaleString('default', { month: 'long' })} ${year}`}
+                                </span>
                                 <button onClick={() => changeMonth(1)}>&#8250;</button>
                             </div>
-                            <div className="calendar-days" id="calendar-days"></div>
                         </div>
                     </section>
-                    <section id="expenses" className="section">
-                        <h2>Expense Tracker</h2>
-                        
-                        <div className="input-group">
-                            <label htmlFor="expense-amount">Budgeted Expenses Amount:</label>
-                            <input type="number" id="expense-amount" placeholder="Enter amount" />
-                        </div>
-                        <div className="input-group">
-                            <button onClick={addExpense}>Review Expenses</button>
-                        </div>
-                        <div className="expense-summary">
-                            <h3>Expense Summary</h3>
-                            <canvas ref={expenseChartRef} id="expenseChart"></canvas>
-                        </div>
-                    </section>
-                    <section id="goals" className="section">
-                        <h2>Financial Goals</h2>
-                        <div className="input-group">
-                            <label htmlFor="goal-name">Goal Name:</label>
-                            <input type="text" id="goal-name" placeholder="Enter goal name" />
-                        </div>
-                        <div className="input-group">
-                            <label htmlFor="goal-target">Target Amount:</label>
-                            <input type="number" id="goal-target" placeholder="Enter target amount" />
-                        </div>
-                        <div className="input-group">
-                            <button onClick={addGoal}>Add Goal</button>
-                        </div>
-                        <div className="goal-summary">
-                            <h3>Goal Progress</h3>
-                            <div className="goal-progress">
-                                <div className="goal-progress-bar" style={{ width: `${goalProgress}%` }}>
-                                    {goalProgress}%
-                                </div>
+
+                    <section id="budget" className="section">
+                        <h2>Budget Status</h2>
+                        {budgetStatus ? (
+                            <div className="budget-details">
+                                <p>Budget Amount: ${budgetStatus.budget_amount}</p>
+                                <p>Expenditure: ${budgetStatus.expenditure}</p>
+                                <p>Status: {budgetStatus.is_over_budget ? 'Over Budget' : 'Within Budget'}</p>
+                                <canvas ref={expenseChartRef} id="expenseChart"></canvas>
                             </div>
-                        </div>
+                        ) : (
+                            <div className="set-budget">
+                                <p>No budget set for this month.</p>
+                                <div className="input-group">
+                                    <label htmlFor="budget-amount">Set Budget Amount:</label>
+                                    <input
+                                        type="number"
+                                        id="budget-amount"
+                                        value={budgetAmount}
+                                        onChange={(e) => setBudgetAmount(e.target.value)}
+                                        placeholder="Enter amount"
+                                    />
+                                </div>
+                                <button onClick={handleSetBudget}>Set Budget</button>
+                            </div>
+                        )}
                     </section>
                 </main>
             </div>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axiosInstance from '../../axiosConfig';
 import './Insights.css';
 import MainFooter from '../ComponentFooter';
-import Topnav from '../TopNav';
+import Header from '../Header';
 
 
 

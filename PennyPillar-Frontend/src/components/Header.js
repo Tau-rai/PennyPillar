@@ -1,10 +1,9 @@
-// src/components/Header.js
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Header.css';
+import axiosInstance from '../axiosConfig';
 
-// Placeholder image URL (replace with actual URL or path if necessary)
-const placeholderImage = '/path/to/placeholder-image.png'; 
+const placeholderImage = 'https://via.placeholder.com/150';
 
 const Header = ({ isLoggedIn, profilePicture }) => {
   const navigate = useNavigate();
@@ -12,10 +11,13 @@ const Header = ({ isLoggedIn, profilePicture }) => {
   const handleLogout = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch('/logout/', { method: 'POST' });
-      if (response.ok) {
-        navigate('/');
-      }
+      await axiosInstance.post('/logout/');
+      // Clear tokens from local storage
+      localStorage.removeItem('authToken');
+      localStorage.removeItem('refreshToken');
+      localStorage.removeItem('user');
+      // Redirect to home page
+      navigate('/');
     } catch (error) {
       console.error('Logout failed:', error.message);
     }
@@ -39,9 +41,9 @@ const Header = ({ isLoggedIn, profilePicture }) => {
         ☰
       </div>
       <nav className="nav-links">
-        <Link to="/">Home</Link>
         {isLoggedIn ? (
           <>
+            <Link to="/">Home</Link>
             <Link to="/dashboard">Dashboard</Link>
             <Link to="/cashflow">Cash Flow</Link>
             <Link to="/budget">Budget</Link>
@@ -52,12 +54,13 @@ const Header = ({ isLoggedIn, profilePicture }) => {
           </>
         ) : (
           <>
+            <Link to="/">Home</Link>
             <Link to="/login">Sign In</Link>
             <Link to="/signup">Sign Up</Link>
+            <Link to="/about">About Us</Link>
+            <Link to="/help">Help</Link>
           </>
         )}
-        <Link to="/about">About Us</Link>
-        <Link to="/help">Help</Link>
       </nav>
     </header>
   );

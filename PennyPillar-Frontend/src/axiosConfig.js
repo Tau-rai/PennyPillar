@@ -1,5 +1,11 @@
-// src/axiosInstance.js
+// contains the configuration for the Axios instance used to make API requests
 import axios from 'axios';
+
+// Helper function to get the CSRF token from the DOM
+const getCsrfToken = () => {
+  const csrfToken = document.querySelector('meta[name="csrf-token"]');
+  return csrfToken ? csrfToken.getAttribute('content') : '';
+};
 
 // Create an Axios instance with a base URL and token in headers
 const axiosInstance = axios.create({
@@ -9,13 +15,20 @@ const axiosInstance = axios.create({
   },
 });
 
-// Add a request interceptor to include the token
+// Add a request interceptor to include the auth token and CSRF token
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('authToken'); // Retrieve token from local storage
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`; // Set Authorization header
+    const authToken = localStorage.getItem('authToken'); // Retrieve auth token from local storage
+    if (authToken) {
+      config.headers.Authorization = `Bearer ${authToken}`; // Set Authorization header
     }
+
+    // Include the CSRF token in the headers
+    const csrfToken = getCsrfToken();
+    if (csrfToken) {
+      config.headers['X-CSRFToken'] = csrfToken; // Set CSRF token header
+    }
+
     return config;
   },
   (error) => Promise.reject(error)
