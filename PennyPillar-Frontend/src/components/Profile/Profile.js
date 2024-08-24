@@ -7,7 +7,7 @@ import axiosInstance from '../../axiosConfig';
 const Profile = () => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
-    const [username, setUsername] = useState('');
+    // const [username, setUsername] = useState('');
     const [profilePicture, setProfilePicture] = useState('https://via.placeholder.com/100');
     const [formVisible, setFormVisible] = useState(false);
 
@@ -24,6 +24,8 @@ const Profile = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        const email = localStorage.getItem('email');
+        const username = localStorage.getItem('username');
         const updatedProfile = {
             firstName: firstName,
             lastName: lastName,
@@ -85,17 +87,6 @@ const Profile = () => {
                             placeholder="Enter your last name"
                             value={lastName}
                             onChange={(e) => setLastName(e.target.value)}
-                            required
-                        />
-
-                        <label htmlFor="username">Username:</label>
-                        <input
-                            type="text"
-                            id="username"
-                            name="username"
-                            placeholder="Enter your username"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
                             required
                         />
 

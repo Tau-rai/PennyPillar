@@ -12,7 +12,6 @@ const SignUpPage = () => {
     const [password, setPassword] = useState('');
     const [password2, setPassword2] = useState('');
     const navigate = useNavigate();
-    const isLoggedIn = true;
     
 
     const handleRegister = async (e) => {
@@ -94,7 +93,7 @@ const SignUpPage = () => {
                         </div>
                         <button type="submit" className="btn btn-primary w-full py-2 px-4 bg-teal-800 text-white font-semibold rounded-md shadow-sm hover:bg-teal-700">Sign Up</button>
                     </form>
-                    <Link to="/signin" className="block mt-4 text-center text-teal-800 hover:underline">Already have an account? Log In</Link>
+                    <Link to="/login" className="block mt-4 text-center text-teal-800 hover:underline">Already have an account? Log In</Link>
                 </div>
             </div>
 

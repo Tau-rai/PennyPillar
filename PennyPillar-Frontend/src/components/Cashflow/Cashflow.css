@@ -5,10 +5,10 @@
   margin-bottom: 20vh;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   background-color: #f9f9f9;
-  margin-left: 40vh;
-  margin-right: 30px;
+  margin-left: 20vw;
+  margin-right: 20px;
   min-height: 600px;
-  height: 80vh;
+  height: auto;
 }
 
 /* Styles for the container */
@@ -110,9 +110,26 @@ th {
   }
 }
 
+/* Styles for the category header and + icon */
+.category-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.category-header h2 {
+  margin: 0;
+}
+
 .icon-add {
   color: darkgreen; /* or any green color of your choice */
-  font-size: 16px; /* Adjust size as needed */
+  font-size: 24px; /* Adjust size as needed */
   cursor: pointer;
-  margin-left: 8px; /* Optional: Add space between the title and the icon */
+  margin-right: 10px;
+}
+
+/* Align + icon to the right */
+.category-header .icon-add {
+  margin-left: auto;
 }
