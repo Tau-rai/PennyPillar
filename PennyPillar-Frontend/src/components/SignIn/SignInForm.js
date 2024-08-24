@@ -8,39 +8,48 @@ import axiosInstance from '../../axiosConfig';
 const SignInPage = () => {
     const [username, setUsername] = useState(''); 
     const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
     const navigate = useNavigate();
     const isLoggedIn = false;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-          const response = await axiosInstance.post('/token/', { username, password }); 
-          
-          // Store both access and refresh tokens
-          localStorage.setItem('authToken', response.data.access);
-          localStorage.setItem('refreshToken', response.data.refresh);
-      
-          // Redirect to the home page
-          navigate('/');
-        } catch (error) {
-          console.error("Login error:", error.response ? error.response.data : error.message);
-        }
-      };
-      
 
-    // const toggleNav = () => {
-    //     const navLinks = document.querySelector('.header .nav-links');
-    //     navLinks.classList.toggle('show-nav');
-    // };
+        if (localStorage.getItem('authToken')) {
+            alert('Please log out the current user before logging in a new user.');
+            return;
+        }
+
+        if (!username || !password) {
+            setError('Please fill in all the required fields.');
+            return;
+        }
+
+        try {
+            const response = await axiosInstance.post('/token/', { username, password }); 
+            
+            // Store both access and refresh tokens
+            localStorage.setItem('authToken', response.data.access);
+            localStorage.setItem('refreshToken', response.data.refresh);
+            localStorage.setItem('user', JSON.stringify({ username }));
+
+            // Redirect to the home page
+            navigate('/');
+        } catch (error) {
+            setError("Login failed. Incorrect username or password.");
+            console.error("Login error:", error.response ? error.response.data : error.message);
+        }
+    };
 
     return (
         <>
-        <Header  isLoggedIn={isLoggedIn} />
+            <Header isLoggedIn={isLoggedIn} />
             <div className="sign-content">
                 <div className="form-container">
                     <div className="header-content">
                         <h3>Great to have you back! Your next financial milestone awaits.</h3>
                     </div>
+                    {error && <div className="alert alert-danger" role="alert">{error}</div>}
                     <form onSubmit={handleSubmit}>
                         <div className="mb-3">
                             <label htmlFor="username" className="form-label">Username:</label>

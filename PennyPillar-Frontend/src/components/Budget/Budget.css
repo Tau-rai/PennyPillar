@@ -205,12 +205,10 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.3);
             position: relative;
             padding: 20px;
-            margin: 20px 0;
             text-align: center;
             transform: rotateX(-10deg);
             transform-style: preserve-3d;
             margin-top: 12vh;
-            margin-left: 10vh;
             max-width: 800px;
           
         }

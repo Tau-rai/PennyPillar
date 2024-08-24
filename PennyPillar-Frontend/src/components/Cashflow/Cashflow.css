@@ -1,34 +1,26 @@
-
-  .cashflow-container {
-    padding: 20px;
-    border: 8px;
-    margin-top: 15vh;
-    margin-bottom: 20vh;
-    box-shadow: 0 4px 8px rgba(0 0 0);
-    background-color: #f9f9f9;
-    margin-left: 40vh;
-    margin-right: 30px;
-    min-height: 600px;
-    height: 80vh;
-
-    
-    
+.cashflow-container {
+  padding: 20px;
+  border: 8px;
+  margin-top: 15vh;
+  margin-bottom: 20vh;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+  margin-left: 40vh;
+  margin-right: 30px;
+  min-height: 600px;
+  height: 80vh;
 }
-
 
 /* Styles for the container */
 .container {
- 
   margin: auto;
   padding: 20px;
   background-color: rgba(0, 0, 0, 0.1);
   position: relative;
   max-width: 1400px;
-   margin-top: 10vh;
-   min-height: 800px;
+  margin-top: 10vh;
+  min-height: 800px;
 }
-
-
 
 /* Styles for the table */
 table {
@@ -88,12 +80,33 @@ th {
 
 /* Styles for smaller screens */
 @media (max-width: 767px) {
+  .cashflow-container {
+      margin-top: 10vh;
+      margin-left: 10px;
+      margin-right: 10px;
+      height: auto;
+      min-height: auto;
+      margin-bottom: 10vh;
+      padding: 15px;
+  }
+
   .container {
-    padding: 10px;
+      padding: 10px;
+      margin-top: 5vh;
+      min-height: 600px;
   }
 
   table {
-    font-size: 14px;
+      font-size: 14px;
+  }
+
+  th, td {
+      padding: 8px;
+  }
+
+  .description-column, .amount-column {
+      width: 100%;
+      display: block;
   }
 }
 
@@ -103,4 +116,3 @@ th {
   cursor: pointer;
   margin-left: 8px; /* Optional: Add space between the title and the icon */
 }
-
