@@ -40,7 +40,7 @@ axiosInstance.interceptors.response.use(
     const originalRequest = error.config;
     
     // Skip token refresh logic for specific routes (e.g., sign-up, login)
-    const excludedRoutes = ['/signup/', '/login/'];
+    const excludedRoutes = ['/signup/', '/login/', '/token/refresh/'];
     if (excludedRoutes.some(route => originalRequest.url.includes(route))) {
       return Promise.reject(error); // Skip retry logic for these routes
     }

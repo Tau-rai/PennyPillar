@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Header.css';
-import axiosInstance from '../axiosConfig';
+import axios from 'axios';
+// import axiosInstance from '../axiosConfig';
 
 
 const Header = () => {
@@ -10,17 +11,32 @@ const Header = () => {
   const handleLogout = async (event) => {
     event.preventDefault();
     try {
-      await axiosInstance.post('/logout/');
-      // Clear tokens from local storage
+      const authToken = localStorage.getItem('authToken');
+      const refreshToken = localStorage.getItem('refreshToken');
+
+      if (!authToken || !refreshToken) {
+        console.error('No authentication tokens found');
+        return;
+      }
+  
+      // Make logout request with the refresh token
+      await axios.post(
+        'http://localhost:8000/api/logout/', 
+        { refresh: refreshToken },
+        { headers: { Authorization: `Bearer ${authToken}` } });
+  
+      // Clear tokens and user data from local storage
       localStorage.removeItem('authToken');
       localStorage.removeItem('refreshToken');
       localStorage.removeItem('user');
+  
       // Redirect to home page
       navigate('/');
     } catch (error) {
-      console.error('Logout failed:', error.message);
+      console.error('Logout failed:', error.response?.data?.detail || error.message);
     }
   };
+  
 
   const isLoggedIn = localStorage.getItem('authToken');
 

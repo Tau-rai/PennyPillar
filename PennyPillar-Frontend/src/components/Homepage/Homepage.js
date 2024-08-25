@@ -6,6 +6,7 @@ import UserGuide from './UserGuide';
 import Header from '../Header';
 
 const Homepage = () => {
+  const isLoggedIn = localStorage.getItem('user') ? true : false;
   return (
     <div>
       <Header /> 
@@ -21,7 +22,7 @@ const Homepage = () => {
               <h2 className="hero-heading">Unlock Your Financial Potential</h2>
               <p className="hero-subheading">Empower yourself with tools and insights to make smarter financial decisions.</p>
               <p className="hero-tagline">Building Wealth, One Step at a Time</p>
-              <Link to="/signup" className="hero-button">Get Started</Link>
+              {isLoggedIn ? null : <Link to="/signup" className="hero-button">Get Started</Link>}
             </div>
           </section>
 
@@ -59,7 +60,7 @@ const Homepage = () => {
                   <p className="value-text">Easily connect with your bank accounts and financial services for a unified experience.</p>
                 </div>
               </div>
-              <Link to="/signup" className="cta-button">Start Your Journey</Link>
+              {isLoggedIn ? null : <Link to="/signup" className="cta-button">Start Your Journey</Link>}
             </div>
           </section>
         </main>

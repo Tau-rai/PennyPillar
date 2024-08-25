@@ -15,7 +15,6 @@ const Dashboard = () => {
     const [categories, setCategories] = useState([]);
 
     const budgetChartRef = useRef(null);
-    const cashFlowChartRef = useRef(null);
     const netIncomeRef = useRef(null);
     const challengeChartRef = useRef(null);
     const expenseChartRef = useRef(null); // Reference for expenseChart
@@ -87,6 +86,67 @@ const Dashboard = () => {
         initializeCharts();
     }, [month, year, budgetData, transactions, categories]);
 
+    // Prepapre Penny Challenge data
+    const [totalAmount, setTotalAmount] = useState(0);
+    const [goalReached, setGoalReached] = useState(false);
+    const [currentGoal, setCurrentGoal] = useState(null);
+    const [remainingAmount, setRemainingAmount] = useState(0);
+
+    useEffect(() => {
+        const fetchGoalStatus = async () => {
+            try {
+                const response = await axiosInstance.get('/savings-goal/check_goal_status/');
+                const { goal_amount, current_savings, is_goal_reached, remaining_amount, goal_date } = response.data;
+                setTotalAmount(parseFloat(current_savings));
+                setGoalReached(is_goal_reached);
+                setCurrentGoal({ goal_amount, goal_date });
+                setRemainingAmount(parseFloat(remaining_amount));
+            } catch (error) {
+                console.error('Error fetching savings goal status:', error);
+            }
+        };
+
+        fetchGoalStatus();
+    }, []);
+
+    // Prepare budget chart data
+    const [budgetStatus, setBudgetStatus] = useState(null);
+
+    useEffect(() => {
+        fetchBudgetStatus();
+    }, [month, year]);
+
+    const fetchBudgetStatus = async () => {
+        try {
+            // const monthStr = `${year}-${String(month + 1).padStart(2, '0')}-01`;
+            const response = await axiosInstance.get('/monthly-budget/check_budget_status/', {
+                // params: { month: monthStr },
+            });
+            setBudgetStatus(response.data);
+        } catch (error) {
+            if (error.response && error.response.status === 404) {
+                setBudgetStatus(null);
+            } else {
+                console.error('Failed to fetch budget status:', error);
+            }
+        }
+    };
+
+    const getExpenseData = () => {
+        if (!budgetStatus) return {};
+
+        const budgetAmount = parseFloat(budgetStatus.budget_amount) || 0;
+        const amountSpent = parseFloat(budgetStatus.expenditure) || 0;
+        const remainingBalance = parseFloat(budgetStatus.remaining_balance) || 0;
+
+        return {
+            'Budget Amount': budgetAmount,
+            'Amount Spent': amountSpent,
+            'Remaining Balance': remainingBalance,
+        };
+    };
+
+
     const renderCalendar = () => {
         const calendarDays = document.getElementById('calendar-days');
         if (calendarDays) {
@@ -125,7 +185,7 @@ const Dashboard = () => {
     };
 
     const destroyCharts = () => {
-        [budgetChartRef, cashFlowChartRef, netIncomeRef, challengeChartRef, expenseChartRef].forEach(chartRef => {
+        [budgetChartRef, netIncomeRef, challengeChartRef, expenseChartRef].forEach(chartRef => {
             if (chartRef.current && chartRef.current.chartInstance) {
                 chartRef.current.chartInstance.destroy();
             }
@@ -137,6 +197,7 @@ const Dashboard = () => {
 
         // Initialize Budget Chart
         if (budgetChartRef.current) {
+            const data = getExpenseData();
             budgetChartRef.current.chartInstance = new Chart(budgetChartRef.current, {
                 type: 'bar',
                 data: {
@@ -144,9 +205,9 @@ const Dashboard = () => {
                     datasets: [{
                         label: 'Budget Overview',
                         data: [
-                            budgetData.totalBudget, 
-                            budgetData.expenditure, 
-                            budgetData.remainingBudget
+                            data['Budget Amount'], 
+                            data['Amount Spent'],
+                            data['Remaining Balance']
                         ],
                         backgroundColor: [
                             'rgba(75, 192, 192, 0.2)',
@@ -179,45 +240,6 @@ const Dashboard = () => {
                         },
                     },
                 },
-            });
-        }
-
-        // Initialize Cash Flow Chart
-        if (cashFlowChartRef.current) {
-            cashFlowChartRef.current.chartInstance = new Chart(cashFlowChartRef.current, {
-                type: 'line',
-                data: {
-                    labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
-                    datasets: [{
-                        label: 'Cash Flow',
-                        data: [500, 700, 600, 800], // Placeholder values
-                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                        borderColor: 'rgba(54, 162, 235, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function (context) {
-                                    let label = context.dataset.label || '';
-                                    if (label) {
-                                        label += ': ';
-                                    }
-                                    if (context.parsed.y !== null) {
-                                        label += '$' + context.parsed.y;
-                                    }
-                                    return label;
-                                }
-                            }
-                        }
-                    }
-                }
             });
         }
 
@@ -267,15 +289,15 @@ const Dashboard = () => {
             });
         }
 
-        // Initialize Penny Challenge Chart
+        // // Initialize Penny Challenge Chart
         if (challengeChartRef.current) {
             challengeChartRef.current.chartInstance = new Chart(challengeChartRef.current, {
                 type: 'doughnut',
                 data: {
-                    labels: ['Challenge 1', 'Challenge 2'], // Placeholder labels
+                    labels: ['Current Savings', 'Remaining Amount'],
                     datasets: [{
                         label: 'Penny Challenge',
-                        data: [50, 30], // Placeholder values
+                        data: [totalAmount, remainingAmount],
                         backgroundColor: [
                             'rgba(153, 102, 255, 0.2)',
                             'rgba(255, 159, 64, 0.2)'
@@ -290,28 +312,17 @@ const Dashboard = () => {
                 options: {
                     responsive: true,
                     plugins: {
-                        legend: {
-                            position: 'top',
-                        },
+                        legend: { position: 'top' },
                         tooltip: {
                             callbacks: {
-                                label: function (context) {
-                                    let label = context.dataset.label || '';
-                                    if (label) {
-                                        label += ': ';
-                                    }
-                                    if (context.parsed !== null) {
-                                        label += '$' + context.parsed;
-                                    }
-                                    return label;
-                                }
+                                label: context => `${context.dataset.label || ''}: $${context.parsed || 0}`
                             }
                         }
                     }
                 }
             });
         }
-
+    
         // Initialize Expense Chart
         if (expenseChartRef.current) {
             expenseChartRef.current.chartInstance = new Chart(expenseChartRef.current, {
@@ -370,11 +381,7 @@ const Dashboard = () => {
                     <canvas ref={budgetChartRef} />
                 </div>
                 <div className="chart">
-                    <h2>Cash Flow</h2>
-                    <canvas ref={cashFlowChartRef} />
-                </div>
-                <div className="chart">
-                    <h2>Net Income</h2>
+                    <h2>Income Overview</h2>
                     <canvas ref={netIncomeRef} />
                 </div>
                 <div className="chart">
