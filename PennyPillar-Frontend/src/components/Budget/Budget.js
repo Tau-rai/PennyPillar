@@ -79,7 +79,9 @@ const Budget = () => {
                                     {`${new Date(year, month).toLocaleString('default', { month: 'long' })} ${year}`}
                                 </span>
                                 <button onClick={() => changeMonth(1)}>&#8250;</button>
-                            </div>
+                                </div>
+                        <div id="calendar-days" className="calendar-days"></div>
+                    
                         </div>
                     </section>
 

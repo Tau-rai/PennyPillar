@@ -208,7 +208,7 @@ th {
     text-align: center;
     transform: rotateX(-10deg);
     transform-style: preserve-3d;
-    margin-top: 12vh;
+    margin-top: 10vh;
     max-width: 800px;
   
 }
@@ -335,28 +335,3 @@ th {
     }
 }
 
-@media (max-width: 480px) {
-    .budget-container,
-    .calendar-container {
-        padding: 5px; /* Further reduce padding */
-    }
-
-    .calendar-header {
-        font-size: 14px; /* Further adjust font size */
-    }
-
-    .calendar-body th, .calendar-body td {
-        padding: 3px; /* Further reduce cell padding */
-        font-size: 10px; /* Further adjust font size */
-    }
-
-    .input-group input,
-    .input-group textarea {
-        padding: 6px; /* Further reduce padding */
-        font-size: 10px; /* Further adjust font size */
-    }
-
-    .goal-progress {
-        height: 15px; /* Further adjust progress bar height */
-    }
-}
