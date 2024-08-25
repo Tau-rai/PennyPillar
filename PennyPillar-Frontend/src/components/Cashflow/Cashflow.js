@@ -98,7 +98,8 @@ const Cashflow = () => {
   const savingsTransactions = transactions.filter(t => getCategoryName(t.category) === 'Savings');
   const totalIncome = incomeTransactions.reduce((sum, t) => sum + parseFloat(t.amount), 0);
   const totalExpenses = expenseTransactions.reduce((sum, t) => sum + Math.abs(parseFloat(t.amount)), 0);
-  const netIncome = totalIncome - totalExpenses;
+  const totalSavings = savingsTransactions.reduce((sum, t) => sum + Math.abs(parseFloat(t.amount)), 0);
+  const netIncome = totalIncome - totalSavings - totalExpenses;
 
   return (
     <>
