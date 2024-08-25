@@ -1,6 +1,5 @@
      /* Subscriptions styles */
 .subscription-container {
-    max-width: 890px;
     width: 100%;
     background-color: #ffffff;
     padding: 20px;
@@ -14,7 +13,7 @@
 .subscription-container h2 {
     margin-top: 0;
     color: #004d40;
-    text-align: center;
+    
 }
 
 .subscription-container p {
@@ -184,7 +183,6 @@
 }
 
 .outer-container {
-    max-width: 1000px;
     margin: 0 auto;
     padding: 20px;
     background-color: #f9f9f9;
@@ -204,7 +202,7 @@
 }
 
 .toggle-form-button, .view-form-details-button {
-    background-color: #004d00;
+    background-color: #004d40;
     color: #fff;
     border: none;
     border-radius: 4px;
@@ -223,4 +221,44 @@
         font-size: 0.8rem;
         padding: 6px 10px;
     }
+}
+
+.subscription-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.subscription-details {
+    flex: 1;
+}
+
+.subscription-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px; /* Adjust size as needed */
+    height: 40px; /* Adjust size as needed */
+    
+    border-radius: 50%; /* Make it circular */
+    margin-right: 10px; /* Space between icon and text */
+    font-size: 24px; /* Adjust icon size */
+    color: #004d40; /* Icon color */
+}
+.pay-now-button {
+    margin-left: auto; /* Pushes the button to the far right */
+}
+
+.calendar-and-subscription-container h2 {
+    border-bottom: 2px solid #2E8B57; /* Dark green border */
+    padding-bottom: 8px; /* Add some padding for spacing */
+    margin-bottom: 16px; /* Space between the border and the content below */
+}
+
+.subscription-due-date {
+    font-size: 14px;
+    color: #e70b0b;
+    margin-top: 4px;
 }

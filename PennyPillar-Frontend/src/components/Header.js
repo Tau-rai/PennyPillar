@@ -3,9 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import './Header.css';
 import axiosInstance from '../axiosConfig';
 
-const placeholderImage = 'https://via.placeholder.com/150';
 
-const Header = ({ isLoggedIn, profilePicture }) => {
+const Header = () => {
   const navigate = useNavigate();
 
   const handleLogout = async (event) => {
@@ -23,44 +22,39 @@ const Header = ({ isLoggedIn, profilePicture }) => {
     }
   };
 
-  const handleProfileClick = () => {
-    navigate('/profile');
-  };
+  const isLoggedIn = localStorage.getItem('authToken');
 
   return (
     <header className="header">
       <div className="logo-container">
         <div className="logo">PennyPillar</div>
-        {isLoggedIn && (
-          <div className="profile-picture" onClick={handleProfileClick}>
-            <img src={profilePicture || placeholderImage} alt="Profile" />
-          </div>
-        )}
       </div>
       <div className="hamburger" onClick={() => document.querySelector('.header').classList.toggle('show-nav')}>
         ☰
       </div>
       <nav className="nav-links">
-        {isLoggedIn ? (
-          <>
-            <Link to="/">Home</Link>
-            <Link to="/dashboard">Dashboard</Link>
-            <Link to="/cashflow">Cash Flow</Link>
-            <Link to="/budget">Budget</Link>
-            <Link to="/recurring">Recurring Payments</Link>
-            <Link to="/challenge">Penny Challenge</Link>
-            <Link to="/insights">Insights</Link>
-            <Link to="/logout" onClick={handleLogout}>Logout</Link>
-          </>
-        ) : (
-          <>
-            <Link to="/">Home</Link>
-            <Link to="/login">Sign In</Link>
-            <Link to="/signup">Sign Up</Link>
-            <Link to="/about">About Us</Link>
-            <Link to="/help">Help</Link>
-          </>
-        )}
+        <>
+          <Link to="/">Home</Link>
+          {isLoggedIn ? (
+            <>
+              <Link to="/dashboard">Dashboard</Link>
+              <Link to="/cashflow">Cash Flow</Link>
+              <Link to="/budget">Budget</Link>
+              <Link to="/recurring">Recurring Payments</Link>
+              <Link to="/challenge">Penny Challenge</Link>
+              <Link to="/insights">Insights</Link>
+              <Link to="/profile">Profile</Link>
+              <Link to="/logout" onClick={handleLogout}>Logout</Link>
+            </>
+          ) : (
+            <>
+              <Link to="/login">Sign In</Link>
+              <Link to="/signup">Sign Up</Link>
+            </>
+          )}
+          <Link to="/about">About Us</Link>
+          <Link to="/help">Help</Link>
+        </>
       </nav>
     </header>
   );

@@ -4,6 +4,7 @@ import '../Dashboard/Dashboard.css';
 import axiosInstance from '../../axiosConfig';
 import MainFooter from '../ComponentFooter';
 import Header from '../Header';
+import { MdPayment } from 'react-icons/md'; // Import React icon
 
 const Recurring = () => {
     const [month, setMonth] = useState(new Date().getMonth());
@@ -29,13 +30,13 @@ const Recurring = () => {
                     }
                 });
                 setSubscriptionsData(response.data);
+                renderCalendar(); // Re-render calendar after fetching subscriptions
             } catch (error) {
                 console.error('Error fetching subscriptions:', error);
             }
         };
 
         fetchSubscriptions();
-        renderCalendar();
     }, [month, year]);
 
     const handleFormChange = (event) => {
@@ -51,7 +52,7 @@ const Recurring = () => {
         try {
             const newSubscription = {
                 name: formData.name,
-                amount: parseFloat(formData.amount),
+                amount: parseFloat(formData.amount), // Ensure amount is a number
                 frequency: formData.frequency,
                 payment_method: formData.payment_method,
                 due_date: formData.due_date,
@@ -68,7 +69,7 @@ const Recurring = () => {
                 icon: '',
             });
             setShowForm(false);
-            renderCalendar(); // Re-render the calendar after adding a new subscription
+            renderCalendar(); // Re-render calendar after adding a new subscription
         } catch (error) {
             console.error('Error adding subscription:', error);
         }
@@ -98,14 +99,14 @@ const Recurring = () => {
             const firstDay = new Date(year, month, 1).getDay();
             const lastDate = new Date(year, month + 1, 0).getDate();
 
-            // Add blank days for the first week
+            // Create blank days before the first day
             for (let i = 0; i < firstDay; i++) {
                 const blankDay = document.createElement('div');
                 blankDay.className = 'calendar-day blank-day';
                 calendarDays.appendChild(blankDay);
             }
 
-            // Add the actual days
+            // Create days for the current month
             for (let i = 1; i <= lastDate; i++) {
                 const day = document.createElement('div');
                 day.className = 'calendar-day';
@@ -116,7 +117,7 @@ const Recurring = () => {
                 if (dueDates.includes(i)) {
                     const dueDateMarker = document.createElement('div');
                     dueDateMarker.className = 'due-date-marker';
-                    dueDateMarker.textContent = '📅';
+                    dueDateMarker.textContent = '📅'; // Emoji or icon for due dates
                     day.appendChild(dueDateMarker);
                 }
 
@@ -134,72 +135,46 @@ const Recurring = () => {
         }
     };
 
-    const viewDetails = (subscription) => {
-        alert(`
-            Name: ${subscription.name}
-            Amount: $${subscription.amount.toFixed(2)}
-            Frequency: ${subscription.frequency}
-            Payment Method: ${subscription.payment_method}
-            Due Date: ${subscription.due_date}
-        `);
-    };
-
-    const viewFormDetails = () => {
-        alert(`
-            Name: ${formData.name}
-            Amount: $${formData.amount}
-            Frequency: ${formData.frequency}
-            Payment Method: ${formData.payment_method}
-            Due Date: ${formData.due_date}
-            Icon: ${formData.icon || 'Default Icon'}
-        `);
-    };
-
     return (
         <>
             <div className="outer-container">
                 <Header isLoggedIn={true} />
                 <div className="calendar-and-subscription-container">
+                    <h2>Monthly Calendar</h2>
                     <div className="calendar-container">
-                        <div className="calendar-controls">
-                            <button onClick={() => changeMonth(-1)}>Prev</button>
-                            <span>{`${new Date(year, month).toLocaleString('default', { month: 'long' })} ${year}`}</span>
-                            <button onClick={() => changeMonth(1)}>Next</button>
-                            
+                        <div className="calendar-header">
+                        <button onClick={() => changeMonth(-1)}>&#8249;</button>
+                                <span id="calendar-month">
+                                    {`${new Date(year, month).toLocaleString('default', { month: 'long' })} ${year}`}
+                                </span>
+                                <button onClick={() => changeMonth(1)}>&#8250;</button>                  
                         </div>
                         <div id="calendar-days" className="calendar-days"></div>
                     </div>
-                       
                     <div className="subscription-container">
                         <h2>Subscriptions</h2>
-                        <p>Track your recurring expenses and never miss a payment!</p>
-
                         <ul id="subscription-list">
-                            {subscriptionsData.map(subscription => {
-                                const subamount = parseFloat(subscription.amount); 
-                                return (
-                                    <li key={subscription.id} className="subscription-item">
-                                        <img src={subscription.icon || 'https://img.icons8.com/color/48/000000/default.png'} alt={subscription.name} className="subscription-icon" />
-                                        <div className="subscription-details">
-                                            <div className="subscription-name">{subscription.name}</div>
-                                            <div className="subscription-amount">${subamount.toFixed(2)}</div>
-                                        </div>
-                                        <div className="subscription-actions">
-                                            <button onClick={() => handleMarkAsPaid(subscription)}>
-                                                {subscription.is_paid ? 'Paid' : 'Pay Now'}
-                                            </button>
-                                            <button onClick={() => viewDetails(subscription)}>
-                                                View Details
-                                            </button>
-                                        </div>
-                                    </li>
-                                );
-                            })}
+                            {subscriptionsData.map(subscription => (
+                                <li key={subscription.id} className="subscription-item">
+                                    <div className="subscription-icon">
+                                        <MdPayment size={48} /> 
+                                    </div>
+                                    <div className="subscription-details">
+                                        <div className="subscription-name">{subscription.name}</div>
+                                        <div className="subscription-amount">${parseFloat(subscription.amount).toFixed(2)}</div>
+                                        <div className="subscription-due-date">Due: {new Date(subscription.due_date).toLocaleDateString()}</div>
+                                    </div>
+                                    <div className="subscription-actions">
+                                        <button onClick={() => handleMarkAsPaid(subscription)}>
+                                            {subscription.is_paid ? 'Paid' : 'Mark As Paid'}
+                                        </button>
+                                    </div>
+                                </li>
+                            ))}
                         </ul>
                         <button onClick={toggleForm} className="toggle-form-button">
                             {showForm ? 'Hide Form' : 'Add Subscription'}
                         </button>
-
                         {showForm && (
                             <div className="add-subscription-container">
                                 <form onSubmit={handleFormSubmit}>
@@ -258,24 +233,13 @@ const Recurring = () => {
                                             required
                                         />
                                     </label>
-                                    <label>Icon:
-                                        <input
-                                            type="text"
-                                            name="icon"
-                                            placeholder="Enter icon URL or leave blank for default"
-                                            value={formData.icon}
-                                            onChange={handleFormChange}
-                                        />
-                                    </label>
                                     <button type="submit">Add Subscription</button>
                                 </form>
                             </div>
                         )}
-                        <button type='button' onClick={viewFormDetails}>View Details</button>
                     </div>
                 </div>
             </div>
-
             <MainFooter />
         </>
     );

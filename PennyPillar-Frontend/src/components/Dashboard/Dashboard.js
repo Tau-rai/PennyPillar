@@ -4,6 +4,7 @@ import './Dashboard.css';
 import Header from '../Header';
 import axiosInstance from '../../axiosConfig';
 import MainFooter from '../ComponentFooter';
+
 Chart.register(...registerables);
 
 const Dashboard = () => {
@@ -94,12 +95,14 @@ const Dashboard = () => {
             const firstDay = new Date(year, month - 1, 1).getDay();
             const lastDate = new Date(year, month, 0).getDate();
 
+            // Create blank days before the first day of the month
             for (let i = 0; i < firstDay; i++) {
                 const blankDay = document.createElement('div');
                 blankDay.className = 'calendar-day blank-day';
                 calendarDays.appendChild(blankDay);
             }
 
+            // Create days of the current month
             for (let i = 1; i <= lastDate; i++) {
                 const day = document.createElement('div');
                 day.className = 'calendar-day';
@@ -269,17 +272,17 @@ const Dashboard = () => {
             challengeChartRef.current.chartInstance = new Chart(challengeChartRef.current, {
                 type: 'doughnut',
                 data: {
-                    labels: ['Challenge', 'Remaining'],
+                    labels: ['Challenge 1', 'Challenge 2'], // Placeholder labels
                     datasets: [{
-                        label: 'Challenge Status',
-                        data: [500, 1500], // Placeholder values
+                        label: 'Penny Challenge',
+                        data: [50, 30], // Placeholder values
                         backgroundColor: [
-                            'rgba(75, 192, 192, 0.2)',
-                            'rgba(255, 99, 132, 0.2)'
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
                         ],
                         borderColor: [
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(255, 99, 132, 1)'
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
                         ],
                         borderWidth: 1
                     }]
@@ -318,8 +321,8 @@ const Dashboard = () => {
                     datasets: [{
                         label: 'Expenses',
                         data: expenseValues,
-                        backgroundColor: 'rgba(255, 159, 64, 0.2)',
-                        borderColor: 'rgba(255, 159, 64, 1)',
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
                         borderWidth: 1
                     }]
                 },
@@ -343,25 +346,6 @@ const Dashboard = () => {
                                 }
                             }
                         }
-                    },
-                    scales: {
-                        x: {
-                            stacked: true,
-                            grid: {
-                                display: false
-                            }
-                        },
-                        y: {
-                            stacked: true,
-                            grid: {
-                                display: true
-                            },
-                            ticks: {
-                                callback: function (value) {
-                                    return '$' + value;
-                                }
-                            }
-                        }
                     }
                 }
             });
@@ -369,39 +353,44 @@ const Dashboard = () => {
     };
 
     return (
+        <>
         <div className="dashboard-container">
-            <Header />
-            <div className="calendar-controls">
-                <button onClick={() => changeMonth(-1)}>Previous</button>
-                <span>{`Month: ${month}/${year}`}</span>
-                <button onClick={() => changeMonth(1)}>Next</button>
-            </div>
+            <Header isLoggedIn={true}/>
             <div className="calendar-container">
-                <div className="calendar-days" id="calendar-days">
-                    {/* Days will be dynamically rendered here */}
+                <div className="calendar-header">
+                    <button onClick={() => changeMonth(-1)}>&lt;</button>
+                    <span>{`${new Date(year, month - 1).toLocaleString('default', { month: 'long' })} ${year}`}</span>
+                    <button onClick={() => changeMonth(1)}>&gt;</button>
                 </div>
+                <div id="calendar-days" className="calendar-days"></div>
             </div>
             <div className="charts-container">
                 <div className="chart">
+                    <h2>Budget Overview</h2>
                     <canvas ref={budgetChartRef} />
                 </div>
                 <div className="chart">
+                    <h2>Cash Flow</h2>
                     <canvas ref={cashFlowChartRef} />
                 </div>
                 <div className="chart">
+                    <h2>Net Income</h2>
                     <canvas ref={netIncomeRef} />
                 </div>
                 <div className="chart">
+                    <h2>Penny Challenge</h2>
                     <canvas ref={challengeChartRef} />
                 </div>
                 <div className="chart">
+                    <h2>Expense Chart</h2>
                     <canvas ref={expenseChartRef} />
                 </div>
             </div>
-            <MainFooter />
+            
         </div>
+        <MainFooter />
+        </>
     );
-    
 };
 
 export default Dashboard;

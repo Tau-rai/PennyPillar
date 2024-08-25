@@ -54,7 +54,7 @@ const featuresData = [
             "Identify areas for cost reduction"
             
         ],
-        imgSrc: "./images/Subscriptions.jpeg"
+        imgSrc: "./images/Subscriptions .jpeg"
     },
     {
         title: "Insights",
@@ -104,7 +104,7 @@ const Carousel = () => {
                 <div className="carousel-slides" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
                     {featuresData.map((feature, index) => (
                         <div className="feature-card" key={index}>
-                            <img src={feature.imgSrc} alt={`${feature.title} image`} width="700" height="600" />
+                            <img src={feature.imgSrc} alt={`${feature.title} image`} />
                             <h3>{feature.title}</h3>
                             <ul>
                                 {feature.features.map((item, i) => (
