@@ -104,7 +104,7 @@ const Carousel = () => {
                 <div className="carousel-slides" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
                     {featuresData.map((feature, index) => (
                         <div className="feature-card" key={index}>
-                            <img src={feature.imgSrc} alt={`${feature.title} image`} width="700" height="600" />
+                            <img src={feature.imgSrc} alt={`${feature.title} image`} width="600" height="400" />
                             <h3>{feature.title}</h3>
                             <ul>
                                 {feature.features.map((item, i) => (
