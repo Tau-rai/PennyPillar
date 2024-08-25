@@ -355,7 +355,7 @@ const Dashboard = () => {
     return (
         <>
         <div className="dashboard-container">
-            <Header />
+            <Header isLoggedIn={true}/>
             <div className="calendar-container">
                 <div className="calendar-header">
                     <button onClick={() => changeMonth(-1)}>&lt;</button>

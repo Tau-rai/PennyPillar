@@ -31,11 +31,11 @@ const Header = ({ isLoggedIn, profilePicture }) => {
     <header className="header">
       <div className="logo-container">
         <div className="logo">PennyPillar</div>
-        {isLoggedIn && (
+        {/* {isLoggedIn && (
           <div className="profile-picture" onClick={handleProfileClick}>
             <img src={profilePicture || placeholderImage} alt="Profile" />
           </div>
-        )}
+        )} */}
       </div>
       <div className="hamburger" onClick={() => document.querySelector('.header').classList.toggle('show-nav')}>
         ☰

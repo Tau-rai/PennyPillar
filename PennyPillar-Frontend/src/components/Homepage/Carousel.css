@@ -22,13 +22,17 @@
     text-align: center;
     color: #333;
     background-color: #f9f9f9;
+    max-height: 800px;
 }
 
 .feature-card img {
     width: 100%; /* Ensure images scale with the container */
     height: auto; /* Maintain aspect ratio */
     border-radius: 10px;
-    margin-bottom: 15px;
+    height: 400px;
+    width: 400px;
+    
+
 }
 
 .feature-card h3 {

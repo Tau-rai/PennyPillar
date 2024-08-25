@@ -1,6 +1,5 @@
      /* Subscriptions styles */
 .subscription-container {
-    max-width: 890px;
     width: 100%;
     background-color: #ffffff;
     padding: 20px;
@@ -184,7 +183,6 @@
 }
 
 .outer-container {
-    max-width: 1000px;
     margin: 0 auto;
     padding: 20px;
     background-color: #f9f9f9;
@@ -264,7 +262,3 @@
     color: #e70b0b;
     margin-top: 4px;
 }
-
-
-
-

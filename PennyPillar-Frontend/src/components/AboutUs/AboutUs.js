@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './AboutUs.css';
 import Footer from '../PillarFooter';
+import Header from '../Header';
 
 
 const AboutUs = () => {
@@ -13,19 +14,7 @@ const AboutUs = () => {
 
     return (
         <div className="wrapper">
-            <header className={`header ${showNav ? 'show-nav' : ''}`}>
-                <div className="logo">PennyPillar</div>
-                <nav className={`nav-links ${showNav ? 'd-block' : ''}`}>
-                    <Link to="/" className="text-white">Home</Link>
-                    <Link to="/dashboard" className="text-white">Dashboard</Link>
-                    <Link to="/login" className="text-white">Logout</Link>
-                    <Link to="/signup" className="text-white">Sign Up</Link>
-                    <Link to="/about" className="text-white">About Us</Link>
-                    <Link to="/contact" className="text-white">Contact</Link>
-                    <Link to="/help" className="text-white">Help</Link>
-                </nav>
-                <div className="hamburger d-block d-md-none" onClick={toggleNav}>☰</div>
-            </header>
+            <Header isloggedin={false} />
 
             <main className="content">
                 <div className="container about-us mt-5">

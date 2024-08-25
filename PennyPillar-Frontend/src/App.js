@@ -14,10 +14,13 @@ import Logout from './components/Logout/Logout';
 import Profile from './components/Profile/Profile';
 import Cashflow from './components/Cashflow/Cashflow';
 import Budget from './components/Budget/Budget';
-import InsightsPage from './components/Insights/Insights';
+import InsightsPage from './components/Insights/Insights'
+
+
 
 const App = () => {
     return (
+        
         <Router>
             <Routes>
                 <Route path="/" element={<Homepage />} />
@@ -36,6 +39,7 @@ const App = () => {
                 <Route path="/signup" element={<SignUp />} />
             </Routes>
         </Router>
+        
     );
 };
 
