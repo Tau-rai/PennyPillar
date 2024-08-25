@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import './Helppage.css';
 import PillarFooter from '../PillarFooter';
+import Header from '../Header';
 
 const HelpPage = () => {
     const [showNav, setShowNav] = useState(false);
@@ -12,19 +13,7 @@ const HelpPage = () => {
 
     return (
         <div className="wrapper">
-            <header className={`header ${showNav ? 'show-nav' : ''}`}>
-                <div className="logo">PennyPillar</div>
-                <nav className="nav-links">
-                    <a href="#home" className="text-white">Home</a>
-                    <a href="#dashboard" className="text-white">Dashboard</a>
-                    <a href="#login" className="text-white">Logout</a>
-                    <a href="#signup" className="text-white">Sign Up</a>
-                    <a href="#about" className="text-white">About Us</a>
-                    <a href="#contact" className="text-white">Contact</a>
-                    <a href="#help" className="text-white">Help</a>
-                </nav>
-                <div className="hamburger d-block d-md-none" onClick={toggleNav}>☰</div>
-            </header>
+            <Header isLoggedIn={false} />
 
             <main className="content">
                 <div className="container">
