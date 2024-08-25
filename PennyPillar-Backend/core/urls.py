@@ -3,9 +3,8 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from django.conf import settings
 from django.conf.urls.static import static
-from django.contrib.auth import views as auth_views
 from .views import (
-    TransactionViewSet, CategoryViewSet, RegisterView, LoginView, UserProfileViewSet, MonthlyBudgetViewSet, SavingsGoalViewSet, SubscriptionViewSet, UserSummaryViewSet, InsightViewSet
+    TransactionViewSet, CategoryViewSet, RegisterView, LoginView, LogoutView, UserProfileViewSet, MonthlyBudgetViewSet, SavingsGoalViewSet, SubscriptionViewSet, UserSummaryViewSet, InsightViewSet
 )
 
 router = DefaultRouter()
@@ -22,5 +21,5 @@ urlpatterns = [
     path('', include(router.urls)),
     path('signup/', RegisterView.as_view(), name='register'),
     path('login/', LoginView.as_view(), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+   path('logout/', LogoutView.as_view(), name='logout'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
