@@ -1,4 +1,3 @@
-// contains the configuration for the Axios instance used to make API requests
 import axios from 'axios';
 
 // Helper function to get the CSRF token from the DOM
@@ -39,10 +38,20 @@ axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
+    
+    // Skip token refresh logic for specific routes (e.g., sign-up, login)
+    const excludedRoutes = ['/signup/', '/login/'];
+    if (excludedRoutes.some(route => originalRequest.url.includes(route))) {
+      return Promise.reject(error); // Skip retry logic for these routes
+    }
+
     if (error.response && error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       try {
         const refreshToken = localStorage.getItem('refreshToken'); // Retrieve refresh token from local storage
+        if (!refreshToken) {
+          throw new Error('No refresh token available');
+        }
         const response = await axiosInstance.post('/token/refresh/', { refresh: refreshToken });
         localStorage.setItem('authToken', response.data.access); // Store new access token
         axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${response.data.access}`;

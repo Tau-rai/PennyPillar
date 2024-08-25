@@ -12,27 +12,21 @@ const SignUpPage = () => {
     const [password, setPassword] = useState('');
     const [password2, setPassword2] = useState('');
     const navigate = useNavigate();
-    
 
     const handleRegister = async (e) => {
         e.preventDefault();
+
+        // Clear any existing tokens before proceeding
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('refreshToken');
+
         try {
             // Step 1: Register the user
             await axiosInstance.post('/signup/', { username, email, password, password2 });
 
-            // Step 2: Obtain tokens
-            const loginResponse = await axiosInstance.post('/token/', { username, password });
-
-            // Step 3: Store tokens in local storage
-            localStorage.setItem('accessToken', loginResponse.data.access);
-            localStorage.setItem('refreshToken', loginResponse.data.refresh);
-            localStorage.setItem('username', username);
-            localStorage.setItem('email', email);
-            localStorage.setItem('isAuthenticated', 'true');
-
-            // Redirect to a protected route or login page
-            navigate('/dashboard');
-            console.log("Registration and login successful");
+            // Step 2: Redirect to the login page
+            navigate('/login');
+            console.log("Registration successful, redirecting to login page");
         } catch (error) {
             console.error("Registration error", error.response ? error.response.data : error.message);
         }
@@ -40,7 +34,7 @@ const SignUpPage = () => {
 
     return (
         <>
-            <Header isLoggedIn={false}  />
+            <Header isLoggedIn={false} />
             <div className="sign-content mt-16 md:mt-0 flex items-center justify-center min-h-screen bg-gray-100">
                 <div className="form-container bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
                     <div className="header-content bg-teal-800 text-white p-4 rounded-t-lg">
