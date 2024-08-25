@@ -7,12 +7,14 @@ from django.shortcuts import get_object_or_404
 from rest_framework import generics, viewsets, permissions, status
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.exceptions import TokenError
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from decimal import Decimal
 from datetime import date
 import requests
+from django.views.decorators.csrf import csrf_exempt
 from django.core.files.base import ContentFile
 from rest_framework.parsers import MultiPartParser, FormParser
 from .models import Category, MonthlyBudget, Transaction, SavingsGoal, UserProfile, Subscription, Income, Expense
@@ -106,6 +108,29 @@ class LoginView(generics.GenericAPIView):
         token = validated_data.get('token')
         
         return Response({'token': token}, status=status.HTTP_200_OK)
+
+class LogoutView(generics.GenericAPIView):
+    """Logout view."""
+    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+
+    @csrf_exempt
+    def post(self, request):
+        """Logout post method."""
+        try:
+            refresh_token = request.data.get('refresh')
+            if not refresh_token:
+                return Response({'detail': 'Refresh token is required.'}, status=status.HTTP_400_BAD_REQUEST)
+
+            token = RefreshToken(refresh_token)
+            token.blacklist()
+            return Response({'detail': 'Successfully logged out.'}, status=status.HTTP_205_RESET_CONTENT)
+        except TokenError:
+            # Handle token-specific errors like invalid or already blacklisted tokens
+            return Response({'detail': 'Invalid or expired token.'}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            # Handle any other exceptions
+            return Response({'detail': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class TransactionViewSet(viewsets.ModelViewSet):
@@ -203,7 +228,7 @@ class MonthlyBudgetViewSet(viewsets.ModelViewSet):
 
 class SavingsGoalViewSet(viewsets.ModelViewSet):
     """Savings goal view."""
-    queryset = SavingsGoal.objects.all()  # Update the queryset to include all SavingsGoal objects
+    queryset = SavingsGoal.objects.all()  
     serializer_class = SavingsGoalSerializer
     permission_classes = [permissions.IsAuthenticated]
     authentication_classes = [JWTAuthentication]

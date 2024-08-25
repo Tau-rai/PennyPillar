@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist',
     'core',
     'corsheaders',
     'drf_yasg',
@@ -73,6 +74,8 @@ SIMPLE_JWT = {
     'ALGORITHM': 'HS256',
     'SIGNING_KEY': SECRET_KEY,
     'AUTH_HEADER_TYPES': ('Bearer',),
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+    'TOKEN_TYPE_CLAIM': 'token_type',
 }
 
 MIDDLEWARE = [
@@ -83,7 +86,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware', # added
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 # CORS_ALLOWED_ORIGINS_ALL = False
