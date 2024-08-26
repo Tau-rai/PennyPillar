@@ -1,3 +1,4 @@
+// Dashboard.js
 import React, { useEffect, useRef, useState } from 'react';
 import { Chart, registerables } from 'chart.js';
 import './Dashboard.css';
@@ -17,7 +18,7 @@ const Dashboard = () => {
     const budgetChartRef = useRef(null);
     const netIncomeRef = useRef(null);
     const challengeChartRef = useRef(null);
-    const expenseChartRef = useRef(null); // Reference for expenseChart
+    const expenseChartRef = useRef(null); 
 
     useEffect(() => {
         const fetchBudgetData = async () => {
@@ -137,7 +138,7 @@ const Dashboard = () => {
 
         const budgetAmount = parseFloat(budgetStatus.budget_amount) || 0;
         const amountSpent = parseFloat(budgetStatus.expenditure) || 0;
-        const remainingBalance = parseFloat(budgetStatus.remaining_balance) || 0;
+        const remainingBalance = budgetAmount - amountSpent
 
         return {
             'Budget Amount': budgetAmount,
