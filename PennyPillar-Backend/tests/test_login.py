@@ -4,7 +4,7 @@ from rest_framework.test import APITestCase
 class LoginViewTests(APITestCase):
     def test_login_success(self):
         # Assuming a user registration endpoint exists
-        self.client.post('/register/', {'username': 'testuser', 'password': 'password123', 'password2': 'password123'})
+        self.client.post('/signup/', {'username': 'testuser', 'password': 'password123', 'password2': 'password123'})
         
         response = self.client.post('/login/', {'username': 'testuser', 'password': 'password123'})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
